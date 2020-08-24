@@ -8,6 +8,7 @@ import json
 
 import requests
 from flask import Flask, request
+from flask.logging import create_logger
 from flask_jsonpify import jsonify
 
 BASE_ROUTE = '/arcgis/rest'
@@ -27,6 +28,7 @@ SERVER_VERSION_MINOR = 8
 SERVER_VERSION_PATCH = 1
 
 app = Flask(__name__)
+log = create_logger(app)
 
 
 @app.route(f'{BASE_ROUTE}/info')
@@ -165,6 +167,7 @@ def find_candidates():
         feature_service_response = requests.get(
             f'{ADDRESS_POINTS_FEATURE_SERVICE}/query', params=feature_service_parameters
         )
+        log.info('%s', feature_service_response.url)
 
         feature = feature_service_response.json()['features'][0]
 
