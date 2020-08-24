@@ -13,6 +13,7 @@
     "instafail",
     "isort",
     "jsonify",
+    "jsonpify",
     "pylint",
     "pytest",
     "yapf"

@@ -7,7 +7,8 @@ The main flask app
 import json
 
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, request
+from flask_jsonpify import jsonify
 
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/GeocodeServer'

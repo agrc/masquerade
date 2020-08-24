@@ -33,6 +33,7 @@ setup(
     },
     keywords=['gis'],
     install_requires=[
+        'flask-jsonpify==1.5.*',
         'flask==1.1.*',
         'requests==2.24.*',
     ],
