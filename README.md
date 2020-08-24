@@ -27,6 +27,6 @@ A proxy service that creates an Esri locator from AGRC web services.
 
 ### Development Server
 
-`export FLASK_APP=src/masquerade/main.py && flask run --cert=cert.pem --key key.pem`
+`export FLASK_APP=src/masquerade/main.py && export FLASK_ENV=development && flask run --cert=cert.pem --key key.pem`
 
 Here is a web app builder project that is pointed at `https://127.0.0.1:5000/` that can be used for testing: https://utah.maps.arcgis.com/apps/webappviewer/index.html?id=97a1529c31c84a93956968d48c6e08ad
