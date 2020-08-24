@@ -1,0 +1,16 @@
+.eggs
+.env
+.pytest_cache
+.vscode
+tests
+.coverage
+.coveragerc
+.editorconfig
+.gitignore
+.travis.yml
+cert.pem
+cov.xml
+key.pem
+LICENSE
+pylintrc
+README.md
