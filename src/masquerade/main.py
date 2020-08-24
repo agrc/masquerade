@@ -155,6 +155,7 @@ def find_candidates():
 
     if magic_key is not None:
         feature_service_parameters = {
+            'f': 'json',
             'objectIds': magic_key,
             'returnGeometry': True,
             'outFields': ','.join([OBJECTID, FULL_ADDRESS_FIELD, ADDRESS_SYSTEM_FIELD, CITY_FIELD]),
