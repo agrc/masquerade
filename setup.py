@@ -33,7 +33,8 @@ setup(
     },
     keywords=['gis'],
     install_requires=[
-        # 'package==1.0.*'
+        'flask==1.1.*',
+        'requests==2.24.*',
     ],
     extras_require={
         'tests': [
@@ -45,6 +46,7 @@ setup(
             'pytest-pylint==0.17.*',
             'pytest-watch==4.2.*',
             'pytest==5.4.*',
+            'requests-mock==1.8.*',
             'yapf==0.30.*',
         ]
     },
