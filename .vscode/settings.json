@@ -1,0 +1,24 @@
+{
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pycodestyleEnabled": false,
+  "python.formatting.provider": "yapf",
+  "python.formatting.yapfPath": "yapf",
+  "python.formatting.yapfArgs": ["--style", "${workspaceRoot}/setup.cfg"],
+  "cSpell.words": [
+    "AGRC",
+    "GUNNISON",
+    "UICLSID",
+    "instafail",
+    "isort",
+    "jsonify",
+    "jsonpify",
+    "pylint",
+    "pytest",
+    "yapf"
+  ],
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "files.insertFinalNewline": true
+}
