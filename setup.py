@@ -13,7 +13,7 @@ setup(
     name='masquerade',
     version='1.0.0',
     license='MIT',
-    description='Project description.',
+    description='A proxy service that creates an Esri locator from AGRC data and web services.',
     author='AGRC',
     author_email='agrc@utah.gov',
     url='https://github.com/agrc/masquerade',
