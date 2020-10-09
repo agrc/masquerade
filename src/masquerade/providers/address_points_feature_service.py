@@ -36,7 +36,7 @@ def get_suggestions(search_text):
     """
     feature_service_parameters = {
         'f': 'json',
-        'where': f'{FULL_ADDRESS_FIELD} LIKE \'{search_text}%\'',
+        'where': f'UPPER({FULL_ADDRESS_FIELD}) LIKE UPPER(\'{search_text}%\')',
         'outFields': ','.join([OBJECTID, FULL_ADDRESS_FIELD, ADDRESS_SYSTEM_FIELD, CITY_FIELD]),
         'returnGeometry': False,
         'orderByFields': [FULL_ADDRESS_FIELD],
