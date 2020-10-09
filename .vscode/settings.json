@@ -10,13 +10,16 @@
     "AGRC",
     "GUNNISON",
     "UICLSID",
+    "atch",
     "instafail",
     "isort",
     "jsonify",
     "jsonpify",
+    "mkcert",
     "pylint",
     "pytest",
-    "yapf"
+    "yapf",
+    "ython"
   ],
   "editor.formatOnSave": true,
   "editor.rulers": [120],
