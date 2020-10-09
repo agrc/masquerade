@@ -9,6 +9,7 @@ import json
 import requests
 from flask import Flask, request
 from flask.logging import create_logger
+from flask_cors import CORS
 from flask_jsonpify import jsonify
 
 BASE_ROUTE = '/arcgis/rest'
@@ -28,6 +29,7 @@ SERVER_VERSION_MINOR = 8
 SERVER_VERSION_PATCH = 1
 
 app = Flask(__name__)
+CORS(app)
 log = create_logger(app)
 
 
