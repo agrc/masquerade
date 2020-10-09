@@ -11,7 +11,7 @@ from flask.logging import create_logger
 from flask_cors import CORS
 from flask_jsonpify import jsonify
 
-from .providers import address_points_feature_service
+from .providers import open_sgid
 
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'
@@ -105,7 +105,8 @@ def suggest():
     """ provide single-line address suggestions
     """
 
-    return jsonify({'suggestions': address_points_feature_service.get_suggestions(request.args.get('text'))})
+    #: TODO: implement maxSuggestions parameter
+    return jsonify({'suggestions': open_sgid.get_suggestions(request.args.get('text'))})
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates')
@@ -116,10 +117,12 @@ def find_candidates():
 
     magic_key = request.args.get('magicKey')
     request_wkid = json.loads(request.args.get('outSR'))['wkid']
+
+    #: switch out old mercator for new one otherwise, pass it through
     out_spatial_reference = WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid
 
     if magic_key is not None:
-        candidate = address_points_feature_service.get_candidate_from_magic_key(magic_key, out_spatial_reference)
+        candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
 
         return jsonify({
             'candidates': [candidate],
