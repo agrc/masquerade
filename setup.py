@@ -32,7 +32,10 @@ setup(
         'Issue Tracker': 'https://github.com/agrc/masquerade/issues',
     },
     keywords=['gis'],
-    install_requires=['flask-jsonpify==1.5.*', 'flask==1.1.*', 'requests==2.24.*', 'flask-cors==3.0.*'],
+    install_requires=[
+        'flask-jsonpify==1.5.*', 'flask==1.1.*', 'requests==2.24.*', 'flask-cors==3.0.*', 'psycopg2-binary==2.8.*',
+        'shapely==1.7.*'
+    ],
     extras_require={
         'tests': [
             'pylint-quotes==0.2.*',
