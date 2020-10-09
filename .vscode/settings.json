@@ -26,5 +26,9 @@
   "files.insertFinalNewline": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
-  }
+  },
+  "python.testing.pytestArgs": [],
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestEnabled": true
 }
