@@ -6,22 +6,16 @@ The main flask app
 
 import json
 
-import requests
 from flask import Flask, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_jsonpify import jsonify
 
+from .providers import address_points_feature_service
+
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'
-SPATIAL_REFERENCE_WKID = 4326
-ADDRESS_POINTS_FEATURE_SERVICE = (
-    'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahAddressPoints/FeatureServer/0/'
-)
-FULL_ADDRESS_FIELD = 'FullAdd'
-OBJECTID = 'OBJECTID'
-ADDRESS_SYSTEM_FIELD = 'AddSystem'
-CITY_FIELD = 'City'
+WGS84 = 4326
 WEB_MERCATOR = 3857
 OLD_WEB_MERCATOR = 102100
 SERVER_VERSION_MAJOR = 10
@@ -82,8 +76,8 @@ def geocode_base():
         },
         'candidateFields': [],
         'spatialReference': {
-            'wkid': SPATIAL_REFERENCE_WKID,
-            'latestWkid': SPATIAL_REFERENCE_WKID
+            'wkid': WGS84,
+            'latestWkid': WGS84
         },
         'locatorProperties': {
             'EndOffset': '0',
@@ -106,46 +100,12 @@ def geocode_base():
     })
 
 
-def get_suggestion_from_address_point(feature):
-    """ return a suggestion dictionary from an esri feature dictionary
-    """
-    attributes = feature['attributes']
-
-    if attributes[CITY_FIELD] is not None:
-        zone = attributes[CITY_FIELD]
-    else:
-        zone = attributes[ADDRESS_SYSTEM_FIELD]
-
-    return {
-        'isCollection': False,
-        'magicKey': attributes[OBJECTID],
-        'text': f'{attributes[FULL_ADDRESS_FIELD]}, {zone}'
-    }
-
-
 @app.route(f'{GEOCODE_SERVER_ROUTE}/suggest')
 def suggest():
     """ provide single-line address suggestions
     """
-    feature_service_parameters = {
-        'f': 'json',
-        'where': f'{FULL_ADDRESS_FIELD} LIKE \'{request.args.get("text")}%\'',
-        'outFields': ','.join([OBJECTID, FULL_ADDRESS_FIELD, ADDRESS_SYSTEM_FIELD, CITY_FIELD]),
-        'returnGeometry': False,
-        'orderByFields': [FULL_ADDRESS_FIELD],
-        'resultType': 'standard',
-        'resultRecordCount': 50
-    }
 
-    feature_service_response = requests.get(
-        f'{ADDRESS_POINTS_FEATURE_SERVICE}/query', params=feature_service_parameters
-    )
-
-    feature_service_json = feature_service_response.json()
-
-    suggestions = [get_suggestion_from_address_point(feature) for feature in feature_service_json['features']]
-
-    return jsonify({'suggestions': suggestions})
+    return jsonify({'suggestions': address_points_feature_service.get_suggestions(request.args.get('text'))})
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates')
@@ -156,35 +116,17 @@ def find_candidates():
 
     magic_key = request.args.get('magicKey')
     request_wkid = json.loads(request.args.get('outSR'))['wkid']
+    out_spatial_reference = WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid
 
     if magic_key is not None:
-        feature_service_parameters = {
-            'f': 'json',
-            'objectIds': magic_key,
-            'returnGeometry': True,
-            'outFields': ','.join([OBJECTID, FULL_ADDRESS_FIELD, ADDRESS_SYSTEM_FIELD, CITY_FIELD]),
-            'outSR': WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid
-        }
-
-        feature_service_response = requests.get(
-            f'{ADDRESS_POINTS_FEATURE_SERVICE}/query', params=feature_service_parameters
-        )
-        log.info('%s', feature_service_response.url)
-
-        feature = feature_service_response.json()['features'][0]
+        candidate = address_points_feature_service.get_candidate_from_magic_key(magic_key, out_spatial_reference)
 
         return jsonify({
-            'candidates': [{
-                'address': get_suggestion_from_address_point(feature)['text'],
-                'attributes': {
-                    'score': 100
-                },
-                'location': feature['geometry']
-            }],
+            'candidates': [candidate],
             'spatialReference': {
                 'wkid': request_wkid,
-                'latestWkid': feature_service_parameters['outSR']
+                'latestWkid': out_spatial_reference
             }
         })
 
-    return 'not implemented'
+    raise NotImplementedError
