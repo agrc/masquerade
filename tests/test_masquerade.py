@@ -7,9 +7,8 @@ A module that contains tests for masquerade.
 
 from json import dumps
 
-from masquerade.main import (
-    ADDRESS_POINTS_FEATURE_SERVICE, BASE_ROUTE, GEOCODE_SERVER_ROUTE, OLD_WEB_MERCATOR, WEB_MERCATOR
-)
+from masquerade.main import BASE_ROUTE, GEOCODE_SERVER_ROUTE, OLD_WEB_MERCATOR, WEB_MERCATOR
+from masquerade.providers.address_points_feature_service import FEATURE_SERVICE_URL
 
 
 def test_info(test_client):
@@ -65,7 +64,7 @@ def test_suggest(test_client, requests_mock):
             },
         ]
     }
-    requests_mock.get(f'{ADDRESS_POINTS_FEATURE_SERVICE}/query', json=mocked_response)
+    requests_mock.get(f'{FEATURE_SERVICE_URL}/query', json=mocked_response)
 
     response = test_client.get(f'{GEOCODE_SERVER_ROUTE}/suggest', json={'text': '123'})
 
@@ -102,7 +101,7 @@ def test_find_candidate_with_magic_key(test_client, requests_mock):
             }
         }]
     }
-    requests_mock.get(f'{ADDRESS_POINTS_FEATURE_SERVICE}/query', json=mocked_response)
+    requests_mock.get(f'{FEATURE_SERVICE_URL}/query', json=mocked_response)
 
     response = test_client.get(
         f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates',
