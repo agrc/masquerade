@@ -12,7 +12,7 @@ from flask.logging import create_logger
 from flask_jsonpify import jsonify
 
 BASE_ROUTE = '/arcgis/rest'
-GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/GeocodeServer'
+GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'
 SPATIAL_REFERENCE_WKID = 4326
 ADDRESS_POINTS_FEATURE_SERVICE = (
     'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahAddressPoints/FeatureServer/0/'
