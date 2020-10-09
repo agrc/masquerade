@@ -23,6 +23,10 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ### Development Server
 
-`bash run.sh`
+`./run.sh`
 
-Here is a web app builder project that is pointed at `https://127.0.0.1:5000/` that can be used for testing: https://utah.maps.arcgis.com/apps/webappviewer/index.html?id=97a1529c31c84a93956968d48c6e08ad
+[Here is a web app builder project](https://utah.maps.arcgis.com/apps/webappviewer/index.html?id=97a1529c31c84a93956968d48c6e08ad) that is pointed at `https://localhost:5000/` that can be used for testing.
+
+### Deployment to GCP
+
+`./deploy.sh` (you will be prompted for the project name)
