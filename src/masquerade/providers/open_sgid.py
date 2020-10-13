@@ -4,7 +4,6 @@
 A provider that queries data in Open SGID
 """
 import psycopg2
-from shapely import wkt
 
 FULL_ADDRESS_FIELD = 'fulladd'
 OBJECTID = 'xid'
@@ -51,9 +50,11 @@ def get_candidate_from_magic_key(magic_key, out_spatial_reference):
     """ queries the database for the feature corresponding to the magic key and
     returns it as an address candidate
     """
-    shape = f'ST_AsText(ST_Transform(shape, {out_spatial_reference}))'
+    shape = [
+        f'st_x(st_transform(shape, {out_spatial_reference}))', f'st_y(st_transform(shape, {out_spatial_reference}))'
+    ]
     query = f'''
-        select {','.join(out_fields + [shape])} from {ADDRESS_POINTS_TABLE}
+        select {','.join(out_fields + shape)} from {ADDRESS_POINTS_TABLE}
         where {OBJECTID} = {magic_key}
     '''
 
@@ -61,18 +62,14 @@ def get_candidate_from_magic_key(magic_key, out_spatial_reference):
     cursor.execute(query)
     record = cursor.fetchone()
 
-    geometry = wkt.loads(record[-1])
-
-    #: todo - handle out spatial reference
-
     return {
-        'address': get_suggestion_from_record(*record[:-1])['text'],
+        'address': get_suggestion_from_record(*record[:-2])['text'],
         'attributes': {
             'score': 100
         },
         'location': {
             # pylint: disable=no-member
-            'x': geometry.x,
-            'y': geometry.y
+            'x': record[-2],
+            'y': record[-1]
         }
     }
