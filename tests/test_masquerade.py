@@ -5,6 +5,9 @@ A module that contains tests for masquerade.
 """
 
 from json import dumps
+from unittest import mock
+
+from flask import json
 
 from masquerade.main import BASE_ROUTE, GEOCODE_SERVER_ROUTE
 
@@ -31,3 +34,14 @@ def test_base_geocode_route(test_client):
     assert b'currentVersion' in response.data
     assert b'singleLineAddressField' in response.data
     assert b'locatorProperties' in response.data
+
+
+@mock.patch('masquerade.main.open_sgid.get_candidate_from_magic_key')
+def test_find_candidates(get_candidate_mock, test_client):
+    get_candidate_mock.return_value = 'blah'
+
+    response = test_client.get(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=1&outSR={{"wkid": 102100}}')
+    response_json = json.loads(response.data)
+
+    assert response_json['candidates'][0] == 'blah'
+    assert response_json['spatialReference']['latestWkid'] == 3857

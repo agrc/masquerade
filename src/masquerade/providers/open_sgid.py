@@ -30,11 +30,11 @@ def get_suggestion_from_record(oid, full_address, address_system, city):
 
 
 def get_suggestions(search_text):
-    """ queries the feature service and returns suggestions based on the input text
+    """ queries the database and returns suggestions based on the input text
     """
     query = f'''
         select {','.join(out_fields)} from {ADDRESS_POINTS_TABLE}
-        where upper({FULL_ADDRESS_FIELD}) LIKE upper(\'{search_text}%\')
+        where upper({FULL_ADDRESS_FIELD}) like upper(\'{search_text}%\')
         order by {FULL_ADDRESS_FIELD} ASC
         limit 50
     '''
