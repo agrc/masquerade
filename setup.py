@@ -37,6 +37,7 @@ setup(
     ],
     extras_require={
         'tests': [
+            'callee==0.3.*',
             'pylint-quotes==0.2.*',
             'pylint==2.5.*',
             'pytest-cov==2.9.*',
