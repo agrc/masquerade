@@ -105,8 +105,9 @@ def suggest():
     """ provide single-line address suggestions
     """
 
-    #: TODO: implement maxSuggestions parameter
-    return jsonify({'suggestions': open_sgid.get_suggestions(request.args.get('text'))})
+    search_text = request.args.get('text')
+    max_results = request.args.get('maxSuggestions')
+    return jsonify({'suggestions': open_sgid.get_suggestions(search_text, max_results)})
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates')

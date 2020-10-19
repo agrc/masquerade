@@ -31,7 +31,7 @@ def get_suggestion_from_feature(feature):
     }
 
 
-def get_suggestions(search_text):
+def get_suggestions(search_text, max_results):
     """ queries the feature service and returns suggestions based on the input text
     """
     feature_service_parameters = {
@@ -41,7 +41,7 @@ def get_suggestions(search_text):
         'returnGeometry': False,
         'orderByFields': [FULL_ADDRESS_FIELD],
         'resultType': 'standard',
-        'resultRecordCount': 50
+        'resultRecordCount': max_results
     }
 
     feature_service_response = requests.get(f'{FEATURE_SERVICE_URL}/query', params=feature_service_parameters)

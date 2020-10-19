@@ -29,14 +29,14 @@ def get_suggestion_from_record(oid, full_address, address_system, city):
     return {'isCollection': False, 'magicKey': oid, 'text': f'{full_address}, {zone}'}
 
 
-def get_suggestions(search_text):
+def get_suggestions(search_text, max_results):
     """ queries the database and returns suggestions based on the input text
     """
     query = f'''
         select {','.join(out_fields)} from {ADDRESS_POINTS_TABLE}
         where upper({FULL_ADDRESS_FIELD}) like upper(\'{search_text}%\')
         order by {FULL_ADDRESS_FIELD} ASC
-        limit 50
+        limit {max_results}
     '''
 
     cursor = connection.cursor()
