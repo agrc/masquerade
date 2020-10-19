@@ -36,7 +36,7 @@ def test_get_suggestions(connect_mock):
     cursor_mock = connect_mock.cursor.return_value
     cursor_mock.fetchall.return_value = mocked_results
 
-    suggestions = get_suggestions('blah')
+    suggestions = get_suggestions('blah', 10)
 
     assert len(suggestions) == 2
     cursor_mock.execute.assert_called_with(Contains('like upper(\'blah%\')'))

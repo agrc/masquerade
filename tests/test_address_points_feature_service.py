@@ -40,7 +40,7 @@ def test_get_suggestions(test_client, requests_mock):
     }
     requests_mock.get(f'{FEATURE_SERVICE_URL}/query', json=mocked_response)
 
-    suggestions = get_suggestions('123')
+    suggestions = get_suggestions('123', 10)
 
     assert len(suggestions) == 3
 
