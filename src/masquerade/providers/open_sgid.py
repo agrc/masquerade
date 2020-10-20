@@ -34,7 +34,7 @@ def get_suggestions(search_text, max_results):
     """
     query = f'''
         select {','.join(out_fields)} from {ADDRESS_POINTS_TABLE}
-        where upper({FULL_ADDRESS_FIELD}) like upper(\'{search_text}%\')
+        where {FULL_ADDRESS_FIELD} ilike \'{search_text}%\'
         order by {FULL_ADDRESS_FIELD} ASC
         limit {max_results}
     '''

@@ -39,7 +39,7 @@ def test_get_suggestions(connect_mock):
     suggestions = get_suggestions('blah', 10)
 
     assert len(suggestions) == 2
-    cursor_mock.execute.assert_called_with(Contains('like upper(\'blah%\')'))
+    cursor_mock.execute.assert_called_with(Contains('ilike \'blah%\''))
 
 
 @mock.patch('masquerade.providers.open_sgid.connection')
