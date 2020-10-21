@@ -14,6 +14,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 1. install dependencies and editable project: `pip install -e ".[tests]"`
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `brew install mkcert`
 1. create locally-trusted cert: `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1`
+1. create `.apikey` and populate it with the Web API key for this project.
 
 ### Tests
 

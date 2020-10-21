@@ -33,7 +33,12 @@ setup(
     },
     keywords=['gis'],
     install_requires=[
-        'flask-jsonpify==1.5.*', 'flask==1.1.*', 'requests==2.24.*', 'flask-cors==3.0.*', 'psycopg2-binary==2.8.*'
+        'flask-jsonpify==1.5.*',
+        'flask==1.1.*',
+        'requests==2.24.*',
+        'flask-cors==3.0.*',
+        'psycopg2-binary==2.8.*',
+        'agrc-sweeper==1.0.*',
     ],
     extras_require={
         'tests': [

@@ -9,8 +9,11 @@
   "cSpell.words": [
     "AGRC",
     "GUNNISON",
+    "Referer",
     "UICLSID",
     "atch",
+    "getenv",
+    "ilike",
     "instafail",
     "isort",
     "jsonify",
@@ -19,6 +22,7 @@
     "psycopg",
     "pylint",
     "pytest",
+    "usaddress",
     "yapf",
     "ython"
   ],

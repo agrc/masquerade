@@ -11,7 +11,7 @@ from flask.logging import create_logger
 from flask_cors import CORS
 from flask_jsonpify import jsonify
 
-from .providers import open_sgid
+from .providers import open_sgid, web_api
 
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'
@@ -124,13 +124,16 @@ def find_candidates():
 
     if magic_key is not None:
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
+        candidates = [candidate]
+    else:
+        single_line_address = request.args.get('Single Line Input')
+        max_locations = request.args.get('maxLocations')
+        candidates = web_api.get_address_candidates(single_line_address, out_spatial_reference, max_locations)
 
-        return jsonify({
-            'candidates': [candidate],
-            'spatialReference': {
-                'wkid': request_wkid,
-                'latestWkid': out_spatial_reference
-            }
-        })
-
-    raise NotImplementedError
+    return jsonify({
+        'candidates': candidates,
+        'spatialReference': {
+            'wkid': request_wkid,
+            'latestWkid': out_spatial_reference
+        }
+    })
