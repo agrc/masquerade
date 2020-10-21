@@ -32,3 +32,4 @@ cov.xml
 .coverage
 cert.pem
 key.pem
+.apikey
