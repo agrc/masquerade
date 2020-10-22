@@ -33,3 +33,4 @@ cov.xml
 cert.pem
 key.pem
 .apikey
+venv/pyvenv.cfg

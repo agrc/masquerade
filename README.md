@@ -1,7 +1,7 @@
 # agrc/masquerade
 
 [![Build Status](https://travis-ci.com/agrc/masquerade.svg?branch=master)](https://travis-ci.com/agrc/masquerade)
-[![Coverage Status](https://coveralls.io/repos/github/agrc/masquerade/badge.svg?branch=master)](https://coveralls.io/github/agrc/masquerade?branch=master)
+[![codecov](https://codecov.io/gh/agrc/masquerade/branch/main/graph/badge.svg?token=R97EAY9FB1)](undefined)
 
 A proxy service that creates an Esri locator from AGRC data and web services.
 
@@ -15,6 +15,29 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `brew install mkcert`
 1. create locally-trusted cert: `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1`
 1. create `.apikey` and populate it with the Web API key for this project.
+
+#### CI/CD
+
+1. enable required GCP apis
+
+   - `gcloud services enable run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com`
+
+1. create a service account with the following privileges and create a key.
+
+   - Cloud Build Service Account
+   - Cloud Build Editor
+   - Service Account User
+   - Cloud Run Admin
+   - Viewer
+
+1. create secrets in github
+
+   - `RUN_PROJECT_ID_PROD` - the project id to deploy conductor to
+   - `RUN_SA_KEY_PROD` - the service account key data
+     - Must be [encoded as a Base64 string](https://github.com/GoogleCloudPlatform/github-actions/tree/master/setup-gcloud#inputs) (`cat my-key.json | base64`).
+   - `RUN_PROJECT_ID_STAGING` - same as prod version
+   - `RUN_SA_KEY_STAGING` - same as prod version
+   - `WEB_API_KEY`
 
 ### Tests
 
@@ -30,4 +53,4 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ### Deployment to GCP
 
-`./deploy.sh` (you will be prompted for the project name)
+When changes are pushed to either the `main` (production) or `staging` branches, the project is automatically built and deployed to the appropriate GCP project (pending passing tests).

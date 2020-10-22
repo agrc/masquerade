@@ -1,0 +1,90 @@
+name: Test and Deploy
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install project
+      run: pip install -e .[tests]
+
+    - name: Test with pytest
+      run: pytest
+
+    - name: Report coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./cov.xml
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    if: contains('refs/heads/main refs/heads/staging', github.ref)
+    env:
+      RUN_REGION: us-central1
+      SERVICE_NAME: masquerade
+
+    steps:
+    - name: Get Variables
+      id: variables
+      shell: bash
+      run: |
+        REF=${{ github.ref }}
+        BRANCH=${REF##*/}
+        echo "current branch: $BRANCH"
+        if [[ BRANCH = "main" ]]; then
+          SA_KEY='${{ secrets.RUN_SA_KEY_PROD }}'
+          PROJECT_ID='${{ secrets.RUN_PROJECT_ID_PROD }}'
+        else
+          SA_KEY='${{ secrets.RUN_SA_KEY_STAGING }}'
+          PROJECT_ID='${{ secrets.RUN_PROJECT_ID_STAGING }}'
+        fi
+        echo "::set-output name=sa_key::$SA_KEY"
+        echo "::set-output name=project_id::$PROJECT_ID"
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set Up GCP
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '290.0.1'
+        service_account_key: ${{ steps.variables.outputs.sa_key }}
+        project_id: ${{ steps.variables.outputs.project_id }}
+
+    - name: Build
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --tag "gcr.io/${{ steps.variables.outputs.project_id }}/$SERVICE_NAME:$GITHUB_SHA" \
+          --project=${{ steps.variables.outputs.project_id }}
+
+    - name: Deploy
+      run: |-
+        gcloud run deploy "$SERVICE_NAME" \
+          --quiet \
+          --region "$RUN_REGION" \
+          --image "gcr.io/${{ steps.variables.outputs.project_id }}/$SERVICE_NAME:$GITHUB_SHA" \
+          --platform "managed" \
+          --port 8000 \
+          --update-env-vars WEB_API_KEY=${{ secrets.WEB_API_KEY }} \
+          --project=${{ steps.variables.outputs.project_id }} \
+          --allow-unauthenticated
