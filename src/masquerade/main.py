@@ -21,6 +21,7 @@ OLD_WEB_MERCATOR = 102100
 SERVER_VERSION_MAJOR = 10
 SERVER_VERSION_MINOR = 8
 SERVER_VERSION_PATCH = 1
+MAX_SUGGESTION_RESULTS = 50
 
 app = Flask(__name__)
 CORS(app)
@@ -107,6 +108,8 @@ def suggest():
 
     search_text = request.args.get('text')
     max_results = request.args.get('maxSuggestions')
+    #: limit max_results to a reasonable number
+    max_results = min(MAX_SUGGESTION_RESULTS, max_results)
     return jsonify({'suggestions': open_sgid.get_suggestions(search_text, max_results)})
 
 
