@@ -45,7 +45,7 @@ jobs:
         REF=${{ github.ref }}
         BRANCH=${REF##*/}
         echo "current branch: $BRANCH"
-        if [[ BRANCH = "main" ]]; then
+        if [[ "$BRANCH" == "main" ]]; then
           SA_KEY='${{ secrets.RUN_SA_KEY_PROD }}'
           PROJECT_ID='${{ secrets.RUN_PROJECT_ID_PROD }}'
         else
