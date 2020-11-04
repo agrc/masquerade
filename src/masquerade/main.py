@@ -108,8 +108,7 @@ def suggest():
 
     search_text = request.args.get('text')
     max_results = request.args.get('maxSuggestions')
-    #: limit max_results to a reasonable number
-    max_results = min(MAX_SUGGESTION_RESULTS, int(max_results))
+
     return jsonify({'suggestions': open_sgid.get_suggestions(search_text, max_results)})
 
 
