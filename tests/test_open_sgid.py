@@ -6,52 +6,40 @@ A module that contains tests for open_sgid.
 
 from unittest import mock
 
-from callee import Contains
+from pytest import raises
 
-from masquerade.providers.open_sgid import (
-    connection, get_candidate_from_magic_key, get_suggestion_from_record, get_suggestions
-)
+from masquerade.providers.open_sgid import get_candidate_from_magic_key, get_suggestions, get_table_from_table_name
 
 
-def test_get_suggestion_from_record_with_city():
-    suggestion = get_suggestion_from_record(1, 'full_add', 'address_system', 'city')
+def test_get_suggestions():
+    mock1 = mock.Mock()
+    mock1.get_suggestions.return_value = [1, 2]
+    mock2 = mock.Mock()
+    mock2.get_suggestions.return_value = [3]
 
-    assert suggestion['isCollection'] == False
-    assert suggestion['magicKey'] == 1
-    assert suggestion['text'] == 'full_add, city'
+    with mock.patch('masquerade.providers.open_sgid.TABLES', new=[mock1, mock2]):
+        suggestions = get_suggestions('hello', 10)
 
-
-def test_get_suggestion_from_record_without_city():
-    suggestion = get_suggestion_from_record(1, 'full_add', 'address_system', None)
-
-    assert suggestion['isCollection'] == False
-    assert suggestion['magicKey'] == 1
-    assert suggestion['text'] == 'full_add, address_system'
+    assert suggestions == [1, 2, 3]
 
 
-@mock.patch('masquerade.providers.open_sgid.connection')
-def test_get_suggestions(connect_mock):
-    mocked_results = [[1, 'fulladd', 'some address system', 'some city'],
-                      [2, 'another full add', 'another add sys', 'city']]
-    cursor_mock = connect_mock.cursor.return_value
-    cursor_mock.fetchall.return_value = mocked_results
+def test_get_candidate_from_magic_key():
+    mock1 = mock.Mock()
+    mock1.table_name = 'name1'
+    mock1.get_candidate_from_magic_key.return_value = 1
+    mock2 = mock.Mock()
+    mock2.table_name = 'name2'
 
-    suggestions = get_suggestions('blah', 10)
-
-    assert len(suggestions) == 2
-    cursor_mock.execute.assert_called_with(Contains('ilike \'blah%\''))
+    with mock.patch('masquerade.providers.open_sgid.TABLES', new=[mock1, mock2]):
+        assert get_candidate_from_magic_key('1-name1', 1234) == 1
 
 
-@mock.patch('masquerade.providers.open_sgid.connection')
-def test_get_candidate_from_magic_key(connect_mock):
-    mocked_result = [1, 'fulladd', 'some address system', 'some city', 2, 3]
+def test_get_table_from_table_name():
+    mock1 = mock.Mock()
+    mock1.table_name = 'name1'
+    mock2 = mock.Mock()
+    mock2.table_name = 'name2'
 
-    cursor_mock = connect_mock.cursor.return_value
-    cursor_mock.fetchone.return_value = mocked_result
-
-    candidate = get_candidate_from_magic_key(1, 3857)
-
-    assert candidate['address'] == 'fulladd, some city'
-    assert candidate['attributes']['score'] == 100
-    assert candidate['location']['x'] == 2
-    assert candidate['location']['y'] == 3
+    with mock.patch('masquerade.providers.open_sgid.TABLES', new=[mock1, mock2]):
+        with raises(Exception, match='No table found'):
+            get_table_from_table_name('blah')
