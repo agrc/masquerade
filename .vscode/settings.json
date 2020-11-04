@@ -14,6 +14,7 @@
     "atch",
     "codecov",
     "getenv",
+    "gnis",
     "ilike",
     "instafail",
     "isort",
