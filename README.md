@@ -13,7 +13,13 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 1. activate new environment: `source .env/bin/activate`
 1. install dependencies and editable project: `pip install -e ".[tests]"`
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `brew install mkcert`
-1. create locally-trusted cert: `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1`
+1. create locally-trusted cert: `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1 10.211.55.2`
+   - `10.211.55.2` is the default ip for the Parallels host machine
+1. install the mkcert CA on another VM
+   - copy `rootCA.pem` and `rootCA-key.pem` from the directory that is the output of `mkcert -CAROOT`
+   - paste these files into a file on the VM
+   - install mkcert on the VM
+   - run `set CAROOT=<pasted directory> && mkcert -install` on the VM (windows terminal works better than a console emulator)
 1. create `.apikey` and populate it with the Web API key for this project.
 
 #### CI/CD
