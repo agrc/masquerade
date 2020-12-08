@@ -45,3 +45,15 @@ def test_find_candidates(get_candidate_mock, test_client):
 
     assert response_json['candidates'][0] == 'blah'
     assert response_json['spatialReference']['latestWkid'] == 3857
+
+
+@mock.patch('masquerade.main.open_sgid.get_candidate_from_magic_key')
+def test_find_candidates_with_out_out_sr(get_candidate_mock, test_client):
+    #: Pro doesn't include the outSR in these requests if the default matches the map
+    get_candidate_mock.return_value = 'blah'
+
+    response = test_client.get(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=1')
+    response_json = json.loads(response.data)
+
+    assert response_json['candidates'][0] == 'blah'
+    assert response_json['spatialReference']['latestWkid'] == 4326
