@@ -119,7 +119,12 @@ def find_candidates():
     """
 
     magic_key = request.args.get('magicKey')
-    request_wkid = json.loads(request.args.get('outSR'))['wkid']
+
+    out_sr_param_name = 'outSR'
+    if out_sr_param_name in request.args:
+        request_wkid = json.loads(request.args.get(out_sr_param_name))['wkid']
+    else:
+        request_wkid = WGS84
 
     #: switch out old mercator for new one otherwise, pass it through
     out_spatial_reference = WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid
