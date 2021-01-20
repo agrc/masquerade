@@ -5,6 +5,12 @@
 
 A proxy service that creates an Esri locator from AGRC data and web services.
 
+## URLs
+
+- [Production](https://masquerade-kkktr623oa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer)
+- [Staging](https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer)
+- [Local](https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer)
+
 ## Development
 
 ### One-time Setup
@@ -56,9 +62,9 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ### Tests
 
-(**P**ython **W**atch **T**est will restart the tests every time you save a file)
+(**P**ython **T**est **W**atch will restart the tests every time you save a file)
 
-`pwt`
+`ptw`
 
 ### Development Server
 
