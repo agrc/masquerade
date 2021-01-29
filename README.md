@@ -16,7 +16,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 ### One-time Setup
 
 1. create new python environment: `python -m venv .env`
-1. activate new environment: `source venv/bin/activate`
+1. activate new environment: `source venv/bin/activate` (On Windows: `.env\Scripts\activate`)
 1. install dependencies and editable project: `pip install -e ".[tests]"`
 1. create `.apikey` and populate it with the Web API key for this project.
    - Use type: `browser` and referer: `masquerade.agrc.utah.gov`
@@ -24,6 +24,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 #### MacOS
 
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `brew install mkcert`
+1. run `mkcert -install`
 1. create locally-trusted cert (from root): `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1 10.211.55.2`
    - `10.211.55.2` is the default ip for the Parallels host machine
 1. install the mkcert CA on another VM
@@ -35,6 +36,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 #### Windows
 
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `choco install mkcert`
+1. run `mkcert -install`
 1. create locally-trusted cert (from root): `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1`
 
 #### CI/CD
