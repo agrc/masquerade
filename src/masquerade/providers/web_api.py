@@ -52,10 +52,10 @@ def etl_candidate(agrc_candidate):
     return {
         'address': address,
         'attributes': {
-            'score': agrc_candidate['score'],
+            'Score': agrc_candidate['score'],
             'locator': agrc_candidate['locator'],
             'addressGrid': agrc_candidate['addressGrid']
         },
         'location': agrc_candidate['location'],
-        'score': agrc_candidate['score']
+        'Score': agrc_candidate['score']
     }

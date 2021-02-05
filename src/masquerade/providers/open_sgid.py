@@ -105,13 +105,13 @@ class Table():
         return {
             'text': self.get_suggestion_from_record(*record[:-6])['text'],
             'attributes': {
-                'score': 100
+                'Score': 100
             },
             'extent': {
-                'xmax': xmax,
-                'xmin': xmin,
-                'ymax': ymax,
-                'ymin': ymin
+                'Xmax': xmax,
+                'Xmin': xmin,
+                'Ymax': ymax,
+                'Ymin': ymin
             },
             'location': {
                 'x': x_value,
