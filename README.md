@@ -70,7 +70,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ### Development Server
 
-`./run.sh`
+`./run.sh` (macOS) or `run.bat` (Windows)
 
 [Here is a web app builder project](https://utah.maps.arcgis.com/apps/webappviewer/index.html?id=97a1529c31c84a93956968d48c6e08ad) that is pointed at `https://localhost:5000/` that can be used for testing.
 
