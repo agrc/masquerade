@@ -31,7 +31,7 @@ def test_etl_candidate():
     assert result['location'] == input['location']
 
 
-def test_etl_candidate():
+def test_etl_candidate_base_result():
     #: this is a test for the base result object as opposed to result.candidate objects
     input = {
         'location': {
