@@ -15,7 +15,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ### One-time Setup
 
-1. create new python environment: `python -m venv .env`
+1. create new python environment: `python -m venv venv`
 1. activate new environment: `source venv/bin/activate` (On Windows: `.env\Scripts\activate`)
 1. install dependencies and editable project: `pip install -e ".[tests]"`
 1. create `.apikey` and populate it with the Web API key for this project.
