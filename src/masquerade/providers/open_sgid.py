@@ -76,17 +76,17 @@ class Table():
         Also translates the geometry into x, y and extent fields.
         """
         if self.geometry_type == POINT:
-            extent = f'st_expand(st_transform(shape, {out_spatial_reference}), 500)'
+            extent = 'st_expand(st_transform(shape, 26912), 100)'
         else:
             extent = f'st_transform(shape, {out_spatial_reference})'
 
         shape = f'''
             st_x(st_transform(st_centroid(shape), {out_spatial_reference})) as x,
             st_y(st_transform(st_centroid(shape), {out_spatial_reference})) as y,
-            st_xmax({extent}) as xmax,
-            st_ymax({extent}) as ymax,
-            st_xmin({extent}) as xmin,
-            st_ymin({extent}) as ymin
+            st_xmax(st_transform({extent}, {out_spatial_reference}))  as xmax,
+            st_ymax(st_transform({extent}, {out_spatial_reference})) as ymax,
+            st_xmin(st_transform({extent}, {out_spatial_reference})) as xmin,
+            st_ymin(st_transform({extent}, {out_spatial_reference})) as ymin
         '''
 
         return f'''
