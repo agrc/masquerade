@@ -36,7 +36,7 @@ def test_get_candidate_from_magic_key(connect_mock):
     candidate = table.get_candidate_from_magic_key(1, 3857)
 
     assert candidate['text'] == 'match text'
-    assert candidate['attributes']['score'] == 100
+    assert candidate['attributes']['Score'] == 100
     assert candidate['location']['x'] == 1
     assert candidate['location']['y'] == 2
     assert candidate['extent']['xmax'] == 3

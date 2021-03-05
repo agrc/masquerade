@@ -120,7 +120,6 @@ class Table():
                 'ymax': ymax,
                 'ymin': ymin
             },
-            
         }
 
 
