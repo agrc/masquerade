@@ -9,7 +9,7 @@ from unittest import mock
 
 from callee import Contains
 
-from masquerade.providers.open_sgid import POINT, POLYGON, Table
+from masquerade.providers.open_sgid import POINT, POLYGON, AddressPointTable, Table, normalize_prefix_direction
 
 table = Table('table_name', 'name', [], POLYGON)
 
@@ -65,3 +65,18 @@ def test_get_suggestion_from_record_with_context():
     suggestion = table.get_suggestion_from_record(1, 'match text', 'context value')
 
     assert suggestion['text'] == 'match text, context value'
+
+
+def test_address_points_normalizes_first_direction_in_suggestions():
+    tests = [
+        ('1234 North 1234 East', '1234 n 1234 east'),
+        ('1234 No 1234 East', '1234 n 1234 east'),
+        ('1234 So', '1234 s'),
+        ('1235 Eas hello', '1235 e hello'),
+        ('1235 E. hello', '1235 e hello'),
+        ('1235 Ea. hello', '1235 e hello'),
+    ]
+    for input, expected in tests:
+        text = normalize_prefix_direction(input)
+
+        assert text == expected
