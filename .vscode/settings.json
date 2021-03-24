@@ -21,6 +21,7 @@
     "jsonify",
     "jsonpify",
     "mkcert",
+    "nort",
     "psycopg",
     "pylint",
     "pytest",
