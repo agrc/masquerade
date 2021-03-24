@@ -3,6 +3,8 @@
 """
 A provider that queries data in Open SGID
 """
+import re
+
 import psycopg2
 
 DATABASE = 'opensgid'
@@ -20,6 +22,18 @@ CITY = 'city'
 NAME = 'name'
 
 connection = psycopg2.connect(database=DATABASE, user=AGRC, password=AGRC, host=HOST)
+
+directions = ['north', 'south', 'east', 'west']
+normalize_direction_infos = []
+for direction in directions:
+    #: build a list of all of the different ways to type the direction
+    #: e.g. (no, no., nor, nor., ...)
+    permiatations = []
+    for index in range(len(direction)):
+        permiatation = direction[0:index + 1]
+        permiatations.append(permiatation)
+        permiatations.append(f'{permiatation}.')
+    normalize_direction_infos.append((re.compile(fr'^(\d+) ({"|".join(permiatations)})( |$)'), direction[0]))
 
 
 class Table():
@@ -140,6 +154,28 @@ class AddressPointTable(Table):
         match_text = f'{full_address}, {zone}'
 
         return self.make_suggestion(xid, match_text)
+
+    def get_suggest_query(self, search_text, limit):
+        """ create a query that returns records for suggestions
+        """
+
+        return super().get_suggest_query(normalize_prefix_direction(search_text), limit)
+
+
+def normalize_prefix_direction(search_text):
+    """
+    Normalize the ~first~ cardinal direction of the search text
+    We don't want to mess with others that may or may not be part of the street name,
+    city or some other part of the address. We could possibly push this text through usaddress
+    but that seems like a perf hit that we don't want on something like a suggest endpoint
+    """
+    for regex, replacement in normalize_direction_infos:
+        new_value = re.sub(regex, fr'\g<1> {replacement} ', search_text.lower()).rstrip()
+
+        if new_value != search_text.lower():
+            return new_value
+
+    return new_value
 
 
 TABLES = [
