@@ -28,12 +28,12 @@ normalize_direction_infos = []
 for direction in directions:
     #: build a list of all of the different ways to type the direction
     #: e.g. (no, no., nor, nor., ...)
-    permiatations = []
+    permutations = []
     for index in range(len(direction)):
-        permiatation = direction[0:index + 1]
-        permiatations.append(permiatation)
-        permiatations.append(f'{permiatation}.')
-    normalize_direction_infos.append((re.compile(fr'^(\d+) ({"|".join(permiatations)})( |$)'), direction[0]))
+        permutation = direction[0:index + 1]
+        permutations.append(permutation)
+        permutations.append(f'{permutation}.')
+    normalize_direction_infos.append((re.compile(fr'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
 
 
 class Table():
