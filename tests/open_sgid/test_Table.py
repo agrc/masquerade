@@ -75,6 +75,7 @@ def test_address_points_normalizes_first_direction_in_suggestions():
         ('1235 Eas hello', '1235 e hello'),
         ('1235 E. hello', '1235 e hello'),
         ('1235 Ea. hello', '1235 e hello'),
+        ('1234', '1234'),
     ]
     for input, expected in tests:
         text = normalize_prefix_direction(input)
