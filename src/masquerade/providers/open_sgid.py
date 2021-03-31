@@ -90,7 +90,7 @@ class Table():
         Also translates the geometry into x, y and extent fields.
         """
         if self.geometry_type == POINT:
-            extent = 'st_expand(st_transform(shape, 26912), 100)'
+            extent = 'st_expand(st_transform(shape, 26912), 150)'
         else:
             extent = f'st_transform(shape, {out_spatial_reference})'
 
