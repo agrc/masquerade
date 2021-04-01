@@ -14,24 +14,22 @@ from masquerade.providers.open_sgid import POINT, POLYGON, AddressPointTable, Ta
 table = Table('table_name', 'name', [], POLYGON)
 
 
-@mock.patch('masquerade.providers.open_sgid.connection')
-def test_get_suggestions(connect_mock):
+@mock.patch('masquerade.providers.open_sgid.database')
+def test_get_suggestions(database_mock):
     mocked_results = [[1, 'search text'], [2, 'more search text']]
-    cursor_mock = connect_mock.cursor.return_value
-    cursor_mock.fetchall.return_value = mocked_results
+    database_mock.query.return_value = mocked_results
 
     suggestions = table.get_suggestions('blah', 10)
 
     assert len(suggestions) == 2
-    cursor_mock.execute.assert_called_with(Contains('ilike \'blah%\''))
+    database_mock.query.assert_called_with(Contains('ilike \'blah%\''))
 
 
-@mock.patch('masquerade.providers.open_sgid.connection')
-def test_get_candidate_from_magic_key(connect_mock):
-    mocked_result = [1, 'match text', 1, 2, 3, 4, 5, 6]
+@mock.patch('masquerade.providers.open_sgid.database')
+def test_get_candidate_from_magic_key(database_mock):
+    mocked_result = [[1, 'match text', 1, 2, 3, 4, 5, 6]]
 
-    cursor_mock = connect_mock.cursor.return_value
-    cursor_mock.fetchone.return_value = mocked_result
+    database_mock.query.return_value = mocked_result
 
     candidate = table.get_candidate_from_magic_key(1, 3857)
 
