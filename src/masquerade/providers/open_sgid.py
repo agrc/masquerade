@@ -21,8 +21,6 @@ ADDSYSTEM = 'addsystem'
 CITY = 'city'
 NAME = 'name'
 
-connection = psycopg2.connect(database=DATABASE, user=AGRC, password=AGRC, host=HOST)
-
 directions = ['north', 'south', 'east', 'west']
 normalize_direction_infos = []
 for direction in directions:
@@ -34,6 +32,35 @@ for direction in directions:
         permutations.append(permutation)
         permutations.append(f'{permutation}.')
     normalize_direction_infos.append((re.compile(fr'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
+
+
+class DatabaseConnection():
+    """ used to interact with the open sgid database
+    """
+
+    def __init__(self) -> None:
+        self.connection = self.ensure_open()
+
+    def ensure_open(self):
+        """ get an always-open connection
+        """
+
+        #: closed == 0 means it is open, anything else, it's closed
+        if not hasattr(self, 'connection') or self.connection.closed != 0:
+            return psycopg2.connect(database=DATABASE, user=AGRC, password=AGRC, host=HOST)
+
+        return self.connection
+
+    def query(self, query):
+        """ get records from the database
+        """
+        cursor = self.ensure_open().cursor()
+        cursor.execute(query)
+
+        return cursor.fetchall()
+
+
+database = DatabaseConnection()
 
 
 class Table():
@@ -78,9 +105,7 @@ class Table():
     def get_suggestions(self, search_text, max_results):
         """ query for records and return them as suggestion objects
         """
-        cursor = connection.cursor()
-        cursor.execute(self.get_suggest_query(search_text, max_results))
-        records = cursor.fetchall()
+        records = database.query(self.get_suggest_query(search_text, max_results))
 
         return [self.get_suggestion_from_record(*record) for record in records]
 
@@ -111,9 +136,7 @@ class Table():
     def get_candidate_from_magic_key(self, xid, out_spatial_reference):
         """ returns a candidate dictionary with the data corresponding to the value that matches the xid value
         """
-        cursor = connection.cursor()
-        cursor.execute(self.get_magic_key_query(xid, out_spatial_reference))
-        record = cursor.fetchone()
+        record = database.query(self.get_magic_key_query(xid, out_spatial_reference))[0]
         x_value, y_value, xmax, ymax, xmin, ymin = record[-6:]
 
         return {
