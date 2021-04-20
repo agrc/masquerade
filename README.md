@@ -7,7 +7,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 ## URLs
 
-- [Production](https://masquerade-kkktr623oa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer)
+- [Production](https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer)
 - [Staging](https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer)
 - [Local](https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer)
 
