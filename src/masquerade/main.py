@@ -28,6 +28,15 @@ CORS(app)
 log = create_logger(app)
 
 
+@app.after_request
+def add_common_headers(response):
+    """ add headers that we want returned with all requests
+    """
+    response.headers['Cache-Control'] = 'max-age=0,must-revalidate'
+
+    return response
+
+
 @app.route(f'{BASE_ROUTE}/info')
 def info():
     """ base info request
@@ -144,3 +153,10 @@ def find_candidates():
             'latestWkid': out_spatial_reference
         }
     })
+
+
+@app.route(f'{GEOCODE_SERVER_ROUTE}/<path:path>', methods=['HEAD'])
+def geocode_head(path):
+    """ handle head requests from Pro
+    """
+    return path
