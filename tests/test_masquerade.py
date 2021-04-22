@@ -57,3 +57,10 @@ def test_find_candidates_with_out_out_sr(get_candidate_mock, test_client):
 
     assert response_json['candidates'][0] == 'blah'
     assert response_json['spatialReference']['latestWkid'] == 4326
+
+
+def test_head_requests(test_client):
+    response = test_client.head(f'{GEOCODE_SERVER_ROUTE}/Masquerade/UtahLocator%20(10.211.55.2:5000)')
+
+    assert response.status_code == 200
+    assert response.headers['Cache-Control']
