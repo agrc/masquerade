@@ -1,5 +1,8 @@
 FROM python:3.8.5-slim
 
+# Allow statements and log messages to immediately appear in the Knative logs
+ENV PYTHONUNBUFFERED True
+
 COPY . /app
 
 WORKDIR /app
