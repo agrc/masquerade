@@ -6,7 +6,7 @@ The main flask app
 
 import json
 
-from flask import Flask, request
+from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_jsonpify import jsonify
@@ -160,3 +160,10 @@ def geocode_head(path):
     """ handle head requests from Pro
     """
     return path
+
+
+@app.route('/')
+def main():
+    """ redirect to github project
+    """
+    return redirect('https://github.com/agrc/masquerade#agrcmasquerade')
