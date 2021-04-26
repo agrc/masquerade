@@ -8,6 +8,4 @@ RUN pip install .
 
 RUN pip install gunicorn
 
-EXPOSE 8000
-
-CMD ["gunicorn", "masquerade.main:app", "-b", ":8000"]
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 masquerade.main:app
