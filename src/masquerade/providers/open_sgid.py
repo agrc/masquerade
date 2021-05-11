@@ -172,7 +172,7 @@ class Table():
         x_value, y_value, xmax, ymax, xmin, ymin = record[-6:]
 
         return {
-            'text': self.get_suggestion_from_record(*record[:-6])['text'],
+            'address': self.get_suggestion_from_record(*record[:-6])['text'],
             'score': 100,
             'location': {
                 'x': x_value,
