@@ -57,7 +57,7 @@ def test_get_candidate_from_magic_key(database_mock):
 
     candidate = table.get_candidate_from_magic_key(1, 3857)
 
-    assert candidate['text'] == 'match text'
+    assert candidate['address'] == 'match text'
     assert candidate['attributes']['Score'] == 100
     assert candidate['location']['x'] == 1
     assert candidate['location']['y'] == 2
@@ -120,5 +120,5 @@ def test_custom_get_suggestion_from_record(database_mock):
 
     candidate = table.get_candidate_from_magic_key(1, 3857)
 
-    assert candidate['text'] == 'test match text'
+    assert candidate['address'] == 'test match text'
     assert candidate['attributes']['Score'] == 100
