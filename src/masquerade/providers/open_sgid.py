@@ -74,11 +74,11 @@ class Table():
         self.geometry_type = geometry_type
         self.additional_out_fields = additional_out_fields or []
 
-    def get_suggestion_from_record(self, xid, match_text, context_value=None):
+    def get_suggestion_from_record(self, xid, match_text, *context_values):
         """ return a suggestion dictionary based on a database record
         """
-        if context_value:
-            match_text = f'{match_text}, {context_value}'
+        if context_values and len(context_values) > 0:
+            match_text = f'{match_text}, {", ".join(context_values)}'
 
         return self.make_suggestion(xid, match_text)
 

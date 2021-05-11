@@ -60,9 +60,9 @@ def test_get_magic_key_query():
 
 
 def test_get_suggestion_from_record_with_context():
-    suggestion = table.get_suggestion_from_record(1, 'match text', 'context value')
+    suggestion = table.get_suggestion_from_record(1, 'match text', 'context value', 'another value')
 
-    assert suggestion['text'] == 'match text, context value'
+    assert suggestion['text'] == 'match text, context value, another value'
 
 
 def test_address_points_normalizes_first_direction_in_suggestions():
