@@ -21,6 +21,9 @@ ADDSYSTEM = 'addsystem'
 CITY = 'city'
 NAME = 'name'
 
+TEXT = 'text'
+NUMERIC = 'numeric'
+
 directions = ['north', 'south', 'east', 'west']
 normalize_direction_infos = []
 for direction in directions:
@@ -68,31 +71,56 @@ class Table():
     """
     SPLITTER = '-'
 
-    def __init__(self, table_name, search_field, geometry_type, additional_out_fields=None):
+    # pylint: disable=too-many-arguments
+    def __init__(
+        self,
+        table_name,
+        search_field,
+        geometry_type,
+        search_field_type=TEXT,
+        additional_out_fields=None,
+        get_suggestion_text_from_record=None
+    ):
         self.table_name = table_name
         self.search_field = search_field
         self.geometry_type = geometry_type
+        self.search_field_type = search_field_type
         self.additional_out_fields = additional_out_fields or []
 
-    def get_suggestion_from_record(self, xid, match_text, *context_values):
+        def default_get_suggestion_text(matched_text, context_values):
+            if context_values and len(context_values) > 0:
+                return f'{matched_text}, {", ".join(context_values)}'
+
+            return matched_text
+
+        self.get_suggestion_text_from_record = get_suggestion_text_from_record or default_get_suggestion_text
+
+    def get_suggestion_from_record(self, xid, matched_text, *context_values):
         """ return a suggestion dictionary based on a database record
         """
-        if context_values and len(context_values) > 0:
-            match_text = f'{match_text}, {", ".join(context_values)}'
 
-        return self.make_suggestion(xid, match_text)
+        return self.make_suggestion(xid, self.get_suggestion_text_from_record(matched_text, context_values))
 
-    def make_suggestion(self, xid, match_text):
+    def make_suggestion(self, xid, suggestion_text):
         """ return a suggestion dictionary based on the id and match text
         """
-        return {'isCollection': False, 'magicKey': f'{xid}{self.SPLITTER}{self.table_name}', 'text': match_text}
+        return {'isCollection': False, 'magicKey': f'{xid}{self.SPLITTER}{self.table_name}', 'text': suggestion_text}
 
     def get_suggest_query(self, search_text, limit):
         """ create a query that returns records for suggestions
         """
+        if self.search_field_type == TEXT:
+            where = f'{self.search_field} ilike \'{search_text}%\''
+        elif self.search_field_type == NUMERIC:
+            #: will throw ValueError if it's not a string
+            int(search_text)
+            where = f'{self.search_field} = {search_text}'
+        else:
+            raise ValueError(f'Invalid search_field_type: {self.search_field_type}')
+
         return f'''
             select {self.get_out_fields()} from {self.table_name}
-            where {self.search_field} ilike \'{search_text}%\'
+            where {where}
             order by {self.search_field} ASC
             limit {limit}
         '''
@@ -105,7 +133,11 @@ class Table():
     def get_suggestions(self, search_text, max_results):
         """ query for records and return them as suggestion objects
         """
-        records = database.query(self.get_suggest_query(search_text, max_results))
+        try:
+            records = database.query(self.get_suggest_query(search_text, max_results))
+        except ValueError:
+            #: this is probably an invalid search text for a numeric field
+            return []
 
         return [self.get_suggestion_from_record(*record) for record in records]
 
@@ -164,11 +196,12 @@ class AddressPointTable(Table):
     """ overridden to handle some specifics for address points
     """
 
-    # pylint: disable=arguments-differ
-    #: I'm not worries about this because the call to this method unpacks it's arguments
-    def get_suggestion_from_record(self, xid, full_address, address_system, city):
+    def get_suggestion_from_record(self, xid, matched_text, *context_values):
         """ return a suggestion dictionary based on a database record
         """
+        address_system, city = context_values
+        full_address = matched_text
+
         if city is not None:
             zone = city
         else:
@@ -201,12 +234,27 @@ def normalize_prefix_direction(search_text):
     return new_value
 
 
+#: these should be ordered in the order that you want results to show up in
 TABLES = [
-    AddressPointTable('opensgid.location.address_points', FULLADD, POINT, [ADDSYSTEM, CITY]),
+    Table(
+        'opensgid.political.house_districts_2012',
+        'dist',
+        POLYGON,
+        search_field_type=NUMERIC,
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah House District {text}'
+    ),
+    Table(
+        'opensgid.political.senate_districts_2012',
+        'dist',
+        POLYGON,
+        search_field_type=NUMERIC,
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah Senate District {text}'
+    ),
+    AddressPointTable('opensgid.location.address_points', FULLADD, POINT, additional_out_fields=[ADDSYSTEM, CITY]),
     Table('opensgid.boundaries.county_boundaries', 'name', POLYGON),
     Table('opensgid.boundaries.municipal_boundaries', 'name', POLYGON),
-    Table('opensgid.boundaries.zip_code_areas', 'zip5', POLYGON, ['name']),
-    Table('opensgid.location.gnis_place_names', 'name', POINT)
+    Table('opensgid.boundaries.zip_code_areas', 'zip5', POLYGON, additional_out_fields=['name']),
+    Table('opensgid.location.gnis_place_names', 'name', POINT),
 ]
 
 

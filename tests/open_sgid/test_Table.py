@@ -9,7 +9,7 @@ from unittest import mock
 
 from callee import Contains
 
-from masquerade.providers.open_sgid import POINT, POLYGON, Table, normalize_prefix_direction
+from masquerade.providers.open_sgid import NUMERIC, POINT, POLYGON, Table, normalize_prefix_direction
 
 table = Table('table_name', 'name', POLYGON)
 
@@ -23,6 +23,30 @@ def test_get_suggestions(database_mock):
 
     assert len(suggestions) == 2
     database_mock.query.assert_called_with(Contains('ilike \'blah%\''))
+
+
+@mock.patch('masquerade.providers.open_sgid.database')
+def test_get_suggestions_numeric(database_mock):
+    numeric_table = Table('table_name', 'name', POLYGON, search_field_type=NUMERIC)
+    mocked_results = [[1, 'search text'], [2, 'more search text']]
+    database_mock.query.return_value = mocked_results
+
+    suggestions = numeric_table.get_suggestions('31', 10)
+
+    assert len(suggestions) == 2
+    database_mock.query.assert_called_with(Contains('= 31'))
+
+
+@mock.patch('masquerade.providers.open_sgid.database')
+def test_get_suggestions_numeric_with_text_in_query(database_mock):
+    numeric_table = Table('table_name', 'name', POLYGON, search_field_type=NUMERIC)
+    mocked_results = [[1, 'search text'], [2, 'more search text']]
+    database_mock.query.return_value = mocked_results
+
+    suggestions = numeric_table.get_suggestions('31 d', 10)
+
+    assert len(suggestions) == 0
+    database_mock.query.assert_not_called()
 
 
 @mock.patch('masquerade.providers.open_sgid.database')
@@ -79,3 +103,22 @@ def test_address_points_normalizes_first_direction_in_suggestions():
         text = normalize_prefix_direction(input)
 
         assert text == expected
+
+
+@mock.patch('masquerade.providers.open_sgid.database')
+def test_custom_get_suggestion_from_record(database_mock):
+    table = Table(
+        'tablename',
+        'searchfield',
+        POINT,
+        get_suggestion_text_from_record=lambda matched_text, *rest: f'test {matched_text}'
+    )
+
+    mocked_result = [[1, 'match text', 1, 2, 3, 4, 5, 6]]
+
+    database_mock.query.return_value = mocked_result
+
+    candidate = table.get_candidate_from_magic_key(1, 3857)
+
+    assert candidate['text'] == 'test match text'
+    assert candidate['attributes']['Score'] == 100
