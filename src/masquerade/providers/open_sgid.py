@@ -251,7 +251,12 @@ TABLES = [
         get_suggestion_text_from_record=lambda text, *rest: f'Utah Senate District {text}'
     ),
     AddressPointTable('opensgid.location.address_points', FULLADD, POINT, additional_out_fields=[ADDSYSTEM, CITY]),
-    Table('opensgid.boundaries.county_boundaries', 'name', POLYGON),
+    Table(
+        'opensgid.boundaries.county_boundaries',
+        'name',
+        POLYGON,
+        get_suggestion_text_from_record=lambda text, *rest: f'{text.title()} County'
+    ),
     Table('opensgid.boundaries.municipal_boundaries', 'name', POLYGON),
     Table('opensgid.boundaries.zip_code_areas', 'zip5', POLYGON, additional_out_fields=['name']),
     Table('opensgid.location.gnis_place_names', 'name', POINT),
