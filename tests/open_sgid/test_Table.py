@@ -9,9 +9,9 @@ from unittest import mock
 
 from callee import Contains
 
-from masquerade.providers.open_sgid import POINT, POLYGON, AddressPointTable, Table, normalize_prefix_direction
+from masquerade.providers.open_sgid import POINT, POLYGON, Table, normalize_prefix_direction
 
-table = Table('table_name', 'name', [], POLYGON)
+table = Table('table_name', 'name', POLYGON)
 
 
 @mock.patch('masquerade.providers.open_sgid.database')
@@ -44,14 +44,14 @@ def test_get_candidate_from_magic_key(database_mock):
 
 
 def test_get_magic_key_query():
-    point_table = Table('point_table_name', 'name', [], POINT)
+    point_table = Table('point_table_name', 'name', POINT)
 
     point_query = point_table.get_magic_key_query(1, 1234)
 
     #: manually expandes extent
     assert re.search('st_expand', point_query)
 
-    polygon_table = Table('point_table_name', 'name', [], POLYGON)
+    polygon_table = Table('point_table_name', 'name', POLYGON)
 
     polygon_table = polygon_table.get_magic_key_query(1, 1234)
 

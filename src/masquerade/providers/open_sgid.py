@@ -68,11 +68,11 @@ class Table():
     """
     SPLITTER = '-'
 
-    def __init__(self, table_name, search_field, additional_out_fields, geometry_type):
+    def __init__(self, table_name, search_field, geometry_type, additional_out_fields=None):
         self.table_name = table_name
         self.search_field = search_field
-        self.additional_out_fields = additional_out_fields
         self.geometry_type = geometry_type
+        self.additional_out_fields = additional_out_fields or []
 
     def get_suggestion_from_record(self, xid, match_text, context_value=None):
         """ return a suggestion dictionary based on a database record
@@ -202,11 +202,11 @@ def normalize_prefix_direction(search_text):
 
 
 TABLES = [
-    AddressPointTable('opensgid.location.address_points', FULLADD, [ADDSYSTEM, CITY], POINT),
-    Table('opensgid.boundaries.county_boundaries', 'name', [], POLYGON),
-    Table('opensgid.boundaries.municipal_boundaries', 'name', [], POLYGON),
-    Table('opensgid.boundaries.zip_code_areas', 'zip5', ['name'], POLYGON),
-    Table('opensgid.location.gnis_place_names', 'name', [], POINT)
+    AddressPointTable('opensgid.location.address_points', FULLADD, POINT, [ADDSYSTEM, CITY]),
+    Table('opensgid.boundaries.county_boundaries', 'name', POLYGON),
+    Table('opensgid.boundaries.municipal_boundaries', 'name', POLYGON),
+    Table('opensgid.boundaries.zip_code_areas', 'zip5', POLYGON, ['name']),
+    Table('opensgid.location.gnis_place_names', 'name', POINT)
 ]
 
 
