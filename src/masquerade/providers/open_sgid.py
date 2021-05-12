@@ -62,6 +62,16 @@ class DatabaseConnection():
 
         return cursor.fetchall()
 
+    def get_magic_key_record(self, query):
+        """ get record associate with magic key query
+
+        returns a tuple with the record and a list of field names
+        """
+        cursor = self.ensure_open().cursor()
+        cursor.execute(query)
+
+        return (cursor.fetchone(), [desc[0] for desc in cursor.description if desc[0] != 'shape'])
+
 
 database = DatabaseConnection()
 
@@ -161,28 +171,37 @@ class Table():
         '''
 
         return f'''
-            select {f'{self.get_out_fields()}, {shape}'} from {self.table_name}
+            select {f'{self.get_out_fields()}, {shape}, *'} from {self.table_name}
             where {XID} = {xid}
         '''
 
     def get_candidate_from_magic_key(self, xid, out_spatial_reference):
+        # pylint: disable=too-many-locals
         """ returns a candidate dictionary with the data corresponding to the value that matches the xid value
         """
-        record = database.query(self.get_magic_key_query(xid, out_spatial_reference))[0]
-        x_value, y_value, xmax, ymax, xmin, ymin = record[-6:]
+        num_shape_fields = 6
+        num_base_fields = len(self.additional_out_fields) + 2
+        record, fieldnames = database.get_magic_key_record(self.get_magic_key_query(xid, out_spatial_reference))
+        x_value, y_value, xmax, ymax, xmin, ymin = record[num_base_fields:num_base_fields + num_shape_fields]
+        extra_fieldnames = fieldnames[num_base_fields + num_shape_fields:]
+        extra_values = record[num_base_fields + num_shape_fields:]
+
+        match_text = self.get_suggestion_from_record(*record[:num_base_fields])['text']
+        attributes = {
+            'Score': 100,  #: this shows up in the Pro locate results
+            'OpenSGID Table': self.table_name,
+            'Match_addr': match_text,  #: this shows up as "Description" in Pro
+        }
+        attributes.update(dict(zip(extra_fieldnames, extra_values)))
 
         return {
-            'address': self.get_suggestion_from_record(*record[:-6])['text'],
+            'address': match_text,
             'score': 100,
             'location': {
                 'x': x_value,
                 'y': y_value
             },
-            'attributes': {
-                'Score': 100,
-                'X': x_value,
-                'Y': y_value,
-            },
+            'attributes': attributes,
             'extent': {
                 'xmax': xmax,
                 'xmin': xmin,
