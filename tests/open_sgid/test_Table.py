@@ -51,9 +51,11 @@ def test_get_suggestions_numeric_with_text_in_query(database_mock):
 
 @mock.patch('masquerade.providers.open_sgid.database')
 def test_get_candidate_from_magic_key(database_mock):
-    mocked_result = [[1, 'match text', 1, 2, 3, 4, 5, 6]]
+    mocked_result = [1, 'match text', 1, 2, 3, 4, 5, 6, 'value']
 
-    database_mock.query.return_value = mocked_result
+    database_mock.get_magic_key_record.return_value = (
+        mocked_result, ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field']
+    )
 
     candidate = table.get_candidate_from_magic_key(1, 3857)
 
@@ -114,9 +116,11 @@ def test_custom_get_suggestion_from_record(database_mock):
         get_suggestion_text_from_record=lambda matched_text, *rest: f'test {matched_text}'
     )
 
-    mocked_result = [[1, 'match text', 1, 2, 3, 4, 5, 6]]
+    mocked_result = [1, 'match text', 1, 2, 3, 4, 5, 6, 'value']
 
-    database_mock.query.return_value = mocked_result
+    database_mock.get_magic_key_record.return_value = (
+        mocked_result, ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field']
+    )
 
     candidate = table.get_candidate_from_magic_key(1, 3857)
 

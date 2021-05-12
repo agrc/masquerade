@@ -39,6 +39,10 @@ setup(
         'flask-cors==3.0.*',
         'psycopg2-binary==2.8.*',
         'agrc-sweeper==1.1.*',
+
+        #: flask uses this by default if installed
+        #: this handles decimals as returned from open sgid data better than the default json library
+        'simplejson==3.17.*',
     ],
     extras_require={
         'tests': [
