@@ -33,12 +33,12 @@ setup(
     },
     keywords=['gis'],
     install_requires=[
-        'flask-jsonpify==1.5.*',
         'flask==1.1.*',
         'requests==2.24.*',
         'flask-cors==3.0.*',
         'psycopg2-binary==2.8.*',
         'agrc-sweeper==1.1.*',
+        'Flask-JSON==0.3.*',
 
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
