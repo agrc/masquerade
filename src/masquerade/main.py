@@ -9,7 +9,7 @@ import json
 from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
-from flask_jsonpify import jsonify
+from flask_json import FlaskJSON, as_json_p
 
 from .providers import open_sgid, web_api
 
@@ -24,6 +24,7 @@ SERVER_VERSION_PATCH = 1
 DEFAULT_MAX_SUGGESTIONS = 50
 
 app = Flask(__name__)
+FlaskJSON(app)
 CORS(app)
 log = create_logger(app)
 
@@ -38,23 +39,25 @@ def add_common_headers(response):
 
 
 @app.route(f'{BASE_ROUTE}/info')
+@as_json_p
 def info():
     """ base info request
     """
-    return jsonify({
+    return {
         'currentVersion': f'{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}',
         'fullVersion': f'{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}.{SERVER_VERSION_PATCH}',
         'authInfo': {
             'isTokenBasedSecurity': False
         }
-    })
+    }
 
 
 @app.route(GEOCODE_SERVER_ROUTE)
+@as_json_p
 def geocode_base():
     """ base geocode server request
     """
-    return jsonify({
+    return {
         'currentVersion': f'{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}',
         'serviceDescription': 'Utah AGRC Locators wrapped with Masquerade',
         'addressFields': [{
@@ -107,10 +110,11 @@ def geocode_base():
             'WriteXYCoordFields': 'true'
         },
         'capabilities': ','.join(['Geocode', 'ReverseGeocode', 'Suggest'])
-    })
+    }
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/suggest')
+@as_json_p
 def suggest():
     """ provide single-line address suggestions
     """
@@ -118,10 +122,11 @@ def suggest():
     search_text = request.args.get('text')
     max_results = request.args.get('maxSuggestions') or DEFAULT_MAX_SUGGESTIONS
 
-    return jsonify({'suggestions': open_sgid.get_suggestions(search_text, max_results)})
+    return {'suggestions': open_sgid.get_suggestions(search_text, max_results)}
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates')
+@as_json_p
 def find_candidates():
     """ get address candidates from address points (if there is a magic key) or
     agrc geocoding service
@@ -146,13 +151,7 @@ def find_candidates():
         max_locations = request.args.get('maxLocations')
         candidates = web_api.get_address_candidates(single_line_address, out_spatial_reference, max_locations)
 
-    return jsonify({
-        'candidates': candidates,
-        'spatialReference': {
-            'wkid': request_wkid,
-            'latestWkid': out_spatial_reference
-        }
-    })
+    return {'candidates': candidates, 'spatialReference': {'wkid': request_wkid, 'latestWkid': out_spatial_reference}}
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/<path:path>', methods=['HEAD'])
