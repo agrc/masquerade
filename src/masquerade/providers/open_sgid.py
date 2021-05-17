@@ -253,6 +253,23 @@ def normalize_prefix_direction(search_text):
     return new_value
 
 
+class FullTextTable(Table):
+    """ overridden to make a more appropriate search query
+    """
+
+    def get_suggest_query(self, search_text, limit):
+        """ create a query that searches the entire field, not just the beginning
+        """
+        where = f'{self.search_field} ilike \'%{search_text}%\''
+
+        return f'''
+            select {self.get_out_fields()} from {self.table_name}
+            where {where}
+            order by {self.search_field} ASC
+            limit {limit}
+        '''
+
+
 #: these should be ordered in the order that you want results to show up in
 TABLES = [
     Table(
@@ -278,7 +295,7 @@ TABLES = [
     ),
     Table('opensgid.boundaries.municipal_boundaries', 'name', POLYGON),
     Table('opensgid.boundaries.zip_code_areas', 'zip5', POLYGON, additional_out_fields=['name']),
-    Table('opensgid.location.gnis_place_names', 'name', POINT),
+    FullTextTable('opensgid.location.gnis_place_names', 'name', POINT),
 ]
 
 
