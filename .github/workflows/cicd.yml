@@ -63,7 +63,6 @@ jobs:
           docker build \
             -t "$IMAGE:$GITHUB_SHA" \
             -t "$IMAGE:latest" \
-            --build-arg WEB_API_KEY:${{ secrets.WEB_API_KEY }} \
             .
 
       - name: Publish Image
@@ -76,7 +75,8 @@ jobs:
             --quiet \
             --platform "managed" \
             --region "us-central1" \
-            --image "$IMAGE:latest"
+            --image "$IMAGE:latest" \
+            --set-env-vars WEB_API_KEY=${{ secrets.WEB_API_KEY }}
 
   deploy-prod:
     name: Deploy to Production
@@ -108,7 +108,6 @@ jobs:
           docker build \
             -t "$IMAGE:$GITHUB_SHA" \
             -t "$IMAGE:latest" \
-            --build-arg WEB_API_KEY:${{ secrets.WEB_API_KEY }} \
             .
 
       - name: Publish Image
@@ -121,4 +120,5 @@ jobs:
             --quiet \
             --platform "managed" \
             --region "us-central1" \
-            --image "$IMAGE:latest"
+            --image "$IMAGE:latest" \
+            --set-env-vars WEB_API_KEY=${{ secrets.WEB_API_KEY }}
