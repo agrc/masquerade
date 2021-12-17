@@ -7,7 +7,7 @@ import re
 
 from pytest import raises
 
-from masquerade.providers.web_api import WEB_API_URL, etl_candidate, get_address_candidates
+from masquerade.providers.web_api import WEB_API_URL, etl_candidate, get_candidates_from_single_line
 
 
 def test_etl_candidate():
@@ -120,7 +120,7 @@ def test_get_address_candidate(requests_mock):
     }
 
     requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json=mock_response)
-    candidates = get_address_candidates('123 s main, 84115', 3857, 5)
+    candidates = get_candidates_from_single_line('123 s main, 84115', 3857, 5)
 
     assert len(candidates) == 5
 
@@ -189,7 +189,7 @@ def test_get_address_candidate_perfect_match(requests_mock):
     }
 
     requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json=mock_response)
-    candidates = get_address_candidates('123 s main st, 84115', 3857, 5)
+    candidates = get_candidates_from_single_line('123 s main st, 84115', 3857, 5)
 
     assert len(candidates) == 1
     assert candidates[0]['score'] == 100
@@ -199,12 +199,12 @@ def test_get_address_candidates_raises(requests_mock):
     requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json={}, status_code=500)
 
     with raises(Exception):
-        get_address_candidates('123 s main street, 84114', 3857, 5)
+        get_candidates_from_single_line('123 s main street, 84114', 3857, 5)
 
 
 def test_get_address_candidates_bad_address(requests_mock):
     requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json={}, status_code=500)
 
-    candidates = get_address_candidates('bad address', 3857, 5)
+    candidates = get_candidates_from_single_line('bad address', 3857, 5)
 
     assert len(candidates) == 0
