@@ -7,7 +7,9 @@ import re
 
 from pytest import raises
 
-from masquerade.providers.web_api import WEB_API_URL, etl_candidate, get_candidates_from_single_line
+from masquerade.providers.web_api import (
+    WEB_API_URL, etl_candidate, get_candidate_from_parts, get_candidates_from_single_line
+)
 
 
 def test_etl_candidate():
@@ -193,6 +195,52 @@ def test_get_address_candidate_perfect_match(requests_mock):
 
     assert len(candidates) == 1
     assert candidates[0]['score'] == 100
+
+
+def test_get_address_candidate_single_result_for_batch(requests_mock):
+    mock_response = {
+        'result': {
+            'location': {
+                'x': -12455627.277556794,
+                'y': 4977968.997941715
+            },
+            'score': 80,
+            'locator': 'AddressPoints.AddressGrid',
+            'matchAddress': '123 S MAIN ST, SALT LAKE CITY',
+            'inputAddress': '123 s main st, 84115',
+            'standardizedAddress': '123 south main street',
+            'addressGrid': 'SALT LAKE CITY'
+        },
+        'status': 200
+    }
+
+    requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json=mock_response)
+    candidate = get_candidate_from_parts('123 s main st', '84115', 3857)
+
+    assert candidate['score'] == 80
+
+
+def test_get_address_candidate_no_candidates(requests_mock):
+    mock_response = {
+        'result': {
+            'location': {
+                'x': -12455627.277556794,
+                'y': 4977968.997941715
+            },
+            'score': 0,
+            'locator': 'AddressPoints.AddressGrid',
+            'matchAddress': '123 S MAIN ST, SALT LAKE CITY',
+            'inputAddress': '123 s main st, 84115',
+            'standardizedAddress': '123 south main street',
+            'addressGrid': 'SALT LAKE CITY'
+        },
+        'status': 200
+    }
+
+    requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json=mock_response)
+    candidate = get_candidate_from_parts('123 s main st', '84115', 3857)
+
+    assert candidate is None
 
 
 def test_get_address_candidates_raises(requests_mock):

@@ -111,13 +111,13 @@ def make_request(address, zone, out_spatial_reference, max_locations):
             return []
 
         if 'score' in result:
-            #: this is an individual result
-            if result['score'] >= MIN_SCORE_FOR_BATCH:
+            if result['score'] == 100 or max_locations == 1 and result['score'] >= MIN_SCORE_FOR_BATCH:
                 return [etl_candidate(result)]
 
-            return []
+        if 'candidates' in result:
+            return [etl_candidate(candidate) for candidate in result['candidates']]
 
-        return [etl_candidate(candidate) for candidate in result['candidates']]
+        return []
 
     response.raise_for_status()
 
