@@ -63,6 +63,7 @@ jobs:
           docker build \
             -t "$IMAGE:$GITHUB_SHA" \
             -t "$IMAGE:latest" \
+            --build-arg WEB_API_KEY:${{ secrets.WEB_API_KEY }} \
             .
 
       - name: Publish Image
@@ -107,6 +108,7 @@ jobs:
           docker build \
             -t "$IMAGE:$GITHUB_SHA" \
             -t "$IMAGE:latest" \
+            --build-arg WEB_API_KEY:${{ secrets.WEB_API_KEY }} \
             .
 
       - name: Publish Image
