@@ -5,12 +5,15 @@ The main flask app
 """
 
 import json
+import random
+import time
 
 from dotenv import load_dotenv
 from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
+from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
 
@@ -18,6 +21,7 @@ load_dotenv()
 
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'
+ADMIN_BASE_ROUTE = '/arcgis/admin'
 WGS84 = 4326
 WEB_MERCATOR = 3857
 OLD_WEB_MERCATOR = 102100
@@ -25,6 +29,8 @@ SERVER_VERSION_MAJOR = 10
 SERVER_VERSION_MINOR = 8
 SERVER_VERSION_PATCH = 1
 DEFAULT_MAX_SUGGESTIONS = 50
+RATE_LIMIT_SECONDS = (0.015, 0.03)
+BATCH_SIZE = 25
 
 app = Flask(__name__)
 FlaskJSON(app)
@@ -56,32 +62,87 @@ def info():
 
 
 @app.route(GEOCODE_SERVER_ROUTE)
+@app.route(f'{GEOCODE_SERVER_ROUTE}/Masquerade')
 @as_json_p
 def geocode_base():
     """ base geocode server request
     """
     return {
-        'currentVersion': f'{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}',
-        'serviceDescription': 'Utah AGRC Locators wrapped with Masquerade',
         'addressFields': [{
             'name': 'Address',
             'type': 'esriFieldTypeString',
             'alias': 'Street Address',
             'required': False,
-            'length': 100
+            'length': 100,
         }, {
             'name': 'City',
             'type': 'esriFieldTypeString',
             'alias': 'City',
             'required': False,
-            'length': 50
+            'length': 50,
         }, {
             'name': 'Zip',
             'type': 'esriFieldTypeString',
             'alias': 'Zip',
             'required': False,
-            'length': 10
+            'length': 10,
         }],
+        'candidateFields': [{
+            'name': 'matchAddress',
+            'type': 'esriFieldTypeString',
+            'alias': 'Match Address',
+            'required': False,
+            'length': 160,
+        }, {
+            'name': 'score',
+            'type': 'esriFieldTypeDouble',
+            'alias': 'Score',
+            'required': True,
+        }, {
+            'name': 'standardizedAddress',
+            'type': 'esriFieldTypeString',
+            'alias': 'Standardized Address',
+            'required': False,
+            'length': 160,
+        }, {
+            'name': 'locator',
+            'type': 'esriFieldTypeString',
+            'alias': 'Locator',
+            'required': False,
+            'length': 32,
+        }, {
+            'name': 'addressGrid',
+            'type': 'esriFieldTypeString',
+            'alias': 'Address Grid',
+            'required': False,
+            'length': 32,
+        }, {
+            'name': 'Shape',
+            'type': 'esriFieldTypeGeometry',
+            'alias': 'Shape',
+            'required': True,
+        }],
+        'capabilities': ','.join(['Geocode', 'ReverseGeocode', 'Suggest']),
+        'countries': ['US'],
+        'currentVersion': f'{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}',
+        'locatorProperties': {
+            'EndOffset': '0',
+            'LoadBalancerTimeOut': 60,
+            'MatchIfScoresTie': 'true',
+            'MaxBatchSize': BATCH_SIZE,
+            'MinimumCandidateScore': '60',
+            'MinimumMatchScore': '60',
+            'SideOffset': '0',
+            'SideOffsetUnits': 'ReferenceDataUnits',
+            'SpellingSensitivity': '80',
+            'SuggestedBatchSize': BATCH_SIZE,
+            'UICLSID': '{590C03A8-75C5-439D-84EE-726D235538DD}',
+            'WritePercentAlongField': 'false',
+            'WriteReferenceIDField': 'false',
+            'WriteStandardizedAddressField': 'false',
+            'WriteXYCoordFields': 'true'
+        },
+        'serviceDescription': 'Utah AGRC Locators wrapped with Masquerade',
         #: this was the key to WAB Search widget validation...
         'singleLineAddressField': {
             'name': 'Single Line Input',
@@ -90,30 +151,20 @@ def geocode_base():
             'required': False,
             'length': 150
         },
-        'candidateFields': [],
         'spatialReference': {
             'wkid': WGS84,
             'latestWkid': WGS84
         },
-        'locatorProperties': {
-            'EndOffset': '0',
-            'LoadBalancerTimeOut': 60,
-            'MatchIfScoresTie': 'true',
-            'MaxBatchSize': 100,
-            'MinimumCandidateScore': '60',
-            'MinimumMatchScore': '60',
-            'SideOffset': '0',
-            'SideOffsetUnits': 'ReferenceDataUnits',
-            'SpellingSensitivity': '80',
-            'SuggestedBatchSize': 50,
-            'UICLSID': '{590C03A8-75C5-439D-84EE-726D235538DD}',
-            'WritePercentAlongField': 'false',
-            'WriteReferenceIDField': 'false',
-            'WriteStandardizedAddressField': 'false',
-            'WriteXYCoordFields': 'true'
-        },
-        'capabilities': ','.join(['Geocode', 'ReverseGeocode', 'Suggest'])
     }
+
+
+@app.route(f'{ADMIN_BASE_ROUTE}/<path:path>.MapServer')
+def geocode_map_server(path):
+    """ return 403 just like world geocoder
+
+    maybe this just let's Pro know that there is no map server for this service
+    """
+    return f'no map server available for this service: {path}', 403
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/suggest')
@@ -137,14 +188,7 @@ def find_candidates():
 
     magic_key = request.args.get('magicKey')
 
-    out_sr_param_name = 'outSR'
-    if out_sr_param_name in request.args:
-        request_wkid = json.loads(request.args.get(out_sr_param_name))['wkid']
-    else:
-        request_wkid = WGS84
-
-    #: switch out old mercator for new one otherwise, pass it through
-    out_spatial_reference = WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid
+    request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
     if magic_key is not None:
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
@@ -152,9 +196,76 @@ def find_candidates():
     else:
         single_line_address = request.args.get('Single Line Input')
         max_locations = request.args.get('maxLocations')
-        candidates = web_api.get_address_candidates(single_line_address, out_spatial_reference, max_locations)
+        candidates = web_api.get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations)
 
-    return {'candidates': candidates, 'spatialReference': {'wkid': request_wkid, 'latestWkid': out_spatial_reference}}
+    return {
+        'candidates': candidates,
+        'spatialReference': {
+            'wkid': request_wkid,
+            'latestWkid': out_spatial_reference,
+        },
+    }
+
+
+def get_out_spatial_reference(incoming_request):
+    """ get the desired output spatial reference from the request
+    """
+    out_sr_param_name = 'outSR'
+    if out_sr_param_name in incoming_request.args:
+        request_wkid = json.loads(incoming_request.args.get(out_sr_param_name))['wkid']
+    else:
+        request_wkid = WGS84
+
+    #: switch out old mercator for new one otherwise, pass it through
+    return (request_wkid, WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid)
+
+
+@app.route(f'{GEOCODE_SERVER_ROUTE}/geocodeAddresses', methods=['GET', 'POST'])
+@as_json_p
+def geocode_addresses():
+    """ geocode a batch of addresses
+    """
+
+    request_wkid, out_spatial_reference = get_out_spatial_reference(request)
+
+    addresses = json.loads(request.form['addresses'])
+
+    locations = []
+
+    for address in addresses['records']:
+        time.sleep(random.uniform(*RATE_LIMIT_SECONDS))
+        no_match = {
+            'address': None,
+            'attributes': {
+                'ResultID': address['attributes']['OBJECTID'],
+                'Status': 'U',
+            }
+        }
+
+        try:
+            zone = address['attributes']['Zip']
+        except KeyError:
+            zone = address['attributes']['City']
+
+        try:
+            candidate = web_api.get_candidate_from_parts(address['attributes']['Address'], zone, out_spatial_reference)
+
+            if candidate is None:
+                candidate = no_match
+            else:
+                candidate['attributes']['ResultID'] = address['attributes']['OBJECTID']
+        except HTTPError:
+            candidate = no_match
+
+        locations.append(candidate)
+
+    return {
+        'locations': locations,
+        'spatialReference': {
+            'wkid': request_wkid,
+            'latestWkid': out_spatial_reference,
+        },
+    }
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/<path:path>', methods=['HEAD'])
