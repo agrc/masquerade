@@ -131,7 +131,6 @@ def get_candidate_from_parts(address, zone, out_spatial_reference):
     candidates = make_request(address, zone, out_spatial_reference, 1)
 
     if len(candidates) > 0:
-        #: TODO handle tied address candidates
         return candidates[0]
 
     return None
