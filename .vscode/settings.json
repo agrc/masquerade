@@ -8,11 +8,9 @@
   "python.formatting.yapfArgs": ["--style", "${workspaceRoot}/setup.cfg"],
   "cSpell.words": [
     "AGRC",
-    "GUNNISON",
-    "Referer",
-    "UICLSID",
     "atch",
     "codecov",
+    "dotenv",
     "getenv",
     "gnis",
     "ilike",

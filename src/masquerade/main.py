@@ -6,12 +6,15 @@ The main flask app
 
 import json
 
+from dotenv import load_dotenv
 from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
 
 from .providers import open_sgid, web_api
+
+load_dotenv()
 
 BASE_ROUTE = '/arcgis/rest'
 GEOCODE_SERVER_ROUTE = f'{BASE_ROUTE}/services/UtahLocator/GeocodeServer'

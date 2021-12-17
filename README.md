@@ -18,8 +18,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 1. create new python environment: `python -m venv venv`
 1. activate new environment: `source venv/bin/activate` (On Windows: `.env\Scripts\activate`)
 1. install dependencies and editable project: `pip install -e ".[tests]"`
-1. create `.apikey` and populate it with the Web API key for this project.
-   - Use type: `browser` and referer: `masquerade.agrc.utah.gov`
+1. create `.env` (using `.env.sample` as a template) and populate this `WEB_API_KEY` variable with a newly created api key. Use type: `browser` and referer: `masquerade.agrc.utah.gov`.
 
 #### MacOS
 
