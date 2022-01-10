@@ -135,7 +135,7 @@ class Table():
             int(search_text)
             where = f'{self.search_field} = {search_text}'
         else:
-            raise ValueError(f'Invalid search_field_type: {self.search_field_type}')
+            raise Exception(f'Invalid search_field_type: {self.search_field_type}')
 
         return f'''
             select {self.get_out_fields()} from {self.table_name}
