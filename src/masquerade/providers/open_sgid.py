@@ -282,18 +282,32 @@ class FullTextTable(Table):
 #: these should be ordered in the order that you want results to show up in
 TABLES = [
     Table(
-        'opensgid.political.house_districts_2012',
+        'opensgid.political.house_districts_2022_to_2032',
         'dist',
         POLYGON,
         search_field_type=NUMERIC,
-        get_suggestion_text_from_record=lambda text, *rest: f'Utah House District {text}'
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah House District {text}',
     ),
     Table(
-        'opensgid.political.senate_districts_2012',
+        'opensgid.political.school_board_districts_2022_to_2032',
         'dist',
         POLYGON,
         search_field_type=NUMERIC,
-        get_suggestion_text_from_record=lambda text, *rest: f'Utah Senate District {text}'
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah School Board District {text}',
+    ),
+    Table(
+        'opensgid.political.senate_districts_2022_to_2032',
+        'dist',
+        POLYGON,
+        search_field_type=NUMERIC,
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah Senate District {text}',
+    ),
+    Table(
+        'opensgid.political.us_congress_districts_2022_to_2032',
+        'district',
+        POLYGON,
+        search_field_type=NUMERIC,
+        get_suggestion_text_from_record=lambda text, *rest: f'Utah U.S. Congressional District {text}',
     ),
     AddressPointTable('opensgid.location.address_points', FULLADD, POINT, additional_out_fields=[ADDSYSTEM, CITY]),
     Table(
