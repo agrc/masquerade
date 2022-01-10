@@ -11,6 +11,8 @@ DATABASE = 'opensgid'
 AGRC = 'agrc'
 HOST = 'opensgid.agrc.utah.gov'
 SPLITTER = '-'
+
+#: geometry types
 POINT = 'point'
 POLYGON = 'polygon'
 
@@ -21,6 +23,7 @@ ADDSYSTEM = 'addsystem'
 CITY = 'city'
 NAME = 'name'
 
+#: search field types
 TEXT = 'text'
 NUMERIC = 'numeric'
 
@@ -93,7 +96,13 @@ class Table():
     ):
         self.table_name = table_name
         self.search_field = search_field
+
+        if geometry_type not in [POINT, POLYGON]:
+            raise Exception(f'Invalid geometry_type: {geometry_type}')
         self.geometry_type = geometry_type
+
+        if search_field_type not in [TEXT, NUMERIC]:
+            raise Exception(f'Invalid search_field_type: {search_field_type}')
         self.search_field_type = search_field_type
         self.additional_out_fields = additional_out_fields or []
 
