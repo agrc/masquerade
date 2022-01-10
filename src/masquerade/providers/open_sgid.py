@@ -92,7 +92,8 @@ class Table():
         geometry_type,
         search_field_type=TEXT,
         additional_out_fields=None,
-        get_suggestion_text_from_record=None
+        get_suggestion_text_from_record=None,
+        search_key=None
     ):
         self.table_name = table_name
         self.search_field = search_field
@@ -113,6 +114,7 @@ class Table():
             return matched_text
 
         self.get_suggestion_text_from_record = get_suggestion_text_from_record or default_get_suggestion_text
+        self.search_key = search_key
 
     def get_suggestion_from_record(self, xid, matched_text, *context_values):
         """ return a suggestion dictionary based on a database record
@@ -128,14 +130,19 @@ class Table():
     def get_suggest_query(self, search_text, limit):
         """ create a query that returns records for suggestions
         """
+
+        #: check for match with search key e.g. '1 hou' or '1 house'
+        if self.search_key is not None:
+            parts = search_text.split(' ')
+            if len(parts) == 2 and parts[1] in self.search_key:
+                search_text = parts[0]
+
         if self.search_field_type == TEXT:
             where = f'{self.search_field} ilike \'{search_text}%\''
-        elif self.search_field_type == NUMERIC:
+        else:  #: NUMERIC
             #: will throw ValueError if it's not a string
             int(search_text)
             where = f'{self.search_field} = {search_text}'
-        else:
-            raise Exception(f'Invalid search_field_type: {self.search_field_type}')
 
         return f'''
             select {self.get_out_fields()} from {self.table_name}
@@ -287,6 +294,7 @@ TABLES = [
         POLYGON,
         search_field_type=NUMERIC,
         get_suggestion_text_from_record=lambda text, *rest: f'Utah House District {text}',
+        search_key='utah house district',
     ),
     Table(
         'opensgid.political.school_board_districts_2022_to_2032',
@@ -294,6 +302,7 @@ TABLES = [
         POLYGON,
         search_field_type=NUMERIC,
         get_suggestion_text_from_record=lambda text, *rest: f'Utah School Board District {text}',
+        search_key='utah school board district',
     ),
     Table(
         'opensgid.political.senate_districts_2022_to_2032',
@@ -301,6 +310,7 @@ TABLES = [
         POLYGON,
         search_field_type=NUMERIC,
         get_suggestion_text_from_record=lambda text, *rest: f'Utah Senate District {text}',
+        search_key='utah senate district',
     ),
     Table(
         'opensgid.political.us_congress_districts_2022_to_2032',
@@ -308,6 +318,7 @@ TABLES = [
         POLYGON,
         search_field_type=NUMERIC,
         get_suggestion_text_from_record=lambda text, *rest: f'Utah U.S. Congressional District {text}',
+        search_key='utah us congress district'
     ),
     AddressPointTable('opensgid.location.address_points', FULLADD, POINT, additional_out_fields=[ADDSYSTEM, CITY]),
     Table(
