@@ -8,10 +8,45 @@ import re
 from unittest import mock
 
 from callee import Contains
+from pytest import raises
 
 from masquerade.providers.open_sgid import NUMERIC, POINT, POLYGON, Table, normalize_prefix_direction
 
 table = Table('table_name', 'name', POLYGON)
+
+
+def test_get_suggest_query_text():
+    text_table = Table('text_table_name', 'name', POINT)
+
+    text_query = text_table.get_suggest_query('match text', 1)
+
+    assert '\'match text%\'' in text_query
+
+
+def test_get_suggest_query_number():
+    text_table = Table('text_table_name', 'name', POINT, NUMERIC)
+
+    text_query = text_table.get_suggest_query('9', 1)
+
+    assert 'name = 9' in text_query
+
+    with raises(ValueError):
+        text_table.get_suggest_query('text', 1)
+
+
+def test_get_suggest_query_search_key():
+    table = Table('table_name', 'name', POLYGON, search_field_type=NUMERIC, search_key='search_key')
+
+    query = table.get_suggest_query('1 search_key', 1)
+
+    assert 'name = 1' in query
+
+    partial_query = table.get_suggest_query('1 sear', 1)
+
+    assert 'name = 1' in partial_query
+
+    with raises(ValueError):
+        table.get_suggest_query('1 blah', 1)
 
 
 @mock.patch('masquerade.providers.open_sgid.database')
