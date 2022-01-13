@@ -88,7 +88,7 @@ jobs:
           service: ${{ env.SERVICE_NAME }}
           image: gcr.io/${{ secrets.PROJECT_ID }}/${{ env.IMAGE }}:latest
           region: ${{ env.REGION }}
-          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
+          env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
 
   deploy-prod:
     name: Deploy to Production
@@ -144,4 +144,4 @@ jobs:
           service: ${{ env.SERVICE_NAME }}
           image: gcr.io/${{ secrets.PROJECT_ID }}/${{ env.IMAGE }}:latest
           region: ${{ env.REGION }}
-          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
+          env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
