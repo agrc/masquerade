@@ -86,7 +86,7 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v0.7.0
         with:
           service: ${{ env.SERVICE_NAME }}
-          image: gcr.io/${{ secrets.PROJECT_ID }}/${{ env.IMAGE }}:latest
+          image: ${{ env.IMAGE }}:latest
           region: ${{ env.REGION }}
           env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
 
@@ -142,6 +142,6 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v0.7.0
         with:
           service: ${{ env.SERVICE_NAME }}
-          image: gcr.io/${{ secrets.PROJECT_ID }}/${{ env.IMAGE }}:latest
+          image: ${{ env.IMAGE }}:latest
           region: ${{ env.REGION }}
           env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
