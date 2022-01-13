@@ -7,6 +7,7 @@
   "python.formatting.yapfPath": "yapf",
   "python.formatting.yapfArgs": ["--style", "${workspaceRoot}/setup.cfg"],
   "cSpell.words": [
+    "oauth2accesstoken",
     "AGRC",
     "atch",
     "codecov",
