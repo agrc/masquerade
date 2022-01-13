@@ -40,26 +40,16 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 
 #### CI/CD
 
-1. enable required GCP apis
-
-   - `gcloud services enable run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com`
-
-1. create a service account with the following privileges and create a key.
-
-   - Cloud Build Service Account
-   - Cloud Build Editor
-   - Service Account User
-   - Cloud Run Admin
-   - Viewer
-
-1. create secrets in github
-
-   - `RUN_PROJECT_ID_PROD` - the project id to deploy conductor to
-   - `RUN_SA_KEY_PROD` - the service account key data
-     - Must be [encoded as a Base64 string](https://github.com/GoogleCloudPlatform/github-actions/tree/master/setup-gcloud#inputs) (`cat my-key.json | base64`).
-   - `RUN_PROJECT_ID_STAGING` - same as prod version
-   - `RUN_SA_KEY_STAGING` - same as prod version
+1. Run [the terraform code associated with this project](https://github.com/agrc/gcp-terraform/tree/main/masquerade).
+1. Create `dev` and `prod` environments in GitHub repo.
+1. Create repo-wide secrets:
    - `WEB_API_KEY`
+   - `CODECOV_TOKEN`
+
+1. create secrets in github for each environment
+
+   - `PROJECT_ID`
+   - Secrets contained in `github-actions-secrets-[prod/dev].txt` (output from terraform)
 
 ### Tests
 
