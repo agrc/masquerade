@@ -66,3 +66,7 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 ### Deployment to GCP
 
 When changes are pushed to either the `main` (production) or `staging` branches, the project is automatically built and deployed to the appropriate GCP project (pending passing tests).
+
+## Analytics
+
+[Data Studio](https://datastudio.google.com/s/pUR8vYLVHvs)
