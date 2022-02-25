@@ -23,9 +23,10 @@ A proxy service that creates an Esri locator from AGRC data and web services.
 #### MacOS
 
 1. install [mkcert](https://github.com/FiloSottile/mkcert) `brew install mkcert`
-1. run `mkcert -install`
 1. create locally-trusted cert (from root): `mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1 10.211.55.2`
    - `10.211.55.2` is the default ip for the Parallels host machine
+1. install the mkcert CA on your local machine
+   - `mkcert -install`
 1. install the mkcert CA on another VM
    - copy `rootCA.pem` and `rootCA-key.pem` from the directory that is the output of `mkcert -CAROOT`
    - paste these files into a file on the VM
