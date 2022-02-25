@@ -28,9 +28,11 @@ def get_candidates_from_single_line(single_line_address, out_spatial_reference, 
     except Exception:
         return []
 
-    return make_request(
-        parsed_address.normalized, parsed_address.zip_code or parsed_address.city, out_spatial_reference, max_locations
-    )
+    zone = parsed_address.zip_code or parsed_address.city
+    if not zone or not parsed_address.normalized:
+        return []
+
+    return make_request(parsed_address.normalized, zone, out_spatial_reference, max_locations)
 
 
 ALLOWABLE_CHARS = re.compile('[^a-zA-Z0-9]')
