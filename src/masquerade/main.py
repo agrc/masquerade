@@ -242,10 +242,15 @@ def geocode_addresses():
             }
         }
 
+        #: prefer zip over city and return no match if neither is passed
         try:
             zone = address['attributes']['Zip']
         except KeyError:
-            zone = address['attributes']['City']
+            try:
+                zone = address['attributes']['City']
+            except KeyError:
+                locations.append(no_match)
+                continue
 
         try:
             candidate = web_api.get_candidate_from_parts(address['attributes']['Address'], zone, out_spatial_reference)
