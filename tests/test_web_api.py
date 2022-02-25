@@ -256,3 +256,7 @@ def test_get_address_candidates_bad_address(requests_mock):
     candidates = get_candidates_from_single_line('bad address', 3857, 5)
 
     assert len(candidates) == 0
+
+    candidates = get_candidates_from_single_line('0101300036', 3857, 5)
+
+    assert len(candidates) == 0
