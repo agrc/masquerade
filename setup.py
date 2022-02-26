@@ -33,13 +33,13 @@ setup(
     },
     keywords=['gis'],
     install_requires=[
-        'agrc-sweeper==1.1.*',
+        'agrc-sweeper==1.2.*',
         'flask-cors==3.0.*',
         'Flask-JSON==0.3.*',
-        'flask==1.1.*',
-        'psycopg2-binary==2.8.*',
+        'flask==2.0.*',
+        'psycopg2-binary==2.9.*',
         'python-dotenv==0.19.*',
-        'requests==2.24.*',
+        'requests==2.27.*',
 
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
@@ -49,15 +49,15 @@ setup(
         'tests': [
             'callee==0.3.*',
             'pylint-quotes==0.2.*',
-            'pylint==2.5.*',
-            'pytest-cov==2.9.*',
+            'pylint==2.12.*',
+            'pytest-cov==3.0.*',
             'pytest-instafail==0.4.*',
-            'pytest-isort==1.2.*',
-            'pytest-pylint==0.17.*',
+            'pytest-isort==3.0.*',
+            'pytest-pylint==0.18.*',
             'pytest-watch==4.2.*',
-            'pytest==5.4.*',
-            'requests-mock==1.8.*',
-            'yapf==0.30.*',
+            'pytest==7.0.*',
+            'requests-mock==1.9.*',
+            'yapf==0.32.*',
         ]
     },
     setup_requires=[
