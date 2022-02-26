@@ -3,7 +3,7 @@ name: Test and Deploy
 on: [push, pull_request]
 
 env:
-  python-version: 3.8
+  python-version: 3.9
   SERVICE_NAME: masquerade
   IMAGE: gcr.io/${{ secrets.PROJECT_ID }}/masquerade
   REGION: us-central1
