@@ -5,7 +5,10 @@
   "python.linting.pycodestyleEnabled": false,
   "python.formatting.provider": "yapf",
   "python.formatting.yapfPath": "yapf",
-  "python.formatting.yapfArgs": ["--style", "${workspaceRoot}/setup.cfg"],
+  "python.formatting.yapfArgs": [
+    "--style",
+    "${workspaceRoot}/setup.cfg"
+  ],
   "cSpell.words": [
     "AGRC",
     "atch",
@@ -13,9 +16,12 @@
     "choco",
     "codecov",
     "dotenv",
+    "geocoder",
+    "geosearch",
     "getenv",
     "gnis",
     "GUNNISON",
+    "Holladay",
     "ilike",
     "instafail",
     "isort",
@@ -24,6 +30,7 @@
     "mkcert",
     "nort",
     "oauth2accesstoken",
+    "opensgid",
     "psycopg",
     "pylint",
     "pytest",
@@ -35,7 +42,9 @@
     "ython"
   ],
   "editor.formatOnSave": true,
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
   "files.insertFinalNewline": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
@@ -43,5 +52,7 @@
   "python.testing.unittestEnabled": false,
   "python.testing.nosetestsEnabled": false,
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": ["tests"]
+  "python.testing.pytestArgs": [
+    "tests"
+  ]
 }
