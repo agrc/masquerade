@@ -287,6 +287,7 @@ class FullTextTable(Table):
 
 
 #: these should be ordered in the order that you want results to show up in
+#: NOTE: don't forget to keep the README up-to-date with this code
 TABLES = [
     Table(
         'opensgid.political.house_districts_2022_to_2032',
