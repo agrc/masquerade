@@ -42,6 +42,8 @@ Reverse Geocode has not been implemented. [Let us know](https://github.com/agrc/
 
 ### ArcGIS Pro
 
+#### Locate Pane
+
 If you are looking for a way to quickly navigate your map to Utah addresses or points of interest within ArcGIS Pro, Masquerade can help. By adding [UGRC's "Utah Locator (Masquerade)"](https://utah.maps.arcgis.com/home/item.html?id=f19e6205b9bd49e8a39ed51ddd58164a) (hosted in ArcGIS Online) [to your project](https://pro.arcgis.com/en/pro-app/latest/help/data/geocoding/add-locators-to-a-project.htm) it becomes available to use within the [Locate pane](https://pro.arcgis.com/en/pro-app/latest/help/data/geocoding/find-places-on-the-map.htm). To accomplish this, follow these steps:
 
 1. Add the locator to your project by right-clicking in the "Locators" folder and selecting "Add Locator"
@@ -61,6 +63,8 @@ You should see typeahead suggestions from all of the [Open SGID](https://gis.uta
 ![place names](./screenshots/place-names.png)
 
 ![political districts](./screenshots/political-districts.png)
+
+#### Batch Geocoding
 
 Once Masquerade has been added as a locator to your project, you can also use it as an input address locator with the [Geocode Addresses geoprocessing tool](https://pro.arcgis.com/en/pro-app/latest/tool-reference/geocoding/geocode-addresses.htm) for batch geocoding of address data. This makes Masquerade an easier alternative to the [Geocoding Toolbox](https://github.com/agrc/geocoding-toolbox).
 
