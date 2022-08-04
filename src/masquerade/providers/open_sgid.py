@@ -54,6 +54,7 @@ class DatabaseConnection():
         #: closed == 0 means it is open, anything else, it's closed
         if not hasattr(self, 'connection') or self.connection.closed != 0:
             self.connection = psycopg2.connect(database=DATABASE, user=AGRC, password=AGRC, host=HOST)
+            self.connection.set_session(readonly=True, autocommit=True)
 
         return self.connection
 
