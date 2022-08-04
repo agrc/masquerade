@@ -61,20 +61,20 @@ class DatabaseConnection():
     def query(self, query):
         """ get records from the database
         """
-        cursor = self.ensure_open().cursor()
-        cursor.execute(query)
+        with self.ensure_open().cursor() as cursor:
+            cursor.execute(query)
 
-        return cursor.fetchall()
+            return cursor.fetchall()
 
     def get_magic_key_record(self, query):
         """ get record associate with magic key query
 
         returns a tuple with the record and a list of field names
         """
-        cursor = self.ensure_open().cursor()
-        cursor.execute(query)
+        with self.ensure_open().cursor() as cursor:
+            cursor.execute(query)
 
-        return (cursor.fetchone(), [desc[0] for desc in cursor.description if desc[0] != 'shape'])
+            return (cursor.fetchone(), [desc[0] for desc in cursor.description if desc[0] != 'shape'])
 
 
 database = DatabaseConnection()
