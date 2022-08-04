@@ -13,11 +13,13 @@ from masquerade.providers.open_sgid import DatabaseConnection
 @mock.patch('masquerade.providers.open_sgid.psycopg2')
 def test_query(psycopg_mock):
     expected_data = ['blah']
-    Cursor = namedtuple('Cursor', ['execute', 'fetchall'])
-    cursor_mock = Cursor(lambda _: None, lambda: expected_data)
-    Connection = namedtuple('Connection', ['cursor', 'closed'])
-    open_connection = Connection(lambda: cursor_mock, 0)
-    closed_connection = Connection(lambda: cursor_mock, 1)
+    open_connection = mock.MagicMock()
+    open_connection.closed = 0
+    with open_connection.cursor() as cursor_mock:
+        cursor_mock.fetchall.return_value = expected_data
+
+    closed_connection = mock.MagicMock()
+    closed_connection.closed = 1
     psycopg_mock.connect.side_effect = [open_connection, closed_connection]
 
     database = DatabaseConnection()
@@ -32,14 +34,15 @@ def test_query(psycopg_mock):
 @mock.patch('masquerade.providers.open_sgid.psycopg2')
 def test_get_magic_key_record(psycopg_mock):
     expected_data = ['blah']
-    Cursor = namedtuple('Cursor', ['execute', 'fetchone', 'description'])
-    cursor_mock = Cursor(
-        lambda _: None, lambda: expected_data,
-        ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field', 'shape']
-    )
-    Connection = namedtuple('Connection', ['cursor', 'closed'])
-    open_connection = Connection(lambda: cursor_mock, 0)
-    closed_connection = Connection(lambda: cursor_mock, 1)
+    description = ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field', 'shape']
+    open_connection = mock.MagicMock()
+    open_connection.closed = 0
+    with open_connection.cursor() as cursor_mock:
+        cursor_mock.fetchone.return_value = expected_data
+        cursor_mock.description = description
+
+    closed_connection = mock.MagicMock()
+    closed_connection.closed = 1
     psycopg_mock.connect.side_effect = [open_connection, closed_connection]
 
     database = DatabaseConnection()
