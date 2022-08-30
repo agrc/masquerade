@@ -10,7 +10,7 @@ from unittest import mock
 from masquerade.providers.open_sgid import DatabaseConnection
 
 
-@mock.patch('masquerade.providers.open_sgid.psycopg2')
+@mock.patch('masquerade.providers.open_sgid.psycopg')
 def test_query(psycopg_mock):
     expected_data = ['blah']
     open_connection = mock.MagicMock()
@@ -31,7 +31,7 @@ def test_query(psycopg_mock):
     assert psycopg_mock.connect.call_count == 1
 
 
-@mock.patch('masquerade.providers.open_sgid.psycopg2')
+@mock.patch('masquerade.providers.open_sgid.psycopg')
 def test_get_magic_key_record(psycopg_mock):
     expected_data = ['blah']
     description = ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field', 'shape']
