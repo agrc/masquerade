@@ -284,4 +284,4 @@ def geocode_head(path):
 def main():
     """ redirect to github project
     """
-    return redirect('https://github.com/agrc/masquerade#agrcmasquerade')
+    return redirect('https://github.com/agrc/masquerade')
