@@ -10,12 +10,14 @@
     "${workspaceRoot}/setup.cfg"
   ],
   "cSpell.words": [
+    "ADDSYSTEM",
     "AGRC",
     "atch",
     "CAROOT",
     "choco",
     "codecov",
     "dotenv",
+    "FULLADD",
     "geocoder",
     "geosearch",
     "getenv",
@@ -35,6 +37,7 @@
     "pylint",
     "pytest",
     "Referer",
+    "simplejson",
     "UICLSID",
     "usaddress",
     "venv",
