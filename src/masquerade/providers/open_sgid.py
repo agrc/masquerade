@@ -5,7 +5,7 @@ A provider that queries data in Open SGID
 """
 import re
 
-import psycopg2
+import psycopg
 
 DATABASE = 'opensgid'
 AGRC = 'agrc'
@@ -53,8 +53,10 @@ class DatabaseConnection():
 
         #: closed == 0 means it is open, anything else, it's closed
         if not hasattr(self, 'connection') or self.connection.closed != 0:
-            self.connection = psycopg2.connect(database=DATABASE, user=AGRC, password=AGRC, host=HOST)
-            self.connection.set_session(readonly=True, autocommit=True)
+            self.connection = psycopg.connect(
+                f'dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}', autocommit=True
+            )
+            self.connection.read_only = True
 
         return self.connection
 
