@@ -20,7 +20,7 @@ jobs:
           python-version: ${{ env.python-version }}
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install project
         run: pip install -e .[tests]
@@ -52,7 +52,7 @@ jobs:
           python-version: ${{ env.python-version }}
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - id: auth
         name: 🗝️ Authenticate to Google Cloud
@@ -108,7 +108,7 @@ jobs:
           python-version: ${{ env.python-version }}
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - id: auth
         name: 🗝️ Authenticate to Google Cloud
