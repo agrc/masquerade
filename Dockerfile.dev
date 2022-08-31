@@ -1,0 +1,11 @@
+FROM python:3.10
+
+RUN apt-get update && apt-get install gnupg2 -y
+
+COPY . /app
+
+WORKDIR /app
+
+RUN pip install -e ".[tests]"
+
+CMD exec flask run --cert=certs/cert.pem --key=certs/key.pem --host=0.0.0.0
