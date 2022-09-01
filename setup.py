@@ -55,7 +55,7 @@ setup(
             'pytest-isort==3.0.*',
             'pytest-pylint==0.18.*',
             'pytest-watch==4.2.*',
-            'pytest==7.0.*',
+            'pytest>=7.0,<7.2',
             'requests-mock==1.9.*',
             'yapf==0.32.*',
         ]
