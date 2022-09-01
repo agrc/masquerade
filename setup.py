@@ -38,7 +38,7 @@ setup(
         'Flask-JSON==0.3.*',
         'flask==2.0.*',
         'psycopg[binary]==3.1',
-        'python-dotenv==0.19.*',
+        'python-dotenv>=0.19,<0.21',
         'requests==2.27.*',
 
         #: flask uses this by default if installed
