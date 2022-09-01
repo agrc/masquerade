@@ -90,9 +90,11 @@ jobs:
           region: ${{ env.REGION }}
           env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
           flags: |
-            --min-instances=0
-            --memory=256Mi
             --cpu=1
+            --memory=128Mi
+            --min-instances=0
+            --max-instances=5
+            --timeout=60
 
   deploy-prod:
     name: Deploy to Production
@@ -150,8 +152,9 @@ jobs:
           region: ${{ env.REGION }}
           env_vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
           flags: |
-            --min-instances=1
-            --max-instances=10
             --concurrency=100
-            --memory=256Mi
             --cpu=1
+            --max-instances=10
+            --memory=128Mi
+            --min-instances=1
+            --timeout=60
