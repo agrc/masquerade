@@ -38,8 +38,8 @@ setup(
         'Flask-JSON==0.3.*',
         'flask==2.0.*',
         'psycopg[binary]==3.1',
-        'python-dotenv==0.19.*',
-        'requests==2.27.*',
+        'python-dotenv==0.20.*',
+        'requests==2.28.*',
 
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
@@ -49,14 +49,14 @@ setup(
         'tests': [
             'callee==0.3.*',
             'pylint-quotes==0.2.*',
-            'pylint==2.12.*',
+            'pylint==2.15.*',
             'pytest-cov==3.0.*',
             'pytest-instafail==0.4.*',
             'pytest-isort==3.0.*',
             'pytest-pylint==0.18.*',
             'pytest-watch==4.2.*',
-            'pytest==7.0.*',
-            'requests-mock==1.9.*',
+            'pytest==7.1.*',
+            'requests-mock==1.10.*',
             'yapf==0.32.*',
         ]
     },
