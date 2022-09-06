@@ -6,6 +6,7 @@ A provider that queries data in Open SGID
 import re
 
 import psycopg
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 DATABASE = 'opensgid'
 AGRC = 'agrc'
@@ -22,6 +23,10 @@ FULLADD = 'fulladd'
 ADDSYSTEM = 'addsystem'
 CITY = 'city'
 NAME = 'name'
+
+RETRY_WAIT_MIN = 0.5
+RETRY_WAIT_MAX = 5
+RETRY_ATTEMPTS = 3
 
 #: search field types
 TEXT = 'text'
@@ -60,6 +65,10 @@ class DatabaseConnection():
 
         return self.connection
 
+    @retry(
+        stop=stop_after_attempt(RETRY_ATTEMPTS),
+        wait=wait_exponential(multiplier=0.5, min=RETRY_WAIT_MIN, max=RETRY_WAIT_MAX)
+    )
     def query(self, query):
         """ get records from the database
         """
@@ -68,6 +77,10 @@ class DatabaseConnection():
 
             return cursor.fetchall()
 
+    @retry(
+        stop=stop_after_attempt(RETRY_ATTEMPTS),
+        wait=wait_exponential(multiplier=0.5, min=RETRY_WAIT_MIN, max=RETRY_WAIT_MAX)
+    )
     def get_magic_key_record(self, query):
         """ get record associate with magic key query
 
