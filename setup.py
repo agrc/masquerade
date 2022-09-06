@@ -38,7 +38,7 @@ setup(
         'Flask-JSON==0.3.*',
         'flask==2.0.*',
         'psycopg[binary]==3.1',
-        'python-dotenv==0.20.*',
+        'python-dotenv>=0.20,<0.22',
         'requests==2.28.*',
         'tenacity==8.0.*',
 
