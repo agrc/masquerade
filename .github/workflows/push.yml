@@ -45,22 +45,20 @@ jobs:
     if: github.ref_name == 'dev' && needs.release.outputs.release_created
 
     steps:
-      - name: ⬇️ Checkout code
-        uses: actions/checkout@v3
-
       - name: 🚢 Deploy
-        uses: ./.github/actions/deploy
+        uses: agrc/cloud-run-docker-deploy-composite-action@v1
         with:
-          web-api-key: ${{ secrets.WEB_API_KEY }}
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
-          deploy-flags: |
+          service: masquerade
+          flags: |
             --cpu=1
             --memory=128Mi
             --min-instances=0
             --max-instances=5
             --timeout=60
+          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
 
   deploy-prod:
     name: Deploy to Production
@@ -75,16 +73,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🚢 Deploy
-        uses: ./.github/actions/deploy
+        uses: agrc/cloud-run-docker-deploy-composite-action@v1
         with:
-          web-api-key: ${{ secrets.WEB_API_KEY }}
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
-          deploy-flags: |
+          service: masquerade
+          flags: |
             --concurrency=100
             --cpu=1
             --max-instances=10
             --memory=128Mi
             --min-instances=1
             --timeout=60
+          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
