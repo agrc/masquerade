@@ -61,7 +61,7 @@ jobs:
   deploy-prod:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: test
+    needs: release
     environment:
       name: prod
     if: github.ref_name == 'main' && needs.release.outputs.release_created
