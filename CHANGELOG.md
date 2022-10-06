@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2-0](https://github.com/agrc/masquerade/compare/v1.0.1...v1.0.2-0) (2022-10-06)
+
+
+### 🐛 Bug Fixes
+
+* bump pytest-cov ([6aed19d](https://github.com/agrc/masquerade/commit/6aed19db72cc702066b908c0654cd33e3b620f34))
+
 ## [1.0.1](https://github.com/agrc/masquerade/compare/v1.0.0...v1.0.1) (2022-10-06)
 
 
