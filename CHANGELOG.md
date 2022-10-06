@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0-0](https://github.com/agrc/masquerade/compare/v1.0.2-0...v1.1.0-0) (2022-10-06)
+
+
+### 🚀 Features
+
+* **ci:** switch to external deploy action ([04e746c](https://github.com/agrc/masquerade/commit/04e746c1ea850383937237690720cd8415c40893))
+
 ## [1.0.2-0](https://github.com/agrc/masquerade/compare/v1.0.1...v1.0.2-0) (2022-10-06)
 
 
