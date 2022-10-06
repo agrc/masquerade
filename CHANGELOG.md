@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1-2](https://github.com/agrc/masquerade/compare/v1.0.1-1...v1.0.1-2) (2022-10-06)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** fix path to local action ([cfda105](https://github.com/agrc/masquerade/commit/cfda10569084bfa3d2963e9fd022a5592fb15a47))
+
 ## [1.0.1-1](https://github.com/agrc/masquerade/compare/v1.0.1-0...v1.0.1-1) (2022-10-06)
 
 
