@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1-1](https://github.com/agrc/masquerade/compare/v1.0.1-0...v1.0.1-1) (2022-10-06)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** checkout before calling local action ([53b3962](https://github.com/agrc/masquerade/commit/53b3962f43defc98037c06fd87e0cad65f006ed8))
+
 ## [1.0.1-0](https://github.com/agrc/masquerade/compare/v1.0.0...v1.0.1-0) (2022-10-06)
 
 
