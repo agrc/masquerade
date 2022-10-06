@@ -51,7 +51,7 @@ setup(
             'callee==0.3.*',
             'pylint-quotes==0.2.*',
             'pylint==2.15.*',
-            'pytest-cov==3.0.*',
+            'pytest-cov==4.0.*',
             'pytest-instafail==0.4.*',
             'pytest-isort==3.0.*',
             'pytest-pylint==0.19.*',
