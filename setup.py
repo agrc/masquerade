@@ -53,7 +53,7 @@ setup(
             'pylint==2.15.*',
             'pytest-cov==4.0.*',
             'pytest-instafail==0.4.*',
-            'pytest-isort==3.0.*',
+            'pytest-isort>=3.0,<3.2',
             'pytest-pylint==0.19.*',
             'pytest-watch==4.2.*',
             'pytest==7.1.*',
