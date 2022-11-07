@@ -191,6 +191,9 @@ def find_candidates():
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
     if magic_key is not None:
+        if open_sgid.SPLITTER not in magic_key:
+            return f'Invalid magicKey: {magic_key}', 400
+
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
