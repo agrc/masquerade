@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0-1](https://github.com/agrc/masquerade/compare/v1.0.2...v1.1.0-1) (2022-11-08)
+
+
+### 🐛 Bug Fixes
+
+* handle invalid magicKey values ([51b9e33](https://github.com/agrc/masquerade/commit/51b9e33d8b91c802c6868d9b89ddfb2033225609))
+
 ## [1.0.2](https://github.com/agrc/masquerade/compare/v1.0.1...v1.0.2) (2022-10-06)
 
 
