@@ -5,7 +5,7 @@ A provider that queries data in Open SGID
 """
 import re
 
-import psycopg
+from psycopg_pool import ConnectionPool
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 DATABASE = 'opensgid'
@@ -44,26 +44,12 @@ for direction in directions:
         permutations.append(f'{permutation}.')
     normalize_direction_infos.append((re.compile(fr'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
 
+pool = ConnectionPool(f'dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}')
+
 
 class DatabaseConnection():
     """ used to interact with the open sgid database
     """
-
-    def __init__(self) -> None:
-        self.connection = self.ensure_open()
-
-    def ensure_open(self):
-        """ get an always-open connection
-        """
-
-        #: closed == 0 means it is open, anything else, it's closed
-        if not hasattr(self, 'connection') or self.connection.closed != 0:
-            self.connection = psycopg.connect(
-                f'dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}', autocommit=True
-            )
-            self.connection.read_only = True
-
-        return self.connection
 
     @retry(
         stop=stop_after_attempt(RETRY_ATTEMPTS),
@@ -72,10 +58,11 @@ class DatabaseConnection():
     def query(self, query):
         """ get records from the database
         """
-        with self.ensure_open().cursor() as cursor:
-            cursor.execute(query)
+        with pool.connection() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query)
 
-            return cursor.fetchall()
+                return cursor.fetchall()
 
     @retry(
         stop=stop_after_attempt(RETRY_ATTEMPTS),
@@ -86,10 +73,11 @@ class DatabaseConnection():
 
         returns a tuple with the record and a list of field names
         """
-        with self.ensure_open().cursor() as cursor:
-            cursor.execute(query)
+        with pool.connection() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query)
 
-            return (cursor.fetchone(), [desc[0] for desc in cursor.description if desc[0] != 'shape'])
+                return (cursor.fetchone(), [desc[0] for desc in cursor.description if desc[0] != 'shape'])
 
 
 database = DatabaseConnection()
