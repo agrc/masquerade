@@ -37,6 +37,7 @@ setup(
         'flask-cors==3.0.*',
         'Flask-JSON==0.3.*',
         'flask==2.2.*',
+        'psycopg_pool==3.1.*',
         'psycopg[binary]==3.1.*',
         'python-dotenv==0.21.*',
         'requests==2.28.*',
