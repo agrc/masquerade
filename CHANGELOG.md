@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/agrc/masquerade/compare/v1.0.2...v1.1.0) (2022-11-14)
+
+
+### 🚀 Features
+
+* implement connection pooling ([53425b6](https://github.com/agrc/masquerade/commit/53425b64b93694ab8bd376c51d180284b9c6c174))
+
+
+### 🐛 Bug Fixes
+
+* handle invalid magicKey values ([4cb3995](https://github.com/agrc/masquerade/commit/4cb3995b3425cf373015669ee9226216b484547b))
+
 ## [1.0.2](https://github.com/agrc/masquerade/compare/v1.0.1...v1.0.2) (2022-10-06)
 
 
