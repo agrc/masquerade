@@ -8,7 +8,9 @@ from unittest import mock
 
 from pytest import raises
 
-from masquerade.providers.open_sgid import get_candidate_from_magic_key, get_suggestions, get_table_from_table_name
+from masquerade.providers.open_sgid import (
+    POINT, FullTextTable, get_candidate_from_magic_key, get_suggestions, get_table_from_table_name
+)
 
 
 def test_get_suggestions():
@@ -43,3 +45,9 @@ def test_get_table_from_table_name():
     with mock.patch('masquerade.providers.open_sgid.TABLES', new=[mock1, mock2]):
         with raises(Exception, match='No table found'):
             get_table_from_table_name('blah')
+
+
+def test_full_text_table():
+    table = FullTextTable('table_name', 'search_field', POINT)
+
+    assert '%hello%' in table.get_suggest_query('hello', 10)
