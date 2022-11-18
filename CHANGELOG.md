@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/agrc/masquerade/compare/v1.1.0...v1.1.1) (2022-11-18)
+
+
+### 🐛 Bug Fixes
+
+* add service now creds to deploy action ([416b0e9](https://github.com/agrc/masquerade/commit/416b0e9405371159ea6ef1305392236f1bdc771f))
+
 ## [1.1.0](https://github.com/agrc/masquerade/compare/v1.0.2...v1.1.0) (2022-11-14)
 
 
