@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2-0](https://github.com/agrc/masquerade/compare/v1.1.1...v1.1.2-0) (2022-11-21)
+
+
+### 🐛 Bug Fixes
+
+* **build:** add repo token input to prod deploy ([39c3c4f](https://github.com/agrc/masquerade/commit/39c3c4f8d57e3d6e32428ca56e59dffe9260f0e1))
+
 ## [1.1.1](https://github.com/agrc/masquerade/compare/v1.1.0...v1.1.1) (2022-11-18)
 
 
