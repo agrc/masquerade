@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/agrc/masquerade/compare/v1.1.2...v1.1.3) (2022-12-12)
+
+
+### 🐛 Bug Fixes
+
+* **deps:** update simplejson requirement from ==3.17.* to &gt;=3.17,&lt;3.19 ([ff1a8c6](https://github.com/agrc/masquerade/commit/ff1a8c6a3b4762c56f8610b956067e0173b8aca5))
+
 ## [1.1.3-0](https://github.com/agrc/masquerade/compare/v1.1.2...v1.1.3-0) (2022-12-09)
 
 
