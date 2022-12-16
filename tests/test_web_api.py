@@ -251,9 +251,16 @@ def test_get_address_candidates_raises(requests_mock):
 
 
 def test_get_address_candidates_bad_address(requests_mock):
-    requests_mock.get(re.compile(f'{WEB_API_URL}.*'), json={}, status_code=500)
+    requests_mock.get(
+        re.compile(f'{WEB_API_URL}.*'),
+        json={
+            "status": 404,
+            "message": "No address candidates found with a score of 70 or better."
+        },
+        status_code=404
+    )
 
-    candidates = get_candidates_from_single_line('bad address', 3857, 5)
+    candidates = get_candidates_from_single_line('123 bad address, city name', 3857, 5)
 
     assert len(candidates) == 0
 
