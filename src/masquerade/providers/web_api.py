@@ -105,6 +105,9 @@ def make_request(address, zone, out_spatial_reference, max_locations):
 
     response = session.get(url, params=parameters, headers=headers)
 
+    if response.status_code == 404 and 'no address candidates found' in response.text.lower():
+        return []
+
     if response.ok:
         try:
             result = response.json()['result']
