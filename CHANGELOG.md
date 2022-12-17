@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/agrc/masquerade/compare/v1.1.3...v1.1.4) (2022-12-17)
+
+
+### 🐛 Bug Fixes
+
+* gracefully handle 404s from web api ([464e938](https://github.com/agrc/masquerade/commit/464e938a4878f1d43201349b9c6c4031f52e5adc)), closes [#98](https://github.com/agrc/masquerade/issues/98)
+
 ## [1.1.4-1](https://github.com/agrc/masquerade/compare/v1.1.3...v1.1.4-1) (2022-12-16)
 
 
