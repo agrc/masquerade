@@ -9,7 +9,8 @@ from unittest import mock
 from pytest import raises
 
 from masquerade.providers.open_sgid import (
-    POINT, FullTextTable, get_candidate_from_magic_key, get_suggestions, get_table_from_table_name
+    POINT, FullTextTable, NoTableFoundException, get_candidate_from_magic_key, get_suggestions,
+    get_table_from_table_name
 )
 
 
@@ -43,7 +44,7 @@ def test_get_table_from_table_name():
     mock2.table_name = 'name2'
 
     with mock.patch('masquerade.providers.open_sgid.TABLES', new=[mock1, mock2]):
-        with raises(Exception, match='No table found'):
+        with raises(NoTableFoundException, match='No table found'):
             get_table_from_table_name('blah')
 
 
