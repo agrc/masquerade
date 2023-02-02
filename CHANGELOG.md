@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5](https://github.com/agrc/masquerade/compare/v1.1.4...v1.1.5) (2023-02-02)
+
+
+### 🐛 Bug Fixes
+
+* **tests:** don't throw generic exceptions ([80eb320](https://github.com/agrc/masquerade/commit/80eb3209690e578865274c08fd80b1a2406adf8d))
+
 ## [1.1.4](https://github.com/agrc/masquerade/compare/v1.1.3...v1.1.4) (2022-12-17)
 
 
