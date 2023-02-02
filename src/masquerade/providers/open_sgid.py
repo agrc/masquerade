@@ -103,11 +103,11 @@ class Table():
         self.search_field = search_field
 
         if geometry_type not in [POINT, POLYGON]:
-            raise Exception(f'Invalid geometry_type: {geometry_type}')
+            raise ValueError(f'invalid value passed for geometry_type: {geometry_type}')
         self.geometry_type = geometry_type
 
         if search_field_type not in [TEXT, NUMERIC]:
-            raise Exception(f'Invalid search_field_type: {search_field_type}')
+            raise ValueError(f'invalid value passed for search_field_type: {search_field_type}')
         self.search_field_type = search_field_type
         self.additional_out_fields = additional_out_fields or []
 
@@ -367,4 +367,12 @@ def get_table_from_table_name(table_name):
         if table.table_name == table_name:
             return table
 
-    raise Exception(f'No table found: {table_name}')
+    raise NoTableFoundException(table_name)
+
+
+class NoTableFoundException(Exception):
+    """ raised when no table is found for a given table name
+    """
+
+    def __init__(self, table_name):
+        super().__init__(f'No table found: {table_name}')
