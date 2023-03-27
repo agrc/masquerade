@@ -103,7 +103,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
     headers = {'Referer': 'https://masquerade.agrc.utah.gov'}
     url = f'{WEB_API_URL}/{_cleanse_street(address)}/{_cleanse_zone(zone)}'
 
-    response = session.get(url, params=parameters, headers=headers)
+    response = session.get(url, params=parameters, headers=headers, timeout=10)
 
     if response.status_code == 404 and 'no address candidates found' in response.text.lower():
         return []
