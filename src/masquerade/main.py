@@ -199,7 +199,18 @@ def find_candidates():
     else:
         single_line_address = request.args.get('Single Line Input')
         max_locations = request.args.get('maxLocations')
-        candidates = web_api.get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations)
+        try:
+            candidates = web_api.get_candidates_from_single_line(
+                single_line_address, out_spatial_reference, max_locations
+            )
+        except Exception as error:
+            return {
+                'error': {
+                    'code': 500,
+                    'message': 'Error getting candidates from web api',
+                    'details': [str(error)]
+                }
+            }, 500
 
     return {
         'candidates': candidates,
