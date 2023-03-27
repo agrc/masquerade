@@ -39,9 +39,9 @@ setup(
         'flask==2.2.*',
         'psycopg_pool==3.1.*',
         'psycopg[binary]==3.1.*',
-        'python-dotenv==0.21.*',
+        'python-dotenv==1.0.*',
         'requests==2.28.*',
-        'tenacity==8.1.*',
+        'tenacity==8.2.*',
 
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
