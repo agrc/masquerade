@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.6-1](https://github.com/agrc/masquerade/compare/v1.1.5...v1.1.6-1) (2023-03-28)
+
+
+### 🐛 Bug Fixes
+
+* add timeout to requests to api.mapserv.utah.gov ([4aeb577](https://github.com/agrc/masquerade/commit/4aeb5770e3846bb40fbd01111f75756eb4719f3b)), closes [#108](https://github.com/agrc/masquerade/issues/108)
+* bump deps ([21e726c](https://github.com/agrc/masquerade/commit/21e726cfedccc1982e1b3c11f31aff9de485fb20))
+
 ## [1.1.5](https://github.com/agrc/masquerade/compare/v1.1.4...v1.1.5) (2023-02-02)
 
 
