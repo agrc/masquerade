@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.7](https://github.com/agrc/masquerade/compare/v1.1.6...v1.1.7) (2023-04-04)
+
+
+### 🐛 Bug Fixes
+
+* Q2 Dep Bumps 🌲 ([a4d027c](https://github.com/agrc/masquerade/commit/a4d027c2e8052012d51a5a062bd5ea364e71710a))
+
 ## [1.1.6](https://github.com/agrc/masquerade/compare/v1.1.5...v1.1.6) (2023-03-28)
 
 
