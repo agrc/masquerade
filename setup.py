@@ -36,7 +36,7 @@ setup(
         'agrc-sweeper==1.3.*',
         'flask-cors==3.0.*',
         'Flask-JSON==0.3.*',
-        'flask==2.2.*',
+        'flask>=2.2,<2.4',
         'psycopg_pool==3.1.*',
         'psycopg[binary]==3.1.*',
         'python-dotenv==1.0.*',
