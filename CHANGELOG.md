@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.8-0](https://github.com/agrc/masquerade/compare/v1.1.7...v1.1.8-0) (2023-06-02)
+
+
+### 🐛 Bug Fixes
+
+* bump dependencies 🌲 ([5d0dcbc](https://github.com/agrc/masquerade/commit/5d0dcbc43785dfeaab4f7de577b42382e923142c))
+
 ## [1.1.7](https://github.com/agrc/masquerade/compare/v1.1.6...v1.1.7) (2023-04-04)
 
 
