@@ -35,17 +35,17 @@ setup(
     install_requires=[
         'agrc-sweeper==1.3.*',
         'flask-cors==3.0.*',
-        'Flask-JSON==0.3.*',
-        'flask==2.2.*',
+        'Flask-JSON==0.4.*',
+        'flask==2.3.*',
         'psycopg_pool==3.1.*',
         'psycopg[binary]==3.1.*',
         'python-dotenv==1.0.*',
-        'requests==2.28.*',
+        'requests==2.31.*',
         'tenacity==8.2.*',
 
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
-        'simplejson>=3.17,<3.19',
+        'simplejson==3.19.*',
     ],
     extras_require={
         'tests': [
@@ -57,9 +57,9 @@ setup(
             'pytest-isort>=3.0,<3.2',
             'pytest-pylint==0.19.*',
             'pytest-watch==4.2.*',
-            'pytest>=7.1,<7.3',
+            'pytest==7.3.*',
             'requests-mock==1.10.*',
-            'yapf==0.32.*',
+            'yapf==0.33.*',
         ]
     },
     setup_requires=[
