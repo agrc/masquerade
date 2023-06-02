@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.8-1](https://github.com/agrc/masquerade/compare/v1.1.8-0...v1.1.8-1) (2023-06-02)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** add missing flag to cloud run deploy ([1613732](https://github.com/agrc/masquerade/commit/16137320eabde1ab4fc7298ed6a4316a7d7a8f9b))
+
 ## [1.1.8-0](https://github.com/agrc/masquerade/compare/v1.1.7...v1.1.8-0) (2023-06-02)
 
 
