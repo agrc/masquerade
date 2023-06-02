@@ -58,6 +58,7 @@ jobs:
             --min-instances=0
             --max-instances=5
             --timeout=60
+            --allow-unauthenticated
           env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
 
   deploy-prod:
@@ -86,6 +87,7 @@ jobs:
             --memory=128Mi
             --min-instances=1
             --timeout=60
+            --allow-unauthenticated
           env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
           service-now-instance: ${{ secrets.SN_INSTANCE }}
           service-now-table: ${{ secrets.SN_TABLE }}
