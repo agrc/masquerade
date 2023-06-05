@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.8-2](https://github.com/agrc/masquerade/compare/v1.1.8-1...v1.1.8-2) (2023-06-05)
+
+
+### 🐛 Bug Fixes
+
+* cleanse inputs that may have issues ([1a95fdb](https://github.com/agrc/masquerade/commit/1a95fdb3b3d0fa31c1e6a2d50f97cb478b424192)), closes [#124](https://github.com/agrc/masquerade/issues/124)
+* **lint:** remove deprecated pylint option ([0e6030f](https://github.com/agrc/masquerade/commit/0e6030f92d73f6f904d52107bc28d72397519525))
+
 ## [1.1.8-1](https://github.com/agrc/masquerade/compare/v1.1.8-0...v1.1.8-1) (2023-06-02)
 
 
