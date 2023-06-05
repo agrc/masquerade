@@ -16,6 +16,7 @@ from flask_json import FlaskJSON, as_json_p
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
+from .utils import cleanse_text
 
 load_dotenv()
 
@@ -176,7 +177,7 @@ def suggest():
     search_text = request.args.get('text')
     max_results = request.args.get('maxSuggestions') or DEFAULT_MAX_SUGGESTIONS
 
-    return {'suggestions': open_sgid.get_suggestions(search_text, max_results)}
+    return {'suggestions': open_sgid.get_suggestions(cleanse_text(search_text), max_results)}
 
 
 @app.route(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates')
@@ -197,7 +198,7 @@ def find_candidates():
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
-        single_line_address = request.args.get('Single Line Input')
+        single_line_address = cleanse_text(request.args.get('Single Line Input'))
         max_locations = request.args.get('maxLocations')
         try:
             candidates = web_api.get_candidates_from_single_line(
@@ -258,16 +259,18 @@ def geocode_addresses():
 
         #: prefer zip over city and return no match if neither is passed
         try:
-            zone = address['attributes']['Zip']
+            zone = cleanse_text(address['attributes']['Zip'])
         except KeyError:
             try:
-                zone = address['attributes']['City']
+                zone = cleanse_text(address['attributes']['City'])
             except KeyError:
                 locations.append(no_match)
                 continue
 
         try:
-            candidate = web_api.get_candidate_from_parts(address['attributes']['Address'], zone, out_spatial_reference)
+            candidate = web_api.get_candidate_from_parts(
+                cleanse_text(address['attributes']['Address']), zone, out_spatial_reference
+            )
 
             if candidate is None:
                 candidate = no_match
