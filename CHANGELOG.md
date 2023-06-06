@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.8](https://github.com/agrc/masquerade/compare/v1.1.7...v1.1.8) (2023-06-06)
+
+
+### 🐛 Bug Fixes
+
+* bump dependencies 🌲 ([a95c899](https://github.com/agrc/masquerade/commit/a95c899250f1d174f1318e0e3462389d4e0efa67))
+* **ci:** add missing flag to cloud run deploy ([0961878](https://github.com/agrc/masquerade/commit/0961878783b6f3a4634fde1df060dbd7ca317244))
+* cleanse inputs that may have issues ([44b0d08](https://github.com/agrc/masquerade/commit/44b0d08b4bdc4dba038965c839d4fe47dda9dddf)), closes [#124](https://github.com/agrc/masquerade/issues/124)
+* **lint:** remove deprecated pylint option ([b5eaf8e](https://github.com/agrc/masquerade/commit/b5eaf8e21e225f6563f87dc3836d8594791b4b51))
+
 ## [1.1.8-2](https://github.com/agrc/masquerade/compare/v1.1.8-1...v1.1.8-2) (2023-06-05)
 
 
