@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.9](https://github.com/agrc/masquerade/compare/v1.1.8...v1.1.9) (2023-06-07)
+
+
+### 🐛 Bug Fixes
+
+* add defensive code to method ([ad36cf6](https://github.com/agrc/masquerade/commit/ad36cf6c52b2e07761ee23e668b30d5263452e17))
+
 ## [1.1.8](https://github.com/agrc/masquerade/compare/v1.1.7...v1.1.8) (2023-06-06)
 
 
