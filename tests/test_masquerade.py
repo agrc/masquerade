@@ -73,3 +73,13 @@ def test_head_requests(test_client):
 
     assert response.status_code == 200
     assert response.headers['Cache-Control']
+
+
+def test_can_handle_bad_values(test_client):
+    response = test_client.get(f'{GEOCODE_SERVER_ROUTE}/suggest?text=123&maxSuggestions=undefined')
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert len(response_json['suggestions']) > 0

@@ -176,6 +176,8 @@ def suggest():
 
     search_text = request.args.get('text')
     max_results = request.args.get('maxSuggestions') or DEFAULT_MAX_SUGGESTIONS
+    if isinstance(max_results, str):
+        max_results = DEFAULT_MAX_SUGGESTIONS
 
     return {'suggestions': open_sgid.get_suggestions(cleanse_text(search_text), max_results)}
 
