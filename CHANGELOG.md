@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.10](https://github.com/agrc/masquerade/compare/v1.1.9...v1.1.10) (2023-06-12)
+
+
+### 🐛 Bug Fixes
+
+* handle string values for max suggestions param ([#133](https://github.com/agrc/masquerade/issues/133)) ([9d6a739](https://github.com/agrc/masquerade/commit/9d6a739570a2fc8adcbf05650978efbe9cb2c1f3))
+
 ## [1.1.9](https://github.com/agrc/masquerade/compare/v1.1.8...v1.1.9) (2023-06-07)
 
 
