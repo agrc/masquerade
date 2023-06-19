@@ -83,3 +83,32 @@ def test_can_handle_bad_values(test_client):
     response_json = json.loads(response.data)
 
     assert len(response_json['suggestions']) > 0
+
+
+def test_batch_can_handle_missing_addresses(test_client):
+    response = test_client.post(
+        f'{GEOCODE_SERVER_ROUTE}/geocodeAddresses',
+        data={
+            'addresses': dumps({
+                'records': [{
+                    'attributes': {
+                        'OBJECTID': 1,
+                        'Zip': '84043'
+                    }
+                }, {
+                    'attributes': {
+                        'OBJECTID': 2,
+                        'Zip': '84043'
+                    }
+                }]
+            })
+        }
+    )
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert len(response_json['locations']) == 2
+    assert response_json['locations'][0]['address'] == None
+    assert response_json['locations'][1]['address'] == None

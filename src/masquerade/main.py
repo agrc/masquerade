@@ -278,7 +278,7 @@ def geocode_addresses():
                 candidate = no_match
             else:
                 candidate['attributes']['ResultID'] = address['attributes']['OBJECTID']
-        except HTTPError:
+        except (HTTPError, KeyError):
             candidate = no_match
 
         locations.append(candidate)
