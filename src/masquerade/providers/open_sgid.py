@@ -25,8 +25,8 @@ CITY = 'city'
 NAME = 'name'
 
 RETRY_WAIT_MIN = 0.5
-RETRY_WAIT_MAX = 5
-RETRY_ATTEMPTS = 3
+RETRY_WAIT_MAX = 3
+RETRY_ATTEMPTS = 5
 
 #: search field types
 TEXT = 'text'
