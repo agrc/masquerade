@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.11-0](https://github.com/agrc/masquerade/compare/v1.1.10...v1.1.11-0) (2023-06-19)
+
+
+### 🐛 Bug Fixes
+
+* handle missing keys in batch data ([65b9a42](https://github.com/agrc/masquerade/commit/65b9a426872a82d2d1c2edb1baf622c949da38c9))
+* more retries on database queries with less wait ([1a74e1d](https://github.com/agrc/masquerade/commit/1a74e1d3cfc1f85649601c70aaab801685c6b306))
+
 ## [1.1.10](https://github.com/agrc/masquerade/compare/v1.1.9...v1.1.10) (2023-06-12)
 
 
