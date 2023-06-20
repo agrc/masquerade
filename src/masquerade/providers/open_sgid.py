@@ -24,8 +24,8 @@ ADDSYSTEM = "addsystem"
 CITY = "city"
 NAME = "name"
 
-RETRY_WAIT_MIN = 0.5
-RETRY_WAIT_MAX = 3
+RETRY_WAIT_MIN = 0.5  #: seconds
+RETRY_WAIT_MAX = 3  #: seconds
 RETRY_ATTEMPTS = 5
 
 #: search field types
