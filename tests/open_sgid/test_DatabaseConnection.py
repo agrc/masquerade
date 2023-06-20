@@ -9,9 +9,9 @@ from unittest import mock
 from masquerade.providers.open_sgid import DatabaseConnection
 
 
-@mock.patch('masquerade.providers.open_sgid.pool')
+@mock.patch("masquerade.providers.open_sgid.pool")
 def test_query(pool_mock):
-    expected_data = ['blah']
+    expected_data = ["blah"]
 
     cursor = mock.MagicMock()
     cursor.fetchall.return_value = expected_data
@@ -25,16 +25,27 @@ def test_query(pool_mock):
 
     database = DatabaseConnection()
 
-    database.query('blah')
-    result = database.query('query text')
+    database.query("blah")
+    result = database.query("query text")
 
     assert result == expected_data
 
 
-@mock.patch('masquerade.providers.open_sgid.pool')
+@mock.patch("masquerade.providers.open_sgid.pool")
 def test_get_magic_key_record(pool_mock):
-    expected_data = ['blah']
-    description = ['xid', 'search_field', 'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax', 'another_field', 'shape']
+    expected_data = ["blah"]
+    description = [
+        "xid",
+        "search_field",
+        "x",
+        "y",
+        "xmin",
+        "xmax",
+        "ymin",
+        "ymax",
+        "another_field",
+        "shape",
+    ]
     cursor = mock.MagicMock()
     cursor.fetchone.return_value = expected_data
     cursor.description = description
@@ -48,9 +59,9 @@ def test_get_magic_key_record(pool_mock):
 
     database = DatabaseConnection()
 
-    record, field_names = database.get_magic_key_record('query text')
+    record, field_names = database.get_magic_key_record("query text")
 
-    assert record[0] == 'blah'
+    assert record[0] == "blah"
 
     #: should filter out shape value
-    assert not 'shape' in field_names
+    assert not "shape" in field_names
