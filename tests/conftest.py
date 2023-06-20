@@ -10,7 +10,7 @@ from pytest import fixture
 from masquerade import main
 
 
-@fixture(scope='module')
+@fixture(scope="module")
 def test_client():
     """
     provide a test client for the flask app

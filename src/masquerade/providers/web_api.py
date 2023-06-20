@@ -14,12 +14,14 @@ from requests.adapters import HTTPAdapter
 from sweeper.address_parser import Address
 from urllib3.util.retry import Retry
 
-WEB_API_URL = 'https://api.mapserv.utah.gov/api/v1/geocode'
+WEB_API_URL = "https://api.mapserv.utah.gov/api/v1/geocode"
 MIN_SCORE_FOR_BATCH = 70
 
 
-def get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations):
-    """ parses the single line address and passes it to the AGRC geocoding service
+def get_candidates_from_single_line(
+    single_line_address, out_spatial_reference, max_locations
+):
+    """parses the single line address and passes it to the AGRC geocoding service
     and then returns the results as an array of candidates
     """
 
@@ -32,20 +34,21 @@ def get_candidates_from_single_line(single_line_address, out_spatial_reference, 
     if not zone or not parsed_address.normalized:
         return []
 
-    return make_request(parsed_address.normalized, zone, out_spatial_reference, max_locations)
+    return make_request(
+        parsed_address.normalized, zone, out_spatial_reference, max_locations
+    )
 
 
-ALLOWABLE_CHARS = re.compile('[^a-zA-Z0-9]')
-SPACES = re.compile(' +')
+ALLOWABLE_CHARS = re.compile("[^a-zA-Z0-9]")
+SPACES = re.compile(" +")
 
 
 def _cleanse_street(data):
-    """cleans up address garbage
-    """
-    replacement = ' '
+    """cleans up address garbage"""
+    replacement = " "
 
     #: & -> and
-    street = data.replace(chr(38), 'and')
+    street = data.replace(chr(38), "and")
     street = ALLOWABLE_CHARS.sub(replacement, street)
     street = SPACES.sub(replacement, street)
 
@@ -53,28 +56,28 @@ def _cleanse_street(data):
 
 
 def _cleanse_zone(data):
-    """cleans up zone garbage
-    """
-    zone = ALLOWABLE_CHARS.sub(' ', str(data))
-    zone = SPACES.sub(' ', zone).strip()
+    """cleans up zone garbage"""
+    zone = ALLOWABLE_CHARS.sub(" ", str(data))
+    zone = SPACES.sub(" ", zone).strip()
 
-    if len(zone) > 0 and zone[0] == '8':
+    if len(zone) > 0 and zone[0] == "8":
         zone = zone.strip()[:5]
 
     return zone
 
 
 def _get_retry_session():
-    """create a requests session that has a retry built into it
-    """
+    """create a requests session that has a retry built into it"""
     retries = 3
     backoff_factor = 0.3
     status_forcelist = (500, 502, 504)
 
     new_session = requests.Session()
-    new_session.headers.update({
-        'x-agrc-geocode-client': 'masquerade',
-    })
+    new_session.headers.update(
+        {
+            "x-agrc-geocode-client": "masquerade",
+        }
+    )
     retry = Retry(
         total=retries,
         read=retries,
@@ -83,7 +86,7 @@ def _get_retry_session():
         status_forcelist=status_forcelist,
     )
     adapter = HTTPAdapter(max_retries=retry)
-    new_session.mount('https://', adapter)
+    new_session.mount("https://", adapter)
 
     return new_session
 
@@ -92,35 +95,41 @@ session = _get_retry_session()
 
 
 def make_request(address, zone, out_spatial_reference, max_locations):
-    """ makes a request to the web api geocoding service
-    """
+    """makes a request to the web api geocoding service"""
     parameters = {
-        'apiKey': os.getenv('WEB_API_KEY'),
-        'spatialReference': out_spatial_reference,
-        'suggest': max_locations
+        "apiKey": os.getenv("WEB_API_KEY"),
+        "spatialReference": out_spatial_reference,
+        "suggest": max_locations,
     }
 
-    headers = {'Referer': 'https://masquerade.agrc.utah.gov'}
-    url = f'{WEB_API_URL}/{_cleanse_street(address)}/{_cleanse_zone(zone)}'
+    headers = {"Referer": "https://masquerade.agrc.utah.gov"}
+    url = f"{WEB_API_URL}/{_cleanse_street(address)}/{_cleanse_zone(zone)}"
 
     response = session.get(url, params=parameters, headers=headers, timeout=10)
 
-    if response.status_code == 404 and 'no address candidates found' in response.text.lower():
+    if (
+        response.status_code == 404
+        and "no address candidates found" in response.text.lower()
+    ):
         return []
 
     if response.ok:
         try:
-            result = response.json()['result']
+            result = response.json()["result"]
         except Exception:
-            print(f'Error parsing result: {response.text}')
+            print(f"Error parsing result: {response.text}")
             return []
 
-        if 'score' in result:
-            if result['score'] == 100 or max_locations == 1 and result['score'] >= MIN_SCORE_FOR_BATCH:
+        if "score" in result:
+            if (
+                result["score"] == 100
+                or max_locations == 1
+                and result["score"] >= MIN_SCORE_FOR_BATCH
+            ):
                 return [etl_candidate(result)]
 
-        if 'candidates' in result:
-            return [etl_candidate(candidate) for candidate in result['candidates']]
+        if "candidates" in result:
+            return [etl_candidate(candidate) for candidate in result["candidates"]]
 
         return []
 
@@ -130,8 +139,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
 
 
 def get_candidate_from_parts(address, zone, out_spatial_reference):
-    """ gets a single candidate from address & zone input
-    """
+    """gets a single candidate from address & zone input"""
 
     candidates = make_request(address, zone, out_spatial_reference, 1)
 
@@ -142,24 +150,27 @@ def get_candidate_from_parts(address, zone, out_spatial_reference):
 
 
 def etl_candidate(agrc_candidate):
-    """ translates an AGRC Web API candidate to an Esri locator candidate
-    """
-    address = agrc_candidate['address'] if 'address' in agrc_candidate else agrc_candidate['matchAddress']
+    """translates an AGRC Web API candidate to an Esri locator candidate"""
+    address = (
+        agrc_candidate["address"]
+        if "address" in agrc_candidate
+        else agrc_candidate["matchAddress"]
+    )
     try:
-        standardized_address = agrc_candidate['standardizedAddress']
+        standardized_address = agrc_candidate["standardizedAddress"]
     except KeyError:
         standardized_address = None
 
     return {
-        'address': address,
-        'attributes': {
-            'Status': 'M',
-            'matchAddress': address,
-            'score': agrc_candidate['score'],
-            'standardizedAddress': standardized_address,
-            'locator': agrc_candidate['locator'],
-            'addressGrid': agrc_candidate['addressGrid'],
+        "address": address,
+        "attributes": {
+            "Status": "M",
+            "matchAddress": address,
+            "score": agrc_candidate["score"],
+            "standardizedAddress": standardized_address,
+            "locator": agrc_candidate["locator"],
+            "addressGrid": agrc_candidate["addressGrid"],
         },
-        'location': agrc_candidate['location'],
-        'score': agrc_candidate['score']
+        "location": agrc_candidate["location"],
+        "score": agrc_candidate["score"],
     }
