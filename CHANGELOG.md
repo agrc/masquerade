@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.11-1](https://github.com/agrc/masquerade/compare/v1.1.11-0...v1.1.11-1) (2023-06-20)
+
+
+### 📖 Documentation Improvements
+
+* add time units ([8b95a26](https://github.com/agrc/masquerade/commit/8b95a2621b1cc1e3f4ef7300be85581398f7efa7))
+* update code coverage badge ([f0017fa](https://github.com/agrc/masquerade/commit/f0017fa704617344d941fe46eaeb03a28deeef76))
+
 ## [1.1.11-0](https://github.com/agrc/masquerade/compare/v1.1.10...v1.1.11-0) (2023-06-19)
 
 
