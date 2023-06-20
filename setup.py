@@ -49,6 +49,7 @@ setup(
     ],
     extras_require={
         'tests': [
+            'black==23.3.*',
             'callee==0.3.*',
             'pylint-quotes==0.2.*',
             'pylint==2.17.*',
@@ -59,7 +60,6 @@ setup(
             'pytest-watch==4.2.*',
             'pytest==7.3.*',
             'requests-mock==1.10.*',
-            'yapf==0.40.*',
         ]
     },
     setup_requires=[
