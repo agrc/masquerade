@@ -1,7 +1,7 @@
 # Masquerade
 
 [![Test and Deploy](https://github.com/agrc/masquerade/actions/workflows/cicd.yml/badge.svg)](https://github.com/agrc/masquerade/actions/workflows/cicd.yml)
-[![codecov](https://codecov.io/gh/agrc/masquerade/branch/main/graph/badge.svg?token=R97EAY9FB1)](undefined)
+[![codecov](https://codecov.io/gh/agrc/masquerade/branch/main/graph/badge.svg?token=R97EAY9FB1)](https://codecov.io/gh/agrc/masquerade)
 
 A proxy service that impersonates an Esri locator using UGRC data and web services. Use the following URL in Esri products anywhere you would use a [geocode service](https://www.esri.com/en-us/arcgis/products/arcgis-platform/services/geocoding-search).
 
