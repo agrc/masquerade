@@ -5,7 +5,7 @@ max-line-length = 120
 disable = "broad-except"
 ignore-patterns = "test_.*?py"
 generated-members = "arcpy.da.SearchCursor,arcpy.da.UpdateCursor,arcpy.da.Describe,arcpy.env.scratchFolder,arcpy.env.scratchGDB"
-[tool.pytest]
+[tool.pytest.ini_options]
 testpaths = "tests src"
 norecursedirs = ".env data maps"
 show_capture = "True"
