@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.12-0](https://github.com/agrc/masquerade/compare/v1.1.11-1...v1.1.12-0) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* Q3 Dependency Bumps 🌲 ([3497206](https://github.com/agrc/masquerade/commit/3497206cfe0aa2014147d25c3f0d5d80ee70114e))
+
 ## [1.1.11-1](https://github.com/agrc/masquerade/compare/v1.1.11-0...v1.1.11-1) (2023-06-20)
 
 
