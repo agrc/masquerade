@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.12-1](https://github.com/agrc/masquerade/compare/v1.1.11...v1.1.12-1) (2023-07-03)
+
+
+### 🐛 Bug Fixes
+
+* Q3 Dependency Bumps 🌲 ([bbb31cd](https://github.com/agrc/masquerade/commit/bbb31cdb1620c4c690e48c3ce05bd944292c5f83))
+* update title so pytest picks up it's options ([58dda75](https://github.com/agrc/masquerade/commit/58dda75343a7d68909bdc2744571ef5076559ff8))
+
 ## [1.1.12-0](https://github.com/agrc/masquerade/compare/v1.1.11-1...v1.1.12-0) (2023-07-03)
 
 
