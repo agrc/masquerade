@@ -34,7 +34,7 @@ setup(
     keywords=["gis"],
     install_requires=[
         "agrc-sweeper==1.3.*",
-        "flask-cors==3.0.*",
+        "flask-cors==4.0.*",
         "Flask-JSON==0.4.*",
         "flask==2.3.*",
         "psycopg_pool==3.1.*",
@@ -52,13 +52,13 @@ setup(
             "callee==0.3.*",
             "pylint-quotes==0.2.*",
             "pylint==2.17.*",
-            "pytest-cov==4.0.*",
+            "pytest-cov==4.1.*",
             "pytest-instafail==0.5.*",
             "pytest-isort>=3.0,<3.2",
             "pytest-pylint==0.19.*",
             "pytest-watch==4.2.*",
-            "pytest==7.3.*",
-            "requests-mock==1.10.*",
+            "pytest==7.4.*",
+            "requests-mock==1.11.*",
         ]
     },
     setup_requires=[
