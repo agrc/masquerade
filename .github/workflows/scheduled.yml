@@ -1,0 +1,15 @@
+name: Scheduled
+
+on:
+  schedule:
+    - cron: "0 9-17/2 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  reminder:
+    name: Look for past due reminders and notify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check reminders and notify
+        uses: agrc/reminder-action@v1
