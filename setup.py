@@ -52,7 +52,7 @@ setup(
             "callee==0.3.*",
             "pylint-quotes==0.2.*",
             "pylint==2.17.*",
-            "pytest-cov==4.0.*",
+            "pytest-cov>=4.0,<4.2",
             "pytest-instafail==0.5.*",
             "pytest-isort>=3.0,<3.2",
             "pytest-pylint==0.19.*",
