@@ -58,7 +58,7 @@ setup(
             "pytest-pylint==0.19.*",
             "pytest-watch==4.2.*",
             "pytest==7.3.*",
-            "requests-mock==1.10.*",
+            "requests-mock>=1.10,<1.12",
         ]
     },
     setup_requires=[
