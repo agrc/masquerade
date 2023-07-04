@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.12-2](https://github.com/agrc/masquerade/compare/v1.1.12-1...v1.1.12-2) (2023-07-04)
+
+
+### 📖 Documentation Improvements
+
+* AGRC -&gt; UGRC ([3eef3cd](https://github.com/agrc/masquerade/commit/3eef3cd2f284f5873d2e74a1dfbb87930cbf0a6a))
+
 ## [1.1.12-1](https://github.com/agrc/masquerade/compare/v1.1.11...v1.1.12-1) (2023-07-03)
 
 
