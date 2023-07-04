@@ -14,7 +14,7 @@ setup(
     version="1.1.12-1",
     license="MIT",
     description="A proxy service that creates an Esri locator from AGRC data and web services.",
-    author="AGRC",
+    author="UGRC",
     author_email="agrc@utah.gov",
     url="https://github.com/agrc/masquerade",
     packages=find_packages("src"),
