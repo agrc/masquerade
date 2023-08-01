@@ -33,7 +33,7 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
-        "agrc-sweeper==1.3.*",
+        "agrc-sweeper>=1.3,<1.5",
         "flask-cors==4.0.*",
         "Flask-JSON==0.4.*",
         "flask==2.3.*",
