@@ -48,7 +48,7 @@ setup(
     ],
     extras_require={
         "tests": [
-            "black==23.3.*",
+            "black>=23.3,<23.8",
             "callee==0.3.*",
             "pylint-quotes==0.2.*",
             "pylint==2.17.*",
