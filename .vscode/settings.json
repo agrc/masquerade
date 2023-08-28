@@ -41,6 +41,7 @@
     "UICLSID",
     "usaddress",
     "venv",
+    "werkzeug",
     "ython"
   ],
   "editor.formatOnSave": true,

@@ -10,11 +10,11 @@ import time
 
 from dotenv import load_dotenv
 from flask import Flask, redirect, request
-from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
 from requests.models import HTTPError
 
+from .logging import initialize_logging
 from .providers import open_sgid, web_api
 from .utils import cleanse_text
 
@@ -34,9 +34,9 @@ RATE_LIMIT_SECONDS = (0.015, 0.03)
 BATCH_SIZE = 25
 
 app = Flask(__name__)
+initialize_logging()
 FlaskJSON(app)
 CORS(app)
-log = create_logger(app)
 
 
 @app.after_request
