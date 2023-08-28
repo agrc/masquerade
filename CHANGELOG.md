@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.13-0](https://github.com/agrc/masquerade/compare/v1.1.12...v1.1.13-0) (2023-08-28)
+
+
+### 🐛 Bug Fixes
+
+* finish up agrc -&gt; ugrc ([0cb3dbe](https://github.com/agrc/masquerade/commit/0cb3dbefb14771af97ed46bfb886765706df07c8))
+* handle short-hand output spatial reference parameter ([250ef8d](https://github.com/agrc/masquerade/commit/250ef8de2b6261cafa78d9a94e906c325813bc5f)), closes [#153](https://github.com/agrc/masquerade/issues/153)
+* redact arcgis tokens from logs ([13c23b7](https://github.com/agrc/masquerade/commit/13c23b78d0482419368aecafb16461b9433ec0a8))
+
 ## [1.1.12](https://github.com/agrc/masquerade/compare/v1.1.11...v1.1.12) (2023-07-07)
 
 
