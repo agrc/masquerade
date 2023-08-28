@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # * coding: utf8 *
 """
-A module that contains methods for querying the AGRC geocoding service
+A module that contains methods for querying the UGRC geocoding service
 
 This module shares a fair amount of code with this one:
 https://github.com/agrc/geocoding-toolbox/blob/master/src/agrcgeocoding/geocode.py
@@ -75,7 +75,7 @@ def _get_retry_session():
     new_session = requests.Session()
     new_session.headers.update(
         {
-            "x-agrc-geocode-client": "masquerade",
+            "x-ugrc-geocode-client": "masquerade",
         }
     )
     retry = Retry(
@@ -102,7 +102,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
         "suggest": max_locations,
     }
 
-    headers = {"Referer": "https://masquerade.agrc.utah.gov"}
+    headers = {"Referer": "https://masquerade.ugrc.utah.gov"}
     url = f"{WEB_API_URL}/{_cleanse_street(address)}/{_cleanse_zone(zone)}"
 
     response = session.get(url, params=parameters, headers=headers, timeout=10)
@@ -149,15 +149,11 @@ def get_candidate_from_parts(address, zone, out_spatial_reference):
     return None
 
 
-def etl_candidate(agrc_candidate):
-    """translates an AGRC Web API candidate to an Esri locator candidate"""
-    address = (
-        agrc_candidate["address"]
-        if "address" in agrc_candidate
-        else agrc_candidate["matchAddress"]
-    )
+def etl_candidate(ugrc_candidate):
+    """translates an UGRC Web API candidate to an Esri locator candidate"""
+    address = ugrc_candidate["address"] if "address" in ugrc_candidate else ugrc_candidate["matchAddress"]
     try:
-        standardized_address = agrc_candidate["standardizedAddress"]
+        standardized_address = ugrc_candidate["standardizedAddress"]
     except KeyError:
         standardized_address = None
 
@@ -166,11 +162,11 @@ def etl_candidate(agrc_candidate):
         "attributes": {
             "Status": "M",
             "matchAddress": address,
-            "score": agrc_candidate["score"],
+            "score": ugrc_candidate["score"],
             "standardizedAddress": standardized_address,
-            "locator": agrc_candidate["locator"],
-            "addressGrid": agrc_candidate["addressGrid"],
+            "locator": ugrc_candidate["locator"],
+            "addressGrid": ugrc_candidate["addressGrid"],
         },
-        "location": agrc_candidate["location"],
-        "score": agrc_candidate["score"],
+        "location": ugrc_candidate["location"],
+        "score": ugrc_candidate["score"],
     }
