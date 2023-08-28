@@ -106,3 +106,13 @@ def test_batch_can_handle_missing_addresses(test_client):
     assert len(response_json["locations"]) == 2
     assert response_json["locations"][0]["address"] is None
     assert response_json["locations"][1]["address"] is None
+
+
+def test_can_handle_output_sr_in_numeric_form(test_client):
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?outSR=4326&singleline:hello")
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert response_json["spatialReference"]["latestWkid"] == 4326
