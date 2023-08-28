@@ -230,7 +230,11 @@ def get_out_spatial_reference(incoming_request):
     """get the desired output spatial reference from the request"""
     out_sr_param_name = "outSR"
     if out_sr_param_name in incoming_request.args:
-        request_wkid = json.loads(incoming_request.args.get(out_sr_param_name))["wkid"]
+        out_sr_param = incoming_request.args.get(out_sr_param_name)
+        try:
+            request_wkid = int(out_sr_param)
+        except ValueError:
+            request_wkid = json.loads(out_sr_param)["wkid"]
     else:
         request_wkid = WGS84
 
