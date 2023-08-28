@@ -11,6 +11,6 @@ def test_removes_quotes():
 
 
 def test_cleanse_text_without_strings():
-    assert cleanse_text(None) == None
+    assert cleanse_text(None) is None
     assert cleanse_text(1) == 1
     assert cleanse_text({}) == {}

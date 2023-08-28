@@ -13,16 +13,16 @@ A proxy service that impersonates an Esri locator using UGRC data and web servic
 - Provides typeahead suggestions from the following datasets in [Open SGID](https://gis.utah.gov/sgid/open-sgid/) and returns the centroid:
 
 | Name                                                                                                                    | Dataset                                         | Search Field |
-|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|-----|
-| [Utah House Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-house-districts-2022-to-2032)               | `political.house_districts_2022_to_2032`        | `dist` |
-| [Utah School Board Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-school-board-districts-2022-to-2032) | `political.school_board_districts_2022_to_2032` | `dist` |
-| [Utah Senate Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-senate-districts-2022-to-2032)             | `political.senate_districts_2022_to_2032`       | `dist` |
-| [Utah US Congress Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-us-congress-districts-2022-to-2032)   | `political.us_congress_districts_2022_to_2032`  | `district` |
-| [Utah Address Points](https://opendata.gis.utah.gov/datasets/utah-address-points)                                       | `location.address_points`                       | `name` |
-| [Utah County Boundaries](https://opendata.gis.utah.gov/datasets/utah-county-boundaries)                                 | `boundaries.county_boundaries`                  | `name` |
-| [Utah Municipal Boundaries](https://opendata.gis.utah.gov/maps/utah-municipal-boundaries)                               | `boundaries.municipal_boundaries`               | `name` |
-| [Utah ZIP Code Areas](https://opendata.gis.utah.gov/maps/utah-zip-code-areas)                                           | `boundaries.zip_code_areas`                     | `zip5` |
-| [Utah GNIS Place Names](https://opendata.gis.utah.gov/maps/utah-gnis-place-names)                                       | `location.gnis_place_names`                     | `name` |
+|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|--------------|
+| [Utah House Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-house-districts-2022-to-2032)               | `political.house_districts_2022_to_2032`        | `dist`       |
+| [Utah School Board Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-school-board-districts-2022-to-2032) | `political.school_board_districts_2022_to_2032` | `dist`       |
+| [Utah Senate Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-senate-districts-2022-to-2032)             | `political.senate_districts_2022_to_2032`       | `dist`       |
+| [Utah US Congress Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-us-congress-districts-2022-to-2032)   | `political.us_congress_districts_2022_to_2032`  | `district`   |
+| [Utah Address Points](https://opendata.gis.utah.gov/datasets/utah-address-points)                                       | `location.address_points`                       | `name`       |
+| [Utah County Boundaries](https://opendata.gis.utah.gov/datasets/utah-county-boundaries)                                 | `boundaries.county_boundaries`                  | `name`       |
+| [Utah Municipal Boundaries](https://opendata.gis.utah.gov/maps/utah-municipal-boundaries)                               | `boundaries.municipal_boundaries`               | `name`       |
+| [Utah ZIP Code Areas](https://opendata.gis.utah.gov/maps/utah-zip-code-areas)                                           | `boundaries.zip_code_areas`                     | `zip5`       |
+| [Utah GNIS Place Names](https://opendata.gis.utah.gov/maps/utah-gnis-place-names)                                       | `location.gnis_place_names`                     | `name`       |
 
 _Give Masquerade's awesome searching capabilities a try in this [simple web app](https://arcg.is/0na9Lf0)._
 
@@ -84,11 +84,11 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 ### URLs
 
-| Environment | URL                                                            |
-|-------------|----------------------------------------------------------------|
-| Production  | [https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer](https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer) |
+| Environment | URL                                                                                                                                                                                    |
+|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Production  | [https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer](https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer)                     |
 | Staging     | [https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer](https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer) |
-| Local       | [https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer](https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer) |
+| Local       | [https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer](https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer)                                         |
 
 ### One-time Setup
 

@@ -181,9 +181,7 @@ def suggest():
     if isinstance(max_results, str):
         max_results = DEFAULT_MAX_SUGGESTIONS
 
-    return {
-        "suggestions": open_sgid.get_suggestions(cleanse_text(search_text), max_results)
-    }
+    return {"suggestions": open_sgid.get_suggestions(cleanse_text(search_text), max_results)}
 
 
 @app.route(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates")
@@ -201,9 +199,7 @@ def find_candidates():
         if open_sgid.SPLITTER not in magic_key:
             return f"Invalid magicKey: {magic_key}", 400
 
-        candidate = open_sgid.get_candidate_from_magic_key(
-            magic_key, out_spatial_reference
-        )
+        candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
         single_line_address = cleanse_text(request.args.get("Single Line Input"))

@@ -18,10 +18,8 @@ WEB_API_URL = "https://api.mapserv.utah.gov/api/v1/geocode"
 MIN_SCORE_FOR_BATCH = 70
 
 
-def get_candidates_from_single_line(
-    single_line_address, out_spatial_reference, max_locations
-):
-    """parses the single line address and passes it to the AGRC geocoding service
+def get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations):
+    """parses the single line address and passes it to the UGRC geocoding service
     and then returns the results as an array of candidates
     """
 
@@ -34,9 +32,7 @@ def get_candidates_from_single_line(
     if not zone or not parsed_address.normalized:
         return []
 
-    return make_request(
-        parsed_address.normalized, zone, out_spatial_reference, max_locations
-    )
+    return make_request(parsed_address.normalized, zone, out_spatial_reference, max_locations)
 
 
 ALLOWABLE_CHARS = re.compile("[^a-zA-Z0-9]")
@@ -107,10 +103,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
 
     response = session.get(url, params=parameters, headers=headers, timeout=10)
 
-    if (
-        response.status_code == 404
-        and "no address candidates found" in response.text.lower()
-    ):
+    if response.status_code == 404 and "no address candidates found" in response.text.lower():
         return []
 
     if response.ok:
@@ -121,11 +114,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
             return []
 
         if "score" in result:
-            if (
-                result["score"] == 100
-                or max_locations == 1
-                and result["score"] >= MIN_SCORE_FOR_BATCH
-            ):
+            if result["score"] == 100 or max_locations == 1 and result["score"] >= MIN_SCORE_FOR_BATCH:
                 return [etl_candidate(result)]
 
         if "candidates" in result:
