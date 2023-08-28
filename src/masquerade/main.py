@@ -149,7 +149,7 @@ def geocode_base():
             "WriteStandardizedAddressField": "false",
             "WriteXYCoordFields": "true",
         },
-        "serviceDescription": "Utah AGRC Locators wrapped with Masquerade",
+        "serviceDescription": "Utah Geospatial Resource Center locators wrapped with Masquerade",
         #: this was the key to WAB Search widget validation...
         "singleLineAddressField": {
             "name": "Single Line Input",
@@ -190,7 +190,7 @@ def suggest():
 @as_json_p
 def find_candidates():
     """get address candidates from address points (if there is a magic key) or
-    agrc geocoding service
+    ugrc geocoding service
     """
 
     magic_key = request.args.get("magicKey")
