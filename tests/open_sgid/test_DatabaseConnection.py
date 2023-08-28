@@ -64,4 +64,4 @@ def test_get_magic_key_record(pool_mock):
     assert record[0] == "blah"
 
     #: should filter out shape value
-    assert not "shape" in field_names
+    assert "shape" not in field_names

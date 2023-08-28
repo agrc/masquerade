@@ -42,9 +42,7 @@ for direction in directions:
         permutation = direction[0 : index + 1]
         permutations.append(permutation)
         permutations.append(f"{permutation}.")
-    normalize_direction_infos.append(
-        (re.compile(rf'^(\d+) ({"|".join(permutations)})( |$)'), direction[0])
-    )
+    normalize_direction_infos.append((re.compile(rf'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
 
 pool = ConnectionPool(f"dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}")
 
@@ -110,9 +108,7 @@ class Table:
         self.geometry_type = geometry_type
 
         if search_field_type not in [TEXT, NUMERIC]:
-            raise ValueError(
-                f"invalid value passed for search_field_type: {search_field_type}"
-            )
+            raise ValueError(f"invalid value passed for search_field_type: {search_field_type}")
         self.search_field_type = search_field_type
         self.additional_out_fields = additional_out_fields or []
 
@@ -122,17 +118,13 @@ class Table:
 
             return matched_text
 
-        self.get_suggestion_text_from_record = (
-            get_suggestion_text_from_record or default_get_suggestion_text
-        )
+        self.get_suggestion_text_from_record = get_suggestion_text_from_record or default_get_suggestion_text
         self.search_key = search_key
 
     def get_suggestion_from_record(self, xid, matched_text, *context_values):
         """return a suggestion dictionary based on a database record"""
 
-        return self.make_suggestion(
-            xid, self.get_suggestion_text_from_record(matched_text, context_values)
-        )
+        return self.make_suggestion(xid, self.get_suggestion_text_from_record(matched_text, context_values))
 
     def make_suggestion(self, xid, suggestion_text):
         """return a suggestion dictionary based on the id and match text"""
@@ -208,12 +200,8 @@ class Table:
         """returns a candidate dictionary with the data corresponding to the value that matches the xid value"""
         num_shape_fields = 6
         num_base_fields = len(self.additional_out_fields) + 2
-        record, fieldnames = database.get_magic_key_record(
-            self.get_magic_key_query(xid, out_spatial_reference)
-        )
-        x_value, y_value, xmax, ymax, xmin, ymin = record[
-            num_base_fields : num_base_fields + num_shape_fields
-        ]
+        record, fieldnames = database.get_magic_key_record(self.get_magic_key_query(xid, out_spatial_reference))
+        x_value, y_value, xmax, ymax, xmin, ymin = record[num_base_fields : num_base_fields + num_shape_fields]
         extra_fieldnames = fieldnames[num_base_fields + num_shape_fields :]
         extra_values = record[num_base_fields + num_shape_fields :]
 
@@ -265,9 +253,7 @@ def normalize_prefix_direction(search_text):
     but that seems like a perf hit that we don't want on something like a suggest endpoint
     """
     for regex, replacement in normalize_direction_infos:
-        new_value = re.sub(
-            regex, rf"\g<1> {replacement} ", search_text.lower()
-        ).rstrip()
+        new_value = re.sub(regex, rf"\g<1> {replacement} ", search_text.lower()).rstrip()
 
         if new_value != search_text.lower():
             return new_value

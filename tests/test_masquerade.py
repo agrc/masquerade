@@ -49,9 +49,7 @@ def test_find_candidates(get_candidate_mock, test_client):
 
 
 def test_find_candidates_invalid_magic_key(test_client):
-    response = test_client.get(
-        f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=invalid"
-    )
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=invalid")
 
     assert response.status_code == 400
     assert b"Invalid magicKey" in response.data
@@ -62,9 +60,7 @@ def test_find_candidates_with_out_out_sr(get_candidate_mock, test_client):
     #: Pro doesn't include the outSR in these requests if the default matches the map
     get_candidate_mock.return_value = "blah"
 
-    response = test_client.get(
-        f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=1-table"
-    )
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=1-table")
     response_json = json.loads(response.data)
 
     assert response_json["candidates"][0] == "blah"
@@ -72,18 +68,14 @@ def test_find_candidates_with_out_out_sr(get_candidate_mock, test_client):
 
 
 def test_head_requests(test_client):
-    response = test_client.head(
-        f"{GEOCODE_SERVER_ROUTE}/Masquerade/UtahLocator%20(10.211.55.2:5000)"
-    )
+    response = test_client.head(f"{GEOCODE_SERVER_ROUTE}/Masquerade/UtahLocator%20(10.211.55.2:5000)")
 
     assert response.status_code == 200
     assert response.headers["Cache-Control"]
 
 
 def test_can_handle_bad_values(test_client):
-    response = test_client.get(
-        f"{GEOCODE_SERVER_ROUTE}/suggest?text=123&maxSuggestions=undefined"
-    )
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/suggest?text=123&maxSuggestions=undefined")
 
     assert response.status_code == 200
 
@@ -112,5 +104,5 @@ def test_batch_can_handle_missing_addresses(test_client):
     response_json = json.loads(response.data)
 
     assert len(response_json["locations"]) == 2
-    assert response_json["locations"][0]["address"] == None
-    assert response_json["locations"][1]["address"] == None
+    assert response_json["locations"][0]["address"] is None
+    assert response_json["locations"][1]["address"] is None
