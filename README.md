@@ -131,9 +131,7 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 ### Tests
 
-(**P**ython **T**est **W**atch will restart the tests every time you save a file)
-
-`ptw`
+`python -m pytest`
 
 ### Development Server
 
