@@ -23,6 +23,8 @@ FULLADD = "fulladd"
 ADDSYSTEM = "addsystem"
 CITY = "city"
 NAME = "name"
+STREETNAME = "streetname"
+ADDNUM = "addnum"
 
 RETRY_WAIT_MIN = 0.5  #: seconds
 RETRY_WAIT_MAX = 3  #: seconds
@@ -43,6 +45,7 @@ for direction in directions:
         permutations.append(permutation)
         permutations.append(f"{permutation}.")
     normalize_direction_infos.append((re.compile(rf'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
+has_prefix_direction = re.compile(r"^\d+ (n|s|e|w)")
 
 pool = ConnectionPool(f"dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}")
 
@@ -242,7 +245,24 @@ class AddressPointTable(Table):
     def get_suggest_query(self, search_text, limit):
         """create a query that returns records for suggestions"""
 
-        return super().get_suggest_query(normalize_prefix_direction(search_text), limit)
+        normalized_search_text = normalize_prefix_direction(search_text)
+
+        #: if there is no prefix direction, add a query to account for that...
+        if has_prefix_direction.match(normalized_search_text) is None and len(normalized_search_text.split(" ")) > 1:
+            where = f"""
+                {ADDNUM} = '{normalized_search_text.split(' ')[0]}'
+                and
+                {STREETNAME} ilike '{normalized_search_text.split(' ')[1]}%'
+            """
+        else:
+            where = f"{self.search_field} ilike '{normalized_search_text}%'"
+
+        return f"""
+            select {self.get_out_fields()} from {self.table_name}
+            where {where}
+            order by {self.search_field} ASC
+            limit {limit}
+        """
 
 
 def normalize_prefix_direction(search_text):
