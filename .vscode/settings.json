@@ -5,6 +5,7 @@
   "python.linting.pycodestyleEnabled": false,
   "python.formatting.provider": "black",
   "cSpell.words": [
+    "ADDNUM",
     "ADDSYSTEM",
     "AGRC",
     "atch",
@@ -38,6 +39,7 @@
     "pytest",
     "Referer",
     "simplejson",
+    "STREETNAME",
     "UICLSID",
     "usaddress",
     "venv",
