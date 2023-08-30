@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/agrc/masquerade/compare/v1.1.12...v1.2.0) (2023-08-30)
+
+
+### 🚀 Features
+
+* show suggestions when the prefix direction is missing ([a86620f](https://github.com/agrc/masquerade/commit/a86620ff3e60f0be9ea0c148fb30869203d11083)), closes [#157](https://github.com/agrc/masquerade/issues/157)
+
+
+### 🐛 Bug Fixes
+
+* finish up agrc -&gt; ugrc ([7bc5600](https://github.com/agrc/masquerade/commit/7bc56003316fa6cf0e2162201c50c6ebf8482200))
+* handle short-hand output spatial reference parameter ([d40b7b9](https://github.com/agrc/masquerade/commit/d40b7b934df8ad4718eb4bbf034f3c6d6355650f)), closes [#153](https://github.com/agrc/masquerade/issues/153)
+
 ## [1.2.0-0](https://github.com/agrc/masquerade/compare/v1.1.12...v1.2.0-0) (2023-08-29)
 
 
