@@ -36,11 +36,11 @@ setup(
         "agrc-sweeper==1.4.*",
         "flask-cors==4.0.*",
         "Flask-JSON==0.4.*",
-        "flask==2.3.*",
+        "flask>=2.3,<3.1",
         "psycopg_pool==3.1.*",
         "psycopg[binary]==3.1.*",
         "python-dotenv==1.0.*",
-        "requests==2.28.*",
+        "requests>=2.28,<2.32",
         "tenacity==8.2.*",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
@@ -48,7 +48,7 @@ setup(
     ],
     extras_require={
         "tests": [
-            "black==23.7.*",
+            "black>=23.7,<23.10",
             "callee==0.3.*",
             "pytest-cov==4.1.*",
             "pytest-instafail==0.5.*",
