@@ -71,7 +71,7 @@ jobs:
 
     steps:
       - name: ⬇️ Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🚢 Deploy
         uses: agrc/cloud-run-docker-deploy-composite-action@v1
