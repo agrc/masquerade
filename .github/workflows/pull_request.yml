@@ -24,6 +24,8 @@ jobs:
 
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       - name: 📥 Install project
         run: pip install -e .[tests]
