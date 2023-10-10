@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/agrc/masquerade/compare/v1.2.0...v1.2.1) (2023-10-10)
+
+
+### 🌲 Dependencies
+
+* more specific versions ([ce5902c](https://github.com/agrc/masquerade/commit/ce5902cd8d60847d7d206cb0203b65db504f0de5))
+
 ## [1.2.0](https://github.com/agrc/masquerade/compare/v1.1.12...v1.2.0) (2023-08-30)
 
 
