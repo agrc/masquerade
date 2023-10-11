@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2-0](https://github.com/agrc/masquerade/compare/v1.2.1...v1.2.2-0) (2023-10-11)
+
+
+### 🐛 Bug Fixes
+
+* test dev version of deploy composite action ([df7cab7](https://github.com/agrc/masquerade/commit/df7cab7bd0fb1b285b200911a71be749ab231402))
+
 ## [1.2.1](https://github.com/agrc/masquerade/compare/v1.2.0...v1.2.1) (2023-10-10)
 
 
