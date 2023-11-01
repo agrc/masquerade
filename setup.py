@@ -48,7 +48,7 @@ setup(
     ],
     extras_require={
         "tests": [
-            "black==23.9.*",
+            "black>=23.9,<23.11",
             "callee==0.3.*",
             "pytest-cov==4.1.*",
             "pytest-instafail==0.5.*",
