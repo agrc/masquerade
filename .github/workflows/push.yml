@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: 🚢 Deploy
-        uses: agrc/cloud-run-docker-deploy-composite-action@v1
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
@@ -76,7 +76,7 @@ jobs:
           show-progress: false
 
       - name: 🚢 Deploy
-        uses: agrc/cloud-run-docker-deploy-composite-action@v1
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
