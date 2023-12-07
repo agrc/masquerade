@@ -37,7 +37,7 @@ setup(
         "flask-cors==4.0.*",
         "Flask-JSON==0.4.*",
         "flask==3.0.*",
-        "psycopg_pool==3.1.*",
+        "psycopg_pool>=3.1,<3.3",
         "psycopg[binary]==3.1.*",
         "python-dotenv==1.0.*",
         "requests>=2.28,<2.32",
@@ -48,7 +48,7 @@ setup(
     ],
     extras_require={
         "tests": [
-            "black==23.9.*",
+            "black>=23.9,<23.12",
             "callee==0.3.*",
             "pytest-cov==4.1.*",
             "pytest-instafail==0.5.*",
