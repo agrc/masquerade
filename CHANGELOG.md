@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/agrc/masquerade/compare/v1.2.1...v1.2.2) (2023-12-07)
+
+
+### 🐛 Bug Fixes
+
+* remove false advertising for reverse geocoding ([3dad698](https://github.com/agrc/masquerade/commit/3dad698b9c2b06b044b7d5fc02d7394793f47686))
+
 ## [1.2.1](https://github.com/agrc/masquerade/compare/v1.2.0...v1.2.1) (2023-10-10)
 
 
