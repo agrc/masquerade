@@ -129,7 +129,7 @@ def geocode_base():
                 "required": True,
             },
         ],
-        "capabilities": ",".join(["Geocode", "ReverseGeocode", "Suggest"]),
+        "capabilities": ",".join(["Geocode", "Suggest"]),
         "countries": ["US"],
         "currentVersion": f"{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}",
         "locatorProperties": {
