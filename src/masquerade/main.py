@@ -230,7 +230,10 @@ def geocode_addresses():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    addresses = json.loads(request.form["addresses"])
+    if request.method == "POST":
+        addresses = json.loads(request.form["addresses"])
+    else:
+        addresses = json.loads(request.args["addresses"])
 
     locations = []
 
