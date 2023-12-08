@@ -38,6 +38,7 @@ def test_get_out_spatial_reference_default():
     request = MagicMock()
     request.method = "GET"
     request.args = {}
+    request.form = {}
 
     assert get_out_spatial_reference(request) == (4326, 4326)
 
