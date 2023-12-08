@@ -29,7 +29,7 @@ __pycache__
 .env/
 .DS_Store
 cov.xml
-.coverage
+.coverage*
 cert.pem
 key.pem
 .env
