@@ -16,16 +16,13 @@ from flask_json import FlaskJSON, as_json_p
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
-from .utils import cleanse_text
+from .utils import WGS84, cleanse_text, get_out_spatial_reference
 
 load_dotenv()
 
 BASE_ROUTE = "/arcgis/rest"
 GEOCODE_SERVER_ROUTE = f"{BASE_ROUTE}/services/UtahLocator/GeocodeServer"
 ADMIN_BASE_ROUTE = "/arcgis/admin"
-WGS84 = 4326
-WEB_MERCATOR = 3857
-OLD_WEB_MERCATOR = 102100
 SERVER_VERSION_MAJOR = 10
 SERVER_VERSION_MINOR = 8
 SERVER_VERSION_PATCH = 1
@@ -224,25 +221,6 @@ def find_candidates():
             "latestWkid": out_spatial_reference,
         },
     }
-
-
-def get_out_spatial_reference(incoming_request):
-    """get the desired output spatial reference from the request"""
-    out_sr_param_name = "outSR"
-    if out_sr_param_name in incoming_request.args:
-        out_sr_param = incoming_request.args.get(out_sr_param_name)
-        try:
-            request_wkid = int(out_sr_param)
-        except ValueError:
-            request_wkid = json.loads(out_sr_param)["wkid"]
-    else:
-        request_wkid = WGS84
-
-    #: switch out old mercator for new one otherwise, pass it through
-    return (
-        request_wkid,
-        WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid,
-    )
 
 
 @app.route(f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses", methods=["GET", "POST"])
