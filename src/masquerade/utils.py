@@ -21,14 +21,21 @@ def cleanse_text(text):
     return text.strip().replace('"', "").replace("'", "")
 
 
-def get_out_spatial_reference(incoming_request):
-    """get the desired output spatial reference from the request"""
-    out_sr_param_name = "outSR"
-
+def get_request_params(incoming_request):
+    """get the request parameters from the request"""
     if incoming_request.method == "GET":
         request_params = incoming_request.args
     else:
         request_params = incoming_request.form
+
+    return request_params
+
+
+def get_out_spatial_reference(incoming_request):
+    """get the desired output spatial reference from the request"""
+    out_sr_param_name = "outSR"
+
+    request_params = get_request_params(incoming_request)
 
     if out_sr_param_name in request_params:
         out_sr_param = request_params.get(out_sr_param_name)
