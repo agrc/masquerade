@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0-0](https://github.com/agrc/masquerade/compare/v1.3.0-0...v1.4.0-0) (2023-12-08)
+
+
+### 🚀 Features
+
+* add post options to the base requests as well ([6a26984](https://github.com/agrc/masquerade/commit/6a269844e84ce9f3107237133cb2da206fe9b242))
+
+
+### 🐛 Bug Fixes
+
+* support requests that use url params or form data independent of the method ([4781f47](https://github.com/agrc/masquerade/commit/4781f47bae3d3b30739c8592aa4c173a170742cc))
+
 ## [1.3.0-0](https://github.com/agrc/masquerade/compare/v1.2.2...v1.3.0-0) (2023-12-08)
 
 
