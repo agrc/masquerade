@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.3.0-0](https://github.com/agrc/masquerade/compare/v1.2.2...v1.3.0-0) (2023-12-08)
+
+
+### 🚀 Features
+
+* add post to allow methods for geocodeAddresses and suggest ([2c00443](https://github.com/agrc/masquerade/commit/2c00443a58dfe7f02b0df0a80e93b65aadd88833))
+
+
+### 🐛 Bug Fixes
+
+* correctly get output spatial reference for POST requests ([8467e00](https://github.com/agrc/masquerade/commit/8467e009838ac4778f2f1662befd4d1273d1b554))
+* correctly obtain params for post requests ([8fa5aba](https://github.com/agrc/masquerade/commit/8fa5abacc0271f570f64e78da479441685b07ac1))
+
+
+### 🌲 Dependencies
+
+* bump the major-dependencies group with 2 updates ([cabf765](https://github.com/agrc/masquerade/commit/cabf7653a9e670921f3d25a3a8f28e5eab95b10a))
+
 ## [1.2.2](https://github.com/agrc/masquerade/compare/v1.2.1...v1.2.2) (2023-12-07)
 
 
