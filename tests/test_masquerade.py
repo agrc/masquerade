@@ -8,7 +8,6 @@ from json import dumps
 from unittest import mock
 
 from flask import json
-
 from masquerade.main import BASE_ROUTE, GEOCODE_SERVER_ROUTE
 
 
@@ -41,6 +40,15 @@ def test_find_candidates(get_candidate_mock, test_client):
 
     response = test_client.get(
         f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=1-table&outSR={{"wkid": 102100}}'
+    )
+    response_json = json.loads(response.data)
+
+    assert response_json["candidates"][0] == "blah"
+    assert response_json["spatialReference"]["latestWkid"] == 3857
+
+    response = test_client.post(
+        f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates",
+        data={"magicKey": "1-table", "outSR": '{"wkid": 102100}'},
     )
     response_json = json.loads(response.data)
 

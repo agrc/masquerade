@@ -16,7 +16,7 @@ from flask_json import FlaskJSON, as_json_p
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
-from .utils import WGS84, cleanse_text, get_out_spatial_reference
+from .utils import WGS84, cleanse_text, get_out_spatial_reference, get_request_params
 
 load_dotenv()
 
@@ -168,27 +168,29 @@ def geocode_map_server(path):
     return f"no map server available for this service: {path}", 403
 
 
-@app.route(f"{GEOCODE_SERVER_ROUTE}/suggest")
+@app.route(f"{GEOCODE_SERVER_ROUTE}/suggest", methods=["GET", "POST"])
 @as_json_p
 def suggest():
     """provide single-line address suggestions"""
 
-    search_text = request.args.get("text")
-    max_results = request.args.get("maxSuggestions") or DEFAULT_MAX_SUGGESTIONS
+    request_params = get_request_params(request)
+    search_text = request_params.get("text")
+    max_results = request_params.get("maxSuggestions") or DEFAULT_MAX_SUGGESTIONS
     if isinstance(max_results, str):
         max_results = DEFAULT_MAX_SUGGESTIONS
 
     return {"suggestions": open_sgid.get_suggestions(cleanse_text(search_text), max_results)}
 
 
-@app.route(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates")
+@app.route(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates", methods=["GET", "POST"])
 @as_json_p
 def find_candidates():
     """get address candidates from address points (if there is a magic key) or
     ugrc geocoding service
     """
 
-    magic_key = request.args.get("magicKey")
+    request_params = get_request_params(request)
+    magic_key = request_params.get("magicKey")
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
@@ -199,8 +201,8 @@ def find_candidates():
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
-        single_line_address = cleanse_text(request.args.get("Single Line Input"))
-        max_locations = request.args.get("maxLocations")
+        single_line_address = cleanse_text(request_params.get("Single Line Input"))
+        max_locations = request_params.get("maxLocations")
         try:
             candidates = web_api.get_candidates_from_single_line(
                 single_line_address, out_spatial_reference, max_locations
@@ -230,10 +232,8 @@ def geocode_addresses():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    if request.method == "POST":
-        addresses = json.loads(request.form["addresses"])
-    else:
-        addresses = json.loads(request.args["addresses"])
+    request_params = get_request_params(request)
+    addresses = json.loads(request_params["addresses"])
 
     locations = []
 
