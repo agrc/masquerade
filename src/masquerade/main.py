@@ -44,7 +44,7 @@ def add_common_headers(response):
     return response
 
 
-@app.route(f"{BASE_ROUTE}/info")
+@app.route(f"{BASE_ROUTE}/info", methods=["GET", "POST"])
 @as_json_p
 def info():
     """base info request"""
@@ -55,8 +55,8 @@ def info():
     }
 
 
-@app.route(GEOCODE_SERVER_ROUTE)
-@app.route(f"{GEOCODE_SERVER_ROUTE}/Masquerade")
+@app.route(GEOCODE_SERVER_ROUTE, methods=["GET", "POST"])
+@app.route(f"{GEOCODE_SERVER_ROUTE}/Masquerade", methods=["GET", "POST"])
 @as_json_p
 def geocode_base():
     """base geocode server request"""
