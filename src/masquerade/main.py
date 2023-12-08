@@ -16,7 +16,7 @@ from flask_json import FlaskJSON, as_json_p
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
-from .utils import WGS84, cleanse_text, get_out_spatial_reference, get_request_params
+from .utils import WGS84, cleanse_text, get_out_spatial_reference, get_request_param
 
 load_dotenv()
 
@@ -173,9 +173,8 @@ def geocode_map_server(path):
 def suggest():
     """provide single-line address suggestions"""
 
-    request_params = get_request_params(request)
-    search_text = request_params.get("text")
-    max_results = request_params.get("maxSuggestions") or DEFAULT_MAX_SUGGESTIONS
+    search_text = get_request_param(request, "text")
+    max_results = get_request_param(request, "maxSuggestions") or DEFAULT_MAX_SUGGESTIONS
     if isinstance(max_results, str):
         max_results = DEFAULT_MAX_SUGGESTIONS
 
@@ -189,8 +188,7 @@ def find_candidates():
     ugrc geocoding service
     """
 
-    request_params = get_request_params(request)
-    magic_key = request_params.get("magicKey")
+    magic_key = get_request_param(request, "magicKey")
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
@@ -201,8 +199,8 @@ def find_candidates():
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
-        single_line_address = cleanse_text(request_params.get("Single Line Input"))
-        max_locations = request_params.get("maxLocations")
+        single_line_address = cleanse_text(get_request_param(request, "Single Line Input"))
+        max_locations = get_request_param(request, "maxLocations")
         try:
             candidates = web_api.get_candidates_from_single_line(
                 single_line_address, out_spatial_reference, max_locations
@@ -232,8 +230,7 @@ def geocode_addresses():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    request_params = get_request_params(request)
-    addresses = json.loads(request_params["addresses"])
+    addresses = json.loads(get_request_param(request, "addresses"))
 
     locations = []
 

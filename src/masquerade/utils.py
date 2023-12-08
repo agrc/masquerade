@@ -21,28 +21,25 @@ def cleanse_text(text):
     return text.strip().replace('"', "").replace("'", "")
 
 
-def get_request_params(incoming_request):
-    """get the request parameters from the request"""
-    if incoming_request.method == "GET":
-        request_params = incoming_request.args
-    else:
-        request_params = incoming_request.form
+def get_request_param(request, param_name):
+    """get the parameter from the request checking both url params and form data"""
+    if param_name in request.args:
+        return request.args.get(param_name)
 
-    return request_params
+    return request.form.get(param_name)
 
 
 def get_out_spatial_reference(incoming_request):
     """get the desired output spatial reference from the request"""
     out_sr_param_name = "outSR"
 
-    request_params = get_request_params(incoming_request)
+    param_value = get_request_param(incoming_request, out_sr_param_name)
 
-    if out_sr_param_name in request_params:
-        out_sr_param = request_params.get(out_sr_param_name)
+    if param_value is not None:
         try:
-            request_wkid = int(out_sr_param)
+            request_wkid = int(param_value)
         except ValueError:
-            request_wkid = json.loads(out_sr_param)["wkid"]
+            request_wkid = json.loads(param_value)["wkid"]
     else:
         request_wkid = WGS84
 
