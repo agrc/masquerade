@@ -71,7 +71,7 @@ def _get_retry_session():
     new_session = requests.Session()
     new_session.headers.update(
         {
-            "x-ugrc-geocode-client": "masquerade",
+            "x-agrc-geocode-client": "masquerade",
         }
     )
     retry = Retry(
