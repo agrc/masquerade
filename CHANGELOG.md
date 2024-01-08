@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.1](https://github.com/agrc/masquerade/compare/v1.4.0...v1.4.1) (2024-01-08)
+
+
+### 🐛 Bug Fixes
+
+* switch back to agrc header to match other clients ([d6b5c1c](https://github.com/agrc/masquerade/commit/d6b5c1c336f15f7f44b2ceb8c368071b4aecd574))
+
+
+### 🌲 Dependencies
+
+* **dev:** bump the major-dependencies group with 1 update ([653594b](https://github.com/agrc/masquerade/commit/653594b76e697fa9317f09f114ce4569dc7270e2))
+
 ## [1.4.0](https://github.com/agrc/masquerade/compare/v1.2.2...v1.4.0) (2023-12-12)
 
 
