@@ -244,6 +244,19 @@ def geocode_addresses():
             },
         }
 
+        #: single-line input
+        keys = address["attributes"].keys()
+        if "Zip" not in keys and "City" not in keys:
+            candidate = web_api.get_candidate_from_single_line(address["attributes"]["Address"], out_spatial_reference)
+
+            if candidate is None:
+                locations.append(no_match)
+            else:
+                candidate["attributes"]["ResultID"] = address["attributes"]["OBJECTID"]
+                locations.append(candidate)
+
+            continue
+
         #: prefer zip over city and return no match if neither is passed
         try:
             zone = cleanse_text(address["attributes"]["Zip"])
