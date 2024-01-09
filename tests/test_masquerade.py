@@ -8,6 +8,7 @@ from json import dumps
 from unittest import mock
 
 from flask import json
+
 from masquerade.main import BASE_ROUTE, GEOCODE_SERVER_ROUTE
 
 
@@ -114,6 +115,56 @@ def test_batch_can_handle_missing_addresses(test_client):
     assert len(response_json["locations"]) == 2
     assert response_json["locations"][0]["address"] is None
     assert response_json["locations"][1]["address"] is None
+
+
+def test_batch_single_line(test_client):
+    response = test_client.post(
+        f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses",
+        data={
+            "addresses": dumps(
+                {
+                    "records": [
+                        {"attributes": {"OBJECTID": 1, "Address": "123 Main St, Lehi"}},
+                        {"attributes": {"OBJECTID": 2, "Address": "123 Main St, Lehi"}},
+                    ]
+                }
+            )
+        },
+    )
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert len(response_json["locations"]) == 2
+    assert response_json["locations"][0]["address"] is not None
+    assert response_json["locations"][1]["address"] is not None
+
+
+def test_batch_separate_fields(test_client):
+    response = test_client.post(
+        f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses",
+        data={
+            "addresses": dumps(
+                {
+                    "records": [
+                        {"attributes": {"OBJECTID": 1, "Address": "123 Main St", "City": "Lehi"}},
+                        {"attributes": {"OBJECTID": 2, "Address": "123 Main St", "Zip": 84043}},
+                        {"attributes": {"OBJECTID": 2, "Address": "123 Main St", "Zip": None}},
+                    ]
+                }
+            )
+        },
+    )
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert len(response_json["locations"]) == 3
+    assert response_json["locations"][0]["address"] is not None
+    assert response_json["locations"][1]["address"] is not None
+    assert response_json["locations"][2]["address"] is None
 
 
 def test_can_handle_output_sr_in_numeric_form(test_client):

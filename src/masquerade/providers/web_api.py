@@ -138,6 +138,17 @@ def get_candidate_from_parts(address, zone, out_spatial_reference):
     return None
 
 
+def get_candidate_from_single_line(single_line_address, out_spatial_reference):
+    """gets a single candidate from a single line address input"""
+
+    candidates = get_candidates_from_single_line(single_line_address, out_spatial_reference, 1)
+
+    if len(candidates) > 0:
+        return candidates[0]
+
+    return None
+
+
 def etl_candidate(ugrc_candidate):
     """translates an UGRC Web API candidate to an Esri locator candidate"""
     address = ugrc_candidate["address"] if "address" in ugrc_candidate else ugrc_candidate["matchAddress"]
