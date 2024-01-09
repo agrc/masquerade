@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0-0](https://github.com/agrc/masquerade/compare/v1.4.0-0...v1.5.0-0) (2024-01-09)
+
+
+### 🚀 Features
+
+* add support for single-line input for batch jobs ([de1c9bc](https://github.com/agrc/masquerade/commit/de1c9bccb638dbc5e788d81d4ba53170220bd1aa))
+
+
+### 🐛 Bug Fixes
+
+* tests ([7a6dd04](https://github.com/agrc/masquerade/commit/7a6dd04fea9663da4eed240504c3a6501c4f4d5d))
+
 ## [1.4.1](https://github.com/agrc/masquerade/compare/v1.4.0...v1.4.1) (2024-01-08)
 
 
