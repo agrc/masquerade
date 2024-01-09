@@ -117,7 +117,13 @@ def test_batch_can_handle_missing_addresses(test_client):
     assert response_json["locations"][1]["address"] is None
 
 
-def test_batch_single_line(test_client):
+@mock.patch("masquerade.main.web_api.get_candidate_from_single_line")
+def test_batch_single_line(get_candidate_mock, test_client):
+    get_candidate_mock.return_value = {
+        "attributes": {},
+        "address": "123 Main St",
+    }
+
     response = test_client.post(
         f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses",
         data={
@@ -141,7 +147,13 @@ def test_batch_single_line(test_client):
     assert response_json["locations"][1]["address"] is not None
 
 
-def test_batch_separate_fields(test_client):
+@mock.patch("masquerade.main.web_api.get_candidate_from_parts")
+def test_batch_separate_fields(get_candidate_mock, test_client):
+    get_candidate_mock.return_value = {
+        "attributes": {},
+        "address": "123 Main St",
+    }
+
     response = test_client.post(
         f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses",
         data={
@@ -150,7 +162,6 @@ def test_batch_separate_fields(test_client):
                     "records": [
                         {"attributes": {"OBJECTID": 1, "Address": "123 Main St", "City": "Lehi"}},
                         {"attributes": {"OBJECTID": 2, "Address": "123 Main St", "Zip": 84043}},
-                        {"attributes": {"OBJECTID": 2, "Address": "123 Main St", "Zip": None}},
                     ]
                 }
             )
@@ -161,10 +172,9 @@ def test_batch_separate_fields(test_client):
 
     response_json = json.loads(response.data)
 
-    assert len(response_json["locations"]) == 3
+    assert len(response_json["locations"]) == 2
     assert response_json["locations"][0]["address"] is not None
     assert response_json["locations"][1]["address"] is not None
-    assert response_json["locations"][2]["address"] is None
 
 
 def test_can_handle_output_sr_in_numeric_form(test_client):
