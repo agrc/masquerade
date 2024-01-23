@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1) (2024-01-23)
+
+
+### 🐛 Bug Fixes
+
+* typo ([35c9bd6](https://github.com/agrc/masquerade/commit/35c9bd608acd5cb31de6fd7dd113f23c55fb59dc))
+
 ## [1.5.0](https://github.com/agrc/masquerade/compare/v1.4.1...v1.5.0) (2024-01-11)
 
 
