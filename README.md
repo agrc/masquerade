@@ -47,7 +47,7 @@ Reverse Geocode has not been implemented. [Let us know](https://github.com/agrc/
 If you are looking for a way to quickly navigate your map to Utah addresses or points of interest within ArcGIS Pro, Masquerade can help. By adding [UGRC's "Utah Locator (Masquerade)"](https://utah.maps.arcgis.com/home/item.html?id=f19e6205b9bd49e8a39ed51ddd58164a) (hosted in ArcGIS Online) [to your project](https://pro.arcgis.com/en/pro-app/latest/help/data/geocoding/add-locators-to-a-project.htm) it becomes available to use within the [Locate pane](https://pro.arcgis.com/en/pro-app/latest/help/data/geocoding/find-places-on-the-map.htm). To accomplish this, follow these steps:
 
 1. Add the locator to your project by right-clicking in the "Locators" folder and selecting "Add Locator"
-1. Browser to Portal -> ArcGIS Online and then search for "Masquerade"
+1. Browse to Portal -> ArcGIS Online and then search for "Masquerade"
 1. Select "Utah Locator (Masquerade)"
 1. Open any map and then go to the "Locate" pane
 1. Click on the settings options drop-down button to the left of the search bar and verify that "Utah Locator (Masquerade)" is selected.
