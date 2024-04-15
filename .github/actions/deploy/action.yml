@@ -27,7 +27,7 @@ runs:
 
     - name: 🗝️ Authenticate to Google Cloud
       id: auth
-      uses: google-github-actions/auth@v0
+      uses: google-github-actions/auth@v2
       with:
         create_credentials_file: true
         token_format: access_token
@@ -47,7 +47,7 @@ runs:
 
     - name: 🏷️ Extract tags from GitHub
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: gcr.io/${{ inputs.project-id }}/app
         tags: |
@@ -57,7 +57,7 @@ runs:
           latest
 
     - name: 📦 Build and push image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         builder: ${{ steps.builder.outputs.name }}
         tags: ${{ steps.meta.outputs.tags }}
@@ -68,7 +68,7 @@ runs:
 
     - name: 🚀 Deploy to Cloud Run
       id: deploy
-      uses: google-github-actions/deploy-cloudrun@v0
+      uses: google-github-actions/deploy-cloudrun@v2
       with:
         service: masquerade
         image: gcr.io/${{ inputs.project-id }}/masquerade:latest
