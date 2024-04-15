@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.5.1-1](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1-1) (2024-04-15)
+
+
+### 🐛 Bug Fixes
+
+* typo ([35c9bd6](https://github.com/agrc/masquerade/commit/35c9bd608acd5cb31de6fd7dd113f23c55fb59dc))
+
+
+### 🌲 Dependencies
+
+* q4 updates ([8a81217](https://github.com/agrc/masquerade/commit/8a81217b15f95a81a11ac48f5c54f9cde82631dc))
+* update ci deps ([cea94e8](https://github.com/agrc/masquerade/commit/cea94e80175457ed9502a6e213c93f1baadd8da4))
+
+
+### 📖 Documentation Improvements
+
+* update badge ([56ef010](https://github.com/agrc/masquerade/commit/56ef010a7f4aa83a6158bd20dbba1786a5ac2243))
+* update badge ([7e00b71](https://github.com/agrc/masquerade/commit/7e00b71e9f3fdfe26896206038346d05180572a4))
+
 ## [1.5.1-0](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1-0) (2024-04-15)
 
 
