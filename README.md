@@ -137,7 +137,7 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 `./run.sh` (macOS) or `run.bat` (Windows)
 
-[Here is a web app builder project](https://utah.maps.arcgis.com/apps/webappviewer/index.html?id=97a1529c31c84a93956968d48c6e08ad) that is pointed at `https://localhost:5000/` that can be used for testing.
+[Here is a web app](https://experience.arcgis.com/experience/64558a178c6a4b5692e4e11eb8038957) that is pointed at `https://localhost:5000/` that can be used for testing.
 
 ### Deployment to GCP
 
