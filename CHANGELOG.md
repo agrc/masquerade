@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/agrc/masquerade/compare/v1.5.1...v1.5.2) (2024-04-29)
+
+
+### 📖 Documentation Improvements
+
+* point to new EB app for testing ([0382aad](https://github.com/agrc/masquerade/commit/0382aad0f7de35c847c572e98e8a65fe8401612a)), closes [#183](https://github.com/agrc/masquerade/issues/183)
+
 ## [1.5.1](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1) (2024-04-15)
 
 
