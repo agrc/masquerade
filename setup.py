@@ -52,7 +52,6 @@ setup(
             "callee==0.3.*",
             "pytest-cov==5.*",
             "pytest-instafail==0.5.*",
-            "pytest-ruff==0.*",
             "pytest-watch==4.2.*",
             "pytest==8.*",
             "requests-mock==1.12.*",
