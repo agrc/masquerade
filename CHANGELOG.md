@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.3](https://github.com/agrc/masquerade/compare/v1.5.2...v1.5.3) (2024-07-10)
+
+
+### Dependencies
+
+* bump ruff to latest minor ([f635186](https://github.com/agrc/masquerade/commit/f6351864f6c0e0a9f3c0c79b3cc03077be3fb167))
+
 ## [1.5.2](https://github.com/agrc/masquerade/compare/v1.5.1...v1.5.2) (2024-07-10)
 
 
