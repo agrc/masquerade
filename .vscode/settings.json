@@ -1,4 +1,7 @@
 {
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
   "cSpell.words": [
     "ADDNUM",
     "ADDSYSTEM",
@@ -42,16 +45,16 @@
     "venv",
     "ython"
   ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
   "editor.formatOnSave": true,
   "editor.rulers": [
     120
   ],
   "files.insertFinalNewline": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
+  "python.testing.pytestArgs": [
+    "--no-cov"
+  ],
   "python.testing.pytestEnabled": true,
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  }
 }
