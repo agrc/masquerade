@@ -13,7 +13,7 @@ A proxy service that impersonates an Esri locator using UGRC data and web servic
 - Provides typeahead suggestions from the following datasets in [Open SGID](https://gis.utah.gov/sgid/open-sgid/) and returns the centroid:
 
 | Name                                                                                                                    | Dataset                                         | Search Field |
-|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|--------------|
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------ |
 | [Utah House Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-house-districts-2022-to-2032)               | `political.house_districts_2022_to_2032`        | `dist`       |
 | [Utah School Board Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-school-board-districts-2022-to-2032) | `political.school_board_districts_2022_to_2032` | `dist`       |
 | [Utah Senate Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-senate-districts-2022-to-2032)             | `political.senate_districts_2022_to_2032`       | `dist`       |
@@ -85,17 +85,17 @@ If you are not already using Esri products, you likely want to check out the [Of
 ### URLs
 
 | Environment | URL                                                                                                                                                                                    |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Production  | [https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer](https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer)                     |
 | Staging     | [https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer](https://masquerade-gcedbtv4sa-uc.a.run.app/arcgis/rest/services/UtahLocator/GeocodeServer) |
 | Local       | [https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer](https://localhost:5000/arcgis/rest/services/UtahLocator/GeocodeServer)                                         |
 
 ### One-time Setup
 
-1. create new python environment: `python -m venv venv`
-1. activate new environment: `source venv/bin/activate` (On Windows: `.env\Scripts\activate`)
+1. create new python environment: `python -m venv env`
+1. activate new environment: `source env/bin/activate` (On Windows: `.env\Scripts\activate`)
 1. install dependencies and editable project: `pip install -e ".[tests]"`
-1. create `.env` (using `.env.sample` as a template) and populate this `WEB_API_KEY` variable with a newly created api key. Use type: `browser` and referer: `masquerade.agrc.utah.gov`.
+1. create `.env` (using `.env.sample` as a template) and populate the `WEB_API_KEY` variable with a newly created api key. Use type: `browser` and referer: `masquerade.agrc.utah.gov`.
 
 #### MacOS
 
@@ -121,6 +121,7 @@ If you are not already using Esri products, you likely want to check out the [Of
 1. Run [the terraform code associated with this project](https://github.com/agrc/gcp-terraform/tree/main/masquerade).
 1. Create `dev` and `prod` environments in GitHub repo.
 1. Create repo-wide secrets:
+
    - `WEB_API_KEY`
    - `CODECOV_TOKEN`
 
@@ -132,6 +133,10 @@ If you are not already using Esri products, you likely want to check out the [Of
 ### Tests
 
 `python -m pytest`
+
+### Lint
+
+`ruff check .`
 
 ### Development Server
 
