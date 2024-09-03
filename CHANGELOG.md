@@ -1,5 +1,49 @@
 # Changelog
 
+## [1.5.3](https://github.com/agrc/masquerade/compare/v1.5.2...v1.5.3) (2024-07-10)
+
+
+### Dependencies
+
+* bump ruff to latest minor ([f635186](https://github.com/agrc/masquerade/commit/f6351864f6c0e0a9f3c0c79b3cc03077be3fb167))
+
+## [1.5.2](https://github.com/agrc/masquerade/compare/v1.5.1...v1.5.2) (2024-07-10)
+
+
+### Bug Fixes
+
+* remove ruff pytest plugin and run separately ([05a6239](https://github.com/agrc/masquerade/commit/05a62391caee5688501de0923b5a759f6a016f44))
+
+
+### Dependencies
+
+* bump the major-dependencies group across 1 directory with 3 updates ([e409da1](https://github.com/agrc/masquerade/commit/e409da1723a10a935549eb459d1ab20ddbdbd56f))
+
+
+### Documentation
+
+* point to new EB app for testing ([0382aad](https://github.com/agrc/masquerade/commit/0382aad0f7de35c847c572e98e8a65fe8401612a)), closes [#183](https://github.com/agrc/masquerade/issues/183)
+* refine setup docs ([bd74313](https://github.com/agrc/masquerade/commit/bd74313595ec4bafb94355d547a05ed2e3bdf9dc))
+
+## [1.5.1](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1) (2024-04-15)
+
+
+### 🐛 Bug Fixes
+
+* typo ([35c9bd6](https://github.com/agrc/masquerade/commit/35c9bd608acd5cb31de6fd7dd113f23c55fb59dc))
+
+
+### 🌲 Dependencies
+
+* q4 updates ([9ef376b](https://github.com/agrc/masquerade/commit/9ef376b01dcdb2a59886880a07cbbdb12dd0d264))
+* update ci deps ([cea94e8](https://github.com/agrc/masquerade/commit/cea94e80175457ed9502a6e213c93f1baadd8da4))
+
+
+### 📖 Documentation Improvements
+
+* update badge ([56ef010](https://github.com/agrc/masquerade/commit/56ef010a7f4aa83a6158bd20dbba1786a5ac2243))
+* update badge ([7e00b71](https://github.com/agrc/masquerade/commit/7e00b71e9f3fdfe26896206038346d05180572a4))
+
 ## [1.5.1-0](https://github.com/agrc/masquerade/compare/v1.5.0...v1.5.1-0) (2024-04-15)
 
 

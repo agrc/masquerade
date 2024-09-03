@@ -11,7 +11,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="masquerade",
-    version="1.5.1-0",
+    version="1.5.3",
     license="MIT",
     description="A proxy service that creates an Esri locator from UGRC data and web services.",
     author="UGRC",
@@ -38,10 +38,10 @@ setup(
         "Flask-JSON==0.4.*",
         "flask==3.0.*",
         "psycopg_pool>=3.1,<3.3",
-        "psycopg[binary]==3.1.*",
+        "psycopg[binary]>=3.1,<3.3",
         "python-dotenv==1.0.*",
-        "requests>=2.28,<2.32",
-        "tenacity==8.2.*",
+        "requests>=2.32.3,<2.33",
+        "tenacity>=8.2,<8.5",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
         "simplejson==3.19.*",
@@ -52,11 +52,10 @@ setup(
             "callee==0.3.*",
             "pytest-cov==5.*",
             "pytest-instafail==0.5.*",
-            "pytest-ruff==0.*",
             "pytest-watch==4.2.*",
             "pytest==8.*",
             "requests-mock==1.12.*",
-            "ruff==0.0.*",
+            "ruff==0.*",
         ]
     },
     setup_requires=[

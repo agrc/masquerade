@@ -26,11 +26,11 @@ arc.dir
 .pytest_cache
 __pycache__
 
-.env/
+.env
 .DS_Store
 cov.xml
 .coverage*
 cert.pem
 key.pem
-.env
+env
 venv/pyvenv.cfg
