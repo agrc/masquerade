@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.4](https://github.com/agrc/masquerade/compare/v1.5.3...v1.5.4) (2024-10-04)
+
+
+### Dependencies
+
+* bump the major-dependencies group across 1 directory with 2 updates ([e4e7e80](https://github.com/agrc/masquerade/commit/e4e7e8051861b702e0f090da121ddc4e2e07d0e7))
+
 ## [1.5.3](https://github.com/agrc/masquerade/compare/v1.5.2...v1.5.3) (2024-07-10)
 
 
