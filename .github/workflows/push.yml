@@ -6,12 +6,6 @@ on:
       - dev
       - main
 
-permissions:
-  contents: write
-  id-token: write
-  deployments: write
-  pull-requests: write
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -20,8 +14,9 @@ jobs:
   release:
     name: Create release
     runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release-please.outputs.release_created }}
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: 🚀 Create Release
@@ -35,65 +30,3 @@ jobs:
           github-app-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
           github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
           github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
-
-  deploy-dev:
-    name: Deploy to Dev
-    runs-on: ubuntu-latest
-    needs: release
-    environment:
-      name: dev
-    if: github.ref_name == 'dev' && needs.release.outputs.release_created
-
-    steps:
-      - name: 🚢 Deploy
-        uses: agrc/cloud-run-docker-deploy-composite-action@v2
-        with:
-          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          project-id: ${{ secrets.PROJECT_ID }}
-          service: masquerade
-          flags: |
-            --cpu=1
-            --memory=128Mi
-            --min-instances=0
-            --max-instances=5
-            --timeout=60
-            --allow-unauthenticated
-          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
-
-  deploy-prod:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: release
-    environment:
-      name: prod
-    if: github.ref_name == 'main' && needs.release.outputs.release_created
-
-    steps:
-      - name: ⬇️ Checkout code
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-
-      - name: 🚢 Deploy
-        uses: agrc/cloud-run-docker-deploy-composite-action@v2
-        with:
-          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          project-id: ${{ secrets.PROJECT_ID }}
-          service: masquerade
-          flags: |
-            --concurrency=100
-            --cpu=1
-            --max-instances=10
-            --memory=128Mi
-            --min-instances=1
-            --timeout=60
-            --allow-unauthenticated
-          env-vars: WEB_API_KEY=${{ secrets.WEB_API_KEY }}
-          service-now-instance: ${{ secrets.SN_INSTANCE }}
-          service-now-table: ${{ secrets.SN_TABLE }}
-          service-now-system-id: ${{ secrets.SN_SYS_ID }}
-          service-now-username: ${{ secrets.SN_USERNAME }}
-          service-now-password: ${{ secrets.SN_PASSWORD }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
