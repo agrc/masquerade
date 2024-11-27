@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.5-0](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-0) (2024-11-27)
+
+
+### Dependencies
+
+* bump deps ([1ce5264](https://github.com/agrc/masquerade/commit/1ce526411e4f7f2791a813734f1ff621a086cb5b))
+
 ## [1.5.4](https://github.com/agrc/masquerade/compare/v1.5.3...v1.5.4) (2024-10-04)
 
 
