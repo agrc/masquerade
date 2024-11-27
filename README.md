@@ -82,6 +82,8 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 ## Development
 
+This project is set up to use the [VSCode Dev Containers extension](https://code.visualstudio.com/docs/devcontainers/containers).
+
 ### URLs
 
 | Environment | URL                                                                                                                                                                                    |
@@ -92,9 +94,7 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 ### One-time Setup
 
-1. create new python environment: `python -m venv env`
-1. activate new environment: `source env/bin/activate` (On Windows: `.env\Scripts\activate`)
-1. install dependencies and editable project: `pip install -e ".[tests]"`
+1. VSCode -> "Dev Containers: Open Folder in Container"
 1. create `.env` (using `.env.sample` as a template) and populate the `WEB_API_KEY` variable with a newly created api key. Use type: `browser` and referer: `masquerade.agrc.utah.gov`.
 
 #### MacOS
@@ -140,7 +140,7 @@ If you are not already using Esri products, you likely want to check out the [Of
 
 ### Development Server
 
-`./run.sh` (macOS) or `run.bat` (Windows)
+1. VSCode -> "Start Debugging"
 
 [Here is a web app](https://experience.arcgis.com/experience/64558a178c6a4b5692e4e11eb8038957) that is pointed at `https://localhost:5000/` that can be used for testing.
 

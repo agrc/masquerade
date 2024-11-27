@@ -1,4 +1,16 @@
-FROM python:3.10
+FROM python:3.10 AS base
+
+
+FROM base AS dev_container
+
+RUN apt install -y git
+
+COPY . .
+
+RUN pip install -e ".[tests]"
+
+
+FROM base AS prod
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
