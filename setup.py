@@ -50,7 +50,7 @@ setup(
         "tests": [
             "black==24.*",
             "callee==0.3.*",
-            "pytest-cov==5.*",
+            "pytest-cov==6.*",
             "pytest-instafail==0.5.*",
             "pytest-watch==4.2.*",
             "pytest==8.*",
