@@ -2,8 +2,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Flask",
-      "type": "python",
+      "name": "Debug Masuqerade",
+      "type": "debugpy",
       "request": "launch",
       "module": "flask",
       "args": [
@@ -17,7 +17,7 @@
     },
     {
       "name": "Debug Tests",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "console": "integratedTerminal",
       "env": {

@@ -1,6 +1,6 @@
 {
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "cSpell.words": [
     "ADDNUM",
@@ -10,6 +10,7 @@
     "backoff",
     "Buildx",
     "CAROOT",
+    "charliermarsh",
     "choco",
     "cloudrun",
     "codecov",
@@ -49,12 +50,8 @@
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.rulers": [
-    120
-  ],
+  "editor.rulers": [120],
   "files.insertFinalNewline": true,
-  "python.testing.pytestArgs": [
-    "--no-cov"
-  ],
-  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["--no-cov"],
+  "python.testing.pytestEnabled": true
 }
