@@ -13,7 +13,7 @@ RUN pip install -e ".[tests]"
 FROM base AS prod
 
 # Allow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+ENV PYTHONUNBUFFERED=True
 
 COPY . /app
 
