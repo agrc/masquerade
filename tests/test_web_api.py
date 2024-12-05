@@ -3,12 +3,13 @@
 """
 A module that contains methods for testing the web_api module
 """
+
 import re
 
 from pytest import raises
 
 from masquerade.providers.web_api import (
-    WEB_API_URL,
+    BASE_URL,
     etl_candidate,
     get_candidate_from_parts,
     get_candidate_from_single_line,
@@ -107,7 +108,7 @@ def test_get_address_candidate(requests_mock):
         "status": 200,
     }
 
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json=mock_response)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
     candidates = get_candidates_from_single_line("123 s main, 84115", 3857, 5)
 
     assert len(candidates) == 5
@@ -164,7 +165,7 @@ def test_get_address_candidate_perfect_match(requests_mock):
         "status": 200,
     }
 
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json=mock_response)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
     candidates = get_candidates_from_single_line("123 s main st, 84115", 3857, 5)
 
     assert len(candidates) == 1
@@ -185,7 +186,7 @@ def test_get_address_candidate_single_result_for_batch(requests_mock):
         "status": 200,
     }
 
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json=mock_response)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
     candidate = get_candidate_from_parts("123 s main st", "84115", 3857)
 
     assert candidate["score"] == 80
@@ -205,7 +206,7 @@ def test_get_address_candidate_no_candidates(requests_mock):
         "status": 200,
     }
 
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json=mock_response)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
     candidate = get_candidate_from_parts("123 s main st", "84115", 3857)
 
     assert candidate is None
@@ -225,14 +226,14 @@ def test_get_candidate_from_single_line(requests_mock):
         "status": 200,
     }
 
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json=mock_response)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
     candidate = get_candidate_from_single_line("123 s main st, 84115", 3857)
 
     assert candidate["score"] == 100
 
 
 def test_get_address_candidates_raises(requests_mock):
-    requests_mock.get(re.compile(f"{WEB_API_URL}.*"), json={}, status_code=500)
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json={}, status_code=500)
 
     with raises(Exception):
         get_candidates_from_single_line("123 s main street, 84114", 3857, 5)
@@ -240,7 +241,7 @@ def test_get_address_candidates_raises(requests_mock):
 
 def test_get_address_candidates_bad_address(requests_mock):
     requests_mock.get(
-        re.compile(f"{WEB_API_URL}.*"),
+        re.compile(f"{BASE_URL}/geocode.*"),
         json={
             "status": 404,
             "message": "No address candidates found with a score of 70 or better.",

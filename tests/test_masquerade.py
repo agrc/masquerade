@@ -185,3 +185,44 @@ def test_can_handle_output_sr_in_numeric_form(test_client):
     response_json = json.loads(response.data)
 
     assert response_json["spatialReference"]["latestWkid"] == 4326
+
+
+@mock.patch("masquerade.main.web_api.reverse_geocode")
+def test_reverse_geocode(reverse_geocode_mock, test_client):
+    reverse_geocode_mock.return_value = {
+        "address": "123 Main St",
+    }
+    response = test_client.get(
+        f"{GEOCODE_SERVER_ROUTE}/reverseGeocode",
+        query_string={
+            "location": dumps({"spatialReference": {"wkid": 102100}, "x": -12448301.645792466, "y": 4947055.905820554})
+        },
+    )
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert response_json["address"]["address"] == "123 Main St"
+    assert response_json["location"]["spatialReference"]["wkid"] == 4326
+
+
+@mock.patch("masquerade.main.web_api.reverse_geocode")
+def test_reverse_geocode_output_spatial_reference(reverse_geocode_mock, test_client):
+    reverse_geocode_mock.return_value = {
+        "address": "123 Main St",
+    }
+    response = test_client.get(
+        f"{GEOCODE_SERVER_ROUTE}/reverseGeocode",
+        query_string={
+            "location": dumps({"spatialReference": {"wkid": 102100}, "x": -12448301.645792466, "y": 4947055.905820554}),
+            "outSR": 26912,
+        },
+    )
+
+    assert response.status_code == 200
+
+    response_json = json.loads(response.data)
+
+    assert response_json["address"]["address"] == "123 Main St"
+    assert response_json["location"]["spatialReference"]["wkid"] == 26912

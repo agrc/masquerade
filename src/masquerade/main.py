@@ -13,6 +13,7 @@ from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
+from pyproj import CRS, Transformer
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
@@ -126,7 +127,7 @@ def geocode_base():
                 "required": True,
             },
         ],
-        "capabilities": ",".join(["Geocode", "Suggest"]),
+        "capabilities": ",".join(["Geocode", "ReverseGeocode", "Suggest"]),
         "countries": ["US"],
         "currentVersion": f"{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}",
         "locatorProperties": {
@@ -288,6 +289,37 @@ def geocode_addresses():
         "spatialReference": {
             "wkid": request_wkid,
             "latestWkid": out_spatial_reference,
+        },
+    }
+
+
+@app.route(f"{GEOCODE_SERVER_ROUTE}/reverseGeocode", methods=["GET", "POST"])
+def reverse_geocode():
+    """reverse geocode a point"""
+
+    request_wkid, out_spatial_reference = get_out_spatial_reference(request)
+
+    location = json.loads(get_request_param(request, "location"))
+
+    if location["spatialReference"]["wkid"] != out_spatial_reference:
+        from_crs = CRS.from_epsg(location["spatialReference"]["wkid"])
+        to_crs = CRS.from_epsg(out_spatial_reference)
+        transformer = Transformer.from_crs(from_crs, to_crs, always_xy=True)
+        x, y = transformer.transform(location["x"], location["y"])
+    else:
+        x, y = location["x"], location["y"]
+
+    result = web_api.reverse_geocode(x, y, out_spatial_reference)
+
+    return {
+        "address": result,
+        "location": {
+            "x": location["x"],
+            "y": location["y"],
+            "spatialReference": {
+                "wkid": request_wkid,
+                "latestWkid": out_spatial_reference,
+            },
         },
     }
 
