@@ -4,6 +4,7 @@
 setup.py
 A module that installs masquerade as a module
 """
+
 from glob import glob
 from os.path import basename, splitext
 
@@ -39,12 +40,13 @@ setup(
         "flask==3.0.*",
         "psycopg_pool>=3.1,<3.3",
         "psycopg[binary]>=3.1,<3.3",
+        "pyproj>=3.7,<4",
         "python-dotenv==1.0.*",
         "requests>=2.32.3,<2.33",
-        "tenacity>=8.2,<9.1",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
         "simplejson==3.19.*",
+        "tenacity>=8.2,<9.1",
     ],
     extras_require={
         "tests": [
