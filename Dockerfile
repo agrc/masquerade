@@ -5,10 +5,6 @@ FROM base AS dev_container
 
 RUN apt install -y git
 
-COPY . .
-
-RUN pip install -e ".[tests]"
-
 
 FROM base AS prod
 
