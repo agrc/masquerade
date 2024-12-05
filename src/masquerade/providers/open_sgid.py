@@ -3,6 +3,7 @@
 """
 A provider that queries data in Open SGID
 """
+
 import re
 
 from psycopg_pool import ConnectionPool
@@ -47,7 +48,7 @@ for direction in directions:
     normalize_direction_infos.append((re.compile(rf'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
 has_prefix_direction = re.compile(r"^\d+ (n|s|e|w)")
 
-pool = ConnectionPool(f"dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}")
+pool = ConnectionPool(f"dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}", open=True)
 
 
 class DatabaseConnection:
@@ -389,3 +390,33 @@ class NoTableFoundException(Exception):
 
     def __init__(self, table_name):
         super().__init__(f"No table found: {table_name}")
+
+
+def get_boundary_value(x, y, spatial_reference, table_name, field_name):
+    """return the value of a given field for a point within a specified boundary table"""
+    query = f"""
+        select {field_name} from {table_name}
+        where st_contains(shape, st_transform(st_setsrid(st_makepoint({x}, {y}), {spatial_reference}), 26912))
+    """
+
+    records = database.query(query)
+
+    if len(records) > 0:
+        return records[0][0]
+
+    return None
+
+
+def get_zip(x, y, spatial_reference):
+    """return the zip code for a given point"""
+    return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.zip_code_areas", "zip5")
+
+
+def get_city(x, y, spatial_reference):
+    """return the city for a given point"""
+    return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.municipal_boundaries", "name")
+
+
+def get_county(x, y, spatial_reference):
+    """return the county for a given point"""
+    return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.county_boundaries", "name")
