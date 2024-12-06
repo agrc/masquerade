@@ -95,7 +95,7 @@ def _get_retry_session():
 session = _get_retry_session()
 
 
-def make_geocode_request(address, zone, out_spatial_reference, max_locations):
+def make_geocode_request(address: str, zone: str, out_spatial_reference: int, max_locations: int) -> list:
     """makes a request to the web api geocoding service"""
     parameters = {
         "apiKey": os.getenv("WEB_API_KEY"),
@@ -119,10 +119,10 @@ def make_geocode_request(address, zone, out_spatial_reference, max_locations):
 
         if "score" in result:
             if result["score"] == 100 or max_locations == 1 and result["score"] >= MIN_SCORE_FOR_BATCH:
-                return [etl_candidate(result)]
+                return [etl_candidate(result, out_spatial_reference)]
 
         if "candidates" in result:
-            return [etl_candidate(candidate) for candidate in result["candidates"]]
+            return [etl_candidate(candidate, out_spatial_reference) for candidate in result["candidates"]]
 
         return []
 
@@ -153,13 +153,27 @@ def get_candidate_from_single_line(single_line_address, out_spatial_reference):
     return None
 
 
-def etl_candidate(ugrc_candidate):
+def etl_candidate(ugrc_candidate: dict, spatial_reference: int) -> dict:
     """translates an UGRC Web API candidate to an Esri locator candidate"""
     address = ugrc_candidate["address"] if "address" in ugrc_candidate else ugrc_candidate["matchAddress"]
     try:
         standardized_address = ugrc_candidate["standardizedAddress"]
     except KeyError:
         standardized_address = None
+
+    match_city = address.split(",")[-1].strip()
+    city_or_county = open_sgid.get_city(
+        ugrc_candidate["location"]["x"], ugrc_candidate["location"]["y"], spatial_reference
+    )
+    if not city_or_county:
+        city_or_county = open_sgid.get_county(
+            ugrc_candidate["location"]["x"], ugrc_candidate["location"]["y"], spatial_reference
+        )
+        if city_or_county:
+            city_or_county = f"{city_or_county} COUNTY"
+
+    if city_or_county and match_city.upper() != city_or_county.upper():
+        address = address.replace(match_city, city_or_county.upper())
 
     return {
         "address": address,

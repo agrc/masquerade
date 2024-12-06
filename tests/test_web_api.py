@@ -5,6 +5,7 @@ A module that contains methods for testing the web_api module
 """
 
 import re
+from unittest import mock
 
 from pytest import raises
 
@@ -17,25 +18,52 @@ from masquerade.providers.web_api import (
 )
 
 
-def test_etl_candidate():
+@mock.patch("masquerade.providers.open_sgid.get_city")
+def test_etl_candidate(get_city_mock):
+    get_city_mock.return_value = "WEST VALLEY CITY"
     input = {
-        "address": "3989 SOUTH FRONTAGE RD, Salt Lake City",
+        "address": "3989 SOUTH FRONTAGE RD, SALT LAKE CITY",
         "location": {"x": 416707.62244415266, "y": 4508458.9846219225},
         "score": 69.92,
         "locator": "Centerlines.StatewideRoads",
-        "addressGrid": "Salt Lake City",
+        "addressGrid": "SALT LAKE CITY",
     }
 
-    result = etl_candidate(input)
+    result = etl_candidate(input, 26912)
 
-    assert result["address"] == input["address"]
+    assert result["address"] == "3989 SOUTH FRONTAGE RD, WEST VALLEY CITY"
     assert result["attributes"]["score"] == 69.92
     assert result["attributes"]["locator"] == input["locator"]
     assert result["attributes"]["addressGrid"] == input["addressGrid"]
     assert result["location"] == input["location"]
 
 
-def test_etl_candidate_base_result():
+@mock.patch("masquerade.providers.open_sgid.get_city")
+@mock.patch("masquerade.providers.open_sgid.get_county")
+def test_etl_candidate_fallback_to_county(get_county_mock, get_city_mock):
+    get_city_mock.return_value = None
+    get_county_mock.return_value = "SALT LAKE"
+    input = {
+        "address": "3989 SOUTH FRONTAGE RD, SALT LAKE CITY",
+        "location": {"x": 416707.62244415266, "y": 4508458.9846219225},
+        "score": 69.92,
+        "locator": "Centerlines.StatewideRoads",
+        "addressGrid": "SALT LAKE CITY",
+    }
+
+    result = etl_candidate(input, 26912)
+
+    assert result["address"] == "3989 SOUTH FRONTAGE RD, SALT LAKE COUNTY"
+    assert result["attributes"]["score"] == 69.92
+    assert result["attributes"]["locator"] == input["locator"]
+    assert result["attributes"]["addressGrid"] == input["addressGrid"]
+    assert result["location"] == input["location"]
+
+
+@mock.patch("masquerade.providers.open_sgid.get_city")
+def test_etl_candidate_base_result(get_city_mock):
+    get_city_mock.return_value = "HOLLADAY"
+
     #: this is a test for the base result object as opposed to result.candidate objects
     input = {
         "location": {"x": 429340.24421129236, "y": 4504146.207401402},
@@ -48,9 +76,9 @@ def test_etl_candidate_base_result():
         "candidates": [],
     }
 
-    result = etl_candidate(input)
+    result = etl_candidate(input, 26912)
 
-    assert result["address"] == input["matchAddress"]
+    assert result["address"] == "3987 S 1925 E, HOLLADAY"
     assert result["score"] == 100
     assert result["attributes"]["locator"] == input["locator"]
     assert result["attributes"]["addressGrid"] == input["addressGrid"]
