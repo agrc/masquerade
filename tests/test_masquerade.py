@@ -35,6 +35,13 @@ def test_base_geocode_route(test_client):
     assert b"locatorProperties" in response.data
 
 
+def test_geocode_bad_request(test_client):
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/geocodeAddresses", query_string={"addresses": "not a list"})
+
+    assert response.status_code == 400
+    assert b"not valid JSON" in response.data
+
+
 @mock.patch("masquerade.main.open_sgid.get_candidate_from_magic_key")
 def test_find_candidates(get_candidate_mock, test_client):
     get_candidate_mock.return_value = "blah"
