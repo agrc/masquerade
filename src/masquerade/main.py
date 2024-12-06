@@ -231,7 +231,10 @@ def geocode_addresses():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    addresses = json.loads(get_request_param(request, "addresses"))
+    try:
+        addresses = json.loads(get_request_param(request, "addresses"))
+    except json.JSONDecodeError:
+        return {"error": "addresses param is not valid JSON"}, 400
 
     locations = []
 
@@ -300,7 +303,10 @@ def reverse_geocode():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    location = json.loads(get_request_param(request, "location"))
+    try:
+        location = json.loads(get_request_param(request, "location"))
+    except json.JSONDecodeError:
+        return {"error": "location param is not valid JSON"}, 400
 
     if location["spatialReference"]["wkid"] != out_spatial_reference:
         from_crs = CRS.from_epsg(location["spatialReference"]["wkid"])
