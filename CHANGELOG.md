@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.5-2](https://github.com/agrc/masquerade/compare/v1.5.5-1...v1.5.5-2) (2024-12-06)
+
+
+### Bug Fixes
+
+* add types and return consistent type ([76ca7f0](https://github.com/agrc/masquerade/commit/76ca7f0e3fb89feeb2642fe21ed9973f5d1c7757))
+* escape returned input parameters ([f329207](https://github.com/agrc/masquerade/commit/f32920764492b37f0c63242acd543ca70b5b9291))
+* escape while preserving numbers ([7bb2170](https://github.com/agrc/masquerade/commit/7bb21705053ec1bbd5724ab6f7860e754d79d535))
+* use flask logger rather than print statements ([440a783](https://github.com/agrc/masquerade/commit/440a783bbaa1721281ab4970e96ae5a0a67aa2c8))
+* use parameterized query for user inputs ([1ace326](https://github.com/agrc/masquerade/commit/1ace326423fd940a9c5149bf96c9271285f30425))
+
 ## [1.5.5-1](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-1) (2024-12-06)
 
 
