@@ -11,6 +11,7 @@ import os
 import re
 
 import requests
+from flask import current_app
 from requests.adapters import HTTPAdapter
 from sweeper.address_parser import Address
 from urllib3.util.retry import Retry
@@ -113,7 +114,7 @@ def make_geocode_request(address, zone, out_spatial_reference, max_locations):
         try:
             result = response.json()["result"]
         except Exception:
-            print(f"Error parsing result: {response.text}")
+            current_app.warning(f"Error parsing web api geocoding result: {response.text}")
             return []
 
         if "score" in result:
@@ -223,7 +224,7 @@ def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, 
         try:
             api_result = response.json()["result"]
         except Exception:
-            print(f"Error parsing result: {response.text}")
+            current_app.warning(f"Error parsing web api reverse geocode result: {response.text}")
             return None
 
         street = api_result["address"]["street"]
