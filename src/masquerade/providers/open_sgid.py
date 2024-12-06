@@ -58,11 +58,11 @@ class DatabaseConnection:
         stop=stop_after_attempt(RETRY_ATTEMPTS),
         wait=wait_exponential(multiplier=0.5, min=RETRY_WAIT_MIN, max=RETRY_WAIT_MAX),
     )
-    def query(self, query):
+    def query(self, query, params=None):
         """get records from the database"""
         with pool.connection() as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, params)
 
                 return cursor.fetchall()
 
@@ -396,10 +396,9 @@ def get_boundary_value(x: float, y: float, spatial_reference: int, table_name: s
     """return the value of a given field for a point within a specified boundary table"""
     query = f"""
         select {field_name} from {table_name}
-        where st_contains(shape, st_transform(st_setsrid(st_makepoint({x}, {y}), {spatial_reference}), 26912))
+        where st_contains(shape, st_transform(st_setsrid(st_makepoint(%s, %s), %s), 26912))
     """
-
-    records = database.query(query)
+    records = database.query(query, (x, y, spatial_reference))
 
     if len(records) > 0:
         return records[0][0]
