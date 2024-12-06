@@ -3,7 +3,10 @@
 """
 Utility functions
 """
+
 import json
+
+from markupsafe import escape
 
 WGS84 = 4326
 WEB_MERCATOR = 3857
@@ -48,3 +51,11 @@ def get_out_spatial_reference(incoming_request):
         request_wkid,
         WEB_MERCATOR if request_wkid == OLD_WEB_MERCATOR else request_wkid,
     )
+
+
+def escape_while_preserving_numbers(value: int | float | str) -> int | float | str:
+    """escape a value while preserving numbers"""
+    if isinstance(value, (int, float)):
+        return value
+
+    return escape(value)
