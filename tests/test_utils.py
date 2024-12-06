@@ -1,6 +1,8 @@
 from unittest.mock import MagicMock
 
-from masquerade.utils import cleanse_text, get_out_spatial_reference
+from markupsafe import Markup
+
+from masquerade.utils import cleanse_text, escape_while_preserving_numbers, get_out_spatial_reference
 
 
 def test_removes_spaces():
@@ -49,3 +51,19 @@ def test_get_out_spatial_reference_post_request():
     request.form = {"outSR": 3857}
 
     assert get_out_spatial_reference(request) == (3857, 3857)
+
+
+def test_escape_while_preserving_numbers_with_int():
+    assert escape_while_preserving_numbers(123) == 123
+
+
+def test_escape_while_preserving_numbers_with_float():
+    assert escape_while_preserving_numbers(123.45) == 123.45
+
+
+def test_escape_while_preserving_numbers_with_string():
+    assert escape_while_preserving_numbers("<script>") == Markup("&lt;script&gt;")
+
+
+def test_escape_while_preserving_numbers_with_safe_string():
+    assert escape_while_preserving_numbers(Markup("<strong>safe</strong>")) == Markup("<strong>safe</strong>")

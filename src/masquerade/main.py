@@ -13,12 +13,11 @@ from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
-from markupsafe import escape
 from pyproj import CRS, Transformer
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
-from .utils import WGS84, cleanse_text, get_out_spatial_reference, get_request_param
+from .utils import WGS84, cleanse_text, escape_while_preserving_numbers, get_out_spatial_reference, get_request_param
 
 load_dotenv()
 
@@ -310,17 +309,17 @@ def reverse_geocode():
     else:
         x, y = location["x"], location["y"]
 
-    result = web_api.reverse_geocode(x, y, out_spatial_reference)
-    escaped_result = {key: escape(value) for key, value in result.items()}
+    result = web_api.reverse_geocode(x, y, out_spatial_reference, location["x"], location["y"])
+    escaped_result = {key: escape_while_preserving_numbers(value) for key, value in result.items()}
 
     return {
         "address": escaped_result,
         "location": {
-            "x": escape(x),
-            "y": escape(y),
+            "x": escape_while_preserving_numbers(x),
+            "y": escape_while_preserving_numbers(y),
             "spatialReference": {
-                "wkid": escape(request_wkid),
-                "latestWkid": escape(out_spatial_reference),
+                "wkid": escape_while_preserving_numbers(request_wkid),
+                "latestWkid": escape_while_preserving_numbers(out_spatial_reference),
             },
         },
     }

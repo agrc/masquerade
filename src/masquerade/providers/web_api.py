@@ -175,7 +175,7 @@ def etl_candidate(ugrc_candidate):
     }
 
 
-def reverse_geocode(x, y, spatial_reference):
+def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, input_y: float) -> dict:
     """reverse geocodes a point using web api supplemented by open sgid queries"""
 
     city = open_sgid.get_city(x, y, spatial_reference)
@@ -208,8 +208,8 @@ def reverse_geocode(x, y, spatial_reference):
         "CountryCode": "USA",
         "X": x,
         "Y": y,
-        "InputX": x,
-        "InputY": y,
+        "InputX": input_x,
+        "InputY": input_y,
     }
 
     parameters = {
