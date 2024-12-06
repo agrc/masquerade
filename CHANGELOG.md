@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.5-1](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-1) (2024-12-06)
+
+
+### Features
+
+* add reverse geocoding endpoint ([e4f4844](https://github.com/agrc/masquerade/commit/e4f484438d02ecb15ee37f7836107c7a69a9428e)), closes [#169](https://github.com/agrc/masquerade/issues/169)
+
+
+### Dependencies
+
+* bump deps ([1ce5264](https://github.com/agrc/masquerade/commit/1ce526411e4f7f2791a813734f1ff621a086cb5b))
+* python 3.10 -&gt; 3.12 and other bumps ([dcbcbb0](https://github.com/agrc/masquerade/commit/dcbcbb03ace591e156ebb453ded235c77f98dacb))
+
 ## [1.5.5-0](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-0) (2024-11-27)
 
 
