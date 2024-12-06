@@ -225,7 +225,7 @@ def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, 
             api_result = response.json()["result"]
         except Exception:
             current_app.warning(f"Error parsing web api reverse geocode result: {response.text}")
-            return None
+            return result
 
         street = api_result["address"]["street"]
         address_type = api_result["address"]["addressType"]
