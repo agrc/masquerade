@@ -1,13 +1,11 @@
-FROM python:3.10 AS base
+FROM python:3.12 AS base
 
 
 FROM base AS dev_container
 
 RUN apt install -y git
 
-COPY . .
-
-RUN pip install -e ".[tests]"
+EXPOSE 5000
 
 
 FROM base AS prod

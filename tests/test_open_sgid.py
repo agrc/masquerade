@@ -12,6 +12,7 @@ from masquerade.providers.open_sgid import (
     POINT,
     FullTextTable,
     NoTableFoundException,
+    get_boundary_value,
     get_candidate_from_magic_key,
     get_suggestions,
     get_table_from_table_name,
@@ -56,3 +57,18 @@ def test_full_text_table():
     table = FullTextTable("table_name", "search_field", POINT)
 
     assert "%hello%" in table.get_suggest_query("hello", 10)
+
+
+def test_get_boundary_value():
+    mock_db = mock.Mock()
+    mock_db.query.return_value = [("boundary_value",)]
+
+    with mock.patch("masquerade.providers.open_sgid.database", new=mock_db):
+        value = get_boundary_value(1, 2, 4326, "table_name", "field_name")
+        assert value == "boundary_value"
+
+    mock_db.query.return_value = []
+
+    with mock.patch("masquerade.providers.open_sgid.database", new=mock_db):
+        value = get_boundary_value(1, 2, 4326, "table_name", "field_name")
+        assert value is None

@@ -13,10 +13,11 @@ from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
+from pyproj import CRS, Transformer
 from requests.models import HTTPError
 
 from .providers import open_sgid, web_api
-from .utils import WGS84, cleanse_text, get_out_spatial_reference, get_request_param
+from .utils import WGS84, cleanse_text, escape_while_preserving_numbers, get_out_spatial_reference, get_request_param
 
 load_dotenv()
 
@@ -126,7 +127,7 @@ def geocode_base():
                 "required": True,
             },
         ],
-        "capabilities": ",".join(["Geocode", "Suggest"]),
+        "capabilities": ",".join(["Geocode", "ReverseGeocode", "Suggest"]),
         "countries": ["US"],
         "currentVersion": f"{SERVER_VERSION_MAJOR}.{SERVER_VERSION_MINOR}{SERVER_VERSION_PATCH}",
         "locatorProperties": {
@@ -230,7 +231,10 @@ def geocode_addresses():
 
     request_wkid, out_spatial_reference = get_out_spatial_reference(request)
 
-    addresses = json.loads(get_request_param(request, "addresses"))
+    try:
+        addresses = json.loads(get_request_param(request, "addresses"))
+    except json.JSONDecodeError:
+        return {"error": "addresses param is not valid JSON"}, 400
 
     locations = []
 
@@ -288,6 +292,42 @@ def geocode_addresses():
         "spatialReference": {
             "wkid": request_wkid,
             "latestWkid": out_spatial_reference,
+        },
+    }
+
+
+@app.route(f"{GEOCODE_SERVER_ROUTE}/reverseGeocode", methods=["GET", "POST"])
+@as_json_p
+def reverse_geocode():
+    """reverse geocode a point"""
+
+    request_wkid, out_spatial_reference = get_out_spatial_reference(request)
+
+    try:
+        location = json.loads(get_request_param(request, "location"))
+    except json.JSONDecodeError:
+        return {"error": "location param is not valid JSON"}, 400
+
+    if location["spatialReference"]["wkid"] != out_spatial_reference:
+        from_crs = CRS.from_epsg(location["spatialReference"]["wkid"])
+        to_crs = CRS.from_epsg(out_spatial_reference)
+        transformer = Transformer.from_crs(from_crs, to_crs, always_xy=True)
+        x, y = transformer.transform(location["x"], location["y"])
+    else:
+        x, y = location["x"], location["y"]
+
+    result = web_api.reverse_geocode(x, y, out_spatial_reference, location["x"], location["y"])
+    escaped_result = {key: escape_while_preserving_numbers(value) for key, value in result.items()}
+
+    return {
+        "address": escaped_result,
+        "location": {
+            "x": escape_while_preserving_numbers(x),
+            "y": escape_while_preserving_numbers(y),
+            "spatialReference": {
+                "wkid": escape_while_preserving_numbers(request_wkid),
+                "latestWkid": escape_while_preserving_numbers(out_spatial_reference),
+            },
         },
     }
 

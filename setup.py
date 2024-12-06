@@ -4,6 +4,7 @@
 setup.py
 A module that installs masquerade as a module
 """
+
 from glob import glob
 from os.path import basename, splitext
 
@@ -11,7 +12,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="masquerade",
-    version="1.5.5-0",
+    version="1.5.5-4",
     license="MIT",
     description="A proxy service that creates an Esri locator from UGRC data and web services.",
     author="UGRC",
@@ -33,28 +34,27 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
-        "agrc-sweeper==1.4.*",
-        "flask-cors>=4.0,<5.1",
+        "ugrc-sweeper==2.*",
+        "flask-cors==5.*",
         "Flask-JSON==0.4.*",
-        "flask==3.0.*",
-        "psycopg_pool>=3.1,<3.3",
-        "psycopg[binary]>=3.1,<3.3",
-        "python-dotenv==1.0.*",
-        "requests>=2.32.3,<2.33",
-        "tenacity>=8.2,<9.1",
+        "flask==3.*",
+        "psycopg_pool==3.*",
+        "psycopg[binary]==3.*",
+        "pyproj==3.*",
+        "python-dotenv==1.*",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
-        "simplejson==3.19.*",
+        "simplejson==3.*",
+        "tenacity==9.*",
     ],
     extras_require={
         "tests": [
-            "black==24.*",
             "callee==0.3.*",
             "pytest-cov==6.*",
             "pytest-instafail==0.5.*",
-            "pytest-watch==4.2.*",
+            "pytest-watch==4.*",
             "pytest==8.*",
-            "requests-mock==1.12.*",
+            "requests-mock==1.*",
             "ruff==0.*",
         ]
     },

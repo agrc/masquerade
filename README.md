@@ -32,9 +32,9 @@ _Give Masquerade's awesome searching capabilities a try in this [simple web app]
 
 ✅ Geocode Addresses
 
-✅ Suggest
+✅ Reverse Geocode
 
-Reverse Geocode has not been implemented. [Let us know](https://github.com/agrc/masquerade/issues/new) if you are interested in this feature!
+✅ Suggest
 
 [Esri REST API Reference](https://developers.arcgis.com/rest/services-reference/enterprise/geocode-service.htm)
 

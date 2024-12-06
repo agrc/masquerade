@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.5.5-4](https://github.com/agrc/masquerade/compare/v1.5.5-3...v1.5.5-4) (2024-12-06)
+
+
+### Bug Fixes
+
+* handle bad json parameters ([7bed818](https://github.com/agrc/masquerade/commit/7bed81881dab1db8f1f30990b626abcf648ef526))
+
+## [1.5.5-3](https://github.com/agrc/masquerade/compare/v1.5.5-2...v1.5.5-3) (2024-12-06)
+
+
+### Features
+
+* replace address grid with city/county name for geocoding results ([f7fb731](https://github.com/agrc/masquerade/commit/f7fb7317cd39cd60b8c8389b761056a47e0c2e90)), closes [#182](https://github.com/agrc/masquerade/issues/182)
+
+
+### Bug Fixes
+
+* fix duplicate "COUNTY" in reverse geocode results ([c78ae46](https://github.com/agrc/masquerade/commit/c78ae46b70e2227a306e024c16a9753722f0ce0e))
+
+## [1.5.5-2](https://github.com/agrc/masquerade/compare/v1.5.5-1...v1.5.5-2) (2024-12-06)
+
+
+### Bug Fixes
+
+* add types and return consistent type ([76ca7f0](https://github.com/agrc/masquerade/commit/76ca7f0e3fb89feeb2642fe21ed9973f5d1c7757))
+* escape returned input parameters ([f329207](https://github.com/agrc/masquerade/commit/f32920764492b37f0c63242acd543ca70b5b9291))
+* escape while preserving numbers ([7bb2170](https://github.com/agrc/masquerade/commit/7bb21705053ec1bbd5724ab6f7860e754d79d535))
+* use flask logger rather than print statements ([440a783](https://github.com/agrc/masquerade/commit/440a783bbaa1721281ab4970e96ae5a0a67aa2c8))
+* use parameterized query for user inputs ([1ace326](https://github.com/agrc/masquerade/commit/1ace326423fd940a9c5149bf96c9271285f30425))
+
+## [1.5.5-1](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-1) (2024-12-06)
+
+
+### Features
+
+* add reverse geocoding endpoint ([e4f4844](https://github.com/agrc/masquerade/commit/e4f484438d02ecb15ee37f7836107c7a69a9428e)), closes [#169](https://github.com/agrc/masquerade/issues/169)
+
+
+### Dependencies
+
+* bump deps ([1ce5264](https://github.com/agrc/masquerade/commit/1ce526411e4f7f2791a813734f1ff621a086cb5b))
+* python 3.10 -&gt; 3.12 and other bumps ([dcbcbb0](https://github.com/agrc/masquerade/commit/dcbcbb03ace591e156ebb453ded235c77f98dacb))
+
 ## [1.5.5-0](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5-0) (2024-11-27)
 
 

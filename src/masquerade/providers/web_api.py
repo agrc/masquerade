@@ -6,16 +6,21 @@ A module that contains methods for querying the UGRC geocoding service
 This module shares a fair amount of code with this one:
 https://github.com/agrc/geocoding-toolbox/blob/master/src/agrcgeocoding/geocode.py
 """
+
 import os
 import re
 
 import requests
+from flask import current_app
 from requests.adapters import HTTPAdapter
 from sweeper.address_parser import Address
 from urllib3.util.retry import Retry
 
-WEB_API_URL = "https://api.mapserv.utah.gov/api/v1/geocode"
+from . import open_sgid
+
+BASE_URL = "https://api.mapserv.utah.gov/api/v1"
 MIN_SCORE_FOR_BATCH = 70
+HEADERS = {"Referer": "https://masquerade.ugrc.utah.gov"}
 
 
 def get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations):
@@ -32,7 +37,7 @@ def get_candidates_from_single_line(single_line_address, out_spatial_reference, 
     if not zone or not parsed_address.normalized:
         return []
 
-    return make_request(parsed_address.normalized, zone, out_spatial_reference, max_locations)
+    return make_geocode_request(parsed_address.normalized, zone, out_spatial_reference, max_locations)
 
 
 ALLOWABLE_CHARS = re.compile("[^a-zA-Z0-9]")
@@ -90,7 +95,7 @@ def _get_retry_session():
 session = _get_retry_session()
 
 
-def make_request(address, zone, out_spatial_reference, max_locations):
+def make_geocode_request(address: str, zone: str, out_spatial_reference: int, max_locations: int) -> list:
     """makes a request to the web api geocoding service"""
     parameters = {
         "apiKey": os.getenv("WEB_API_KEY"),
@@ -98,10 +103,9 @@ def make_request(address, zone, out_spatial_reference, max_locations):
         "suggest": max_locations,
     }
 
-    headers = {"Referer": "https://masquerade.ugrc.utah.gov"}
-    url = f"{WEB_API_URL}/{_cleanse_street(address)}/{_cleanse_zone(zone)}"
+    url = f"{BASE_URL}/geocode/{_cleanse_street(address)}/{_cleanse_zone(zone)}"
 
-    response = session.get(url, params=parameters, headers=headers, timeout=10)
+    response = session.get(url, params=parameters, headers=HEADERS, timeout=10)
 
     if response.status_code == 404 and "no address candidates found" in response.text.lower():
         return []
@@ -110,15 +114,15 @@ def make_request(address, zone, out_spatial_reference, max_locations):
         try:
             result = response.json()["result"]
         except Exception:
-            print(f"Error parsing result: {response.text}")
+            current_app.warning(f"Error parsing web api geocoding result: {response.text}")
             return []
 
         if "score" in result:
             if result["score"] == 100 or max_locations == 1 and result["score"] >= MIN_SCORE_FOR_BATCH:
-                return [etl_candidate(result)]
+                return [etl_candidate(result, out_spatial_reference)]
 
         if "candidates" in result:
-            return [etl_candidate(candidate) for candidate in result["candidates"]]
+            return [etl_candidate(candidate, out_spatial_reference) for candidate in result["candidates"]]
 
         return []
 
@@ -130,7 +134,7 @@ def make_request(address, zone, out_spatial_reference, max_locations):
 def get_candidate_from_parts(address, zone, out_spatial_reference):
     """gets a single candidate from address & zone input"""
 
-    candidates = make_request(address, zone, out_spatial_reference, 1)
+    candidates = make_geocode_request(address, zone, out_spatial_reference, 1)
 
     if len(candidates) > 0:
         return candidates[0]
@@ -149,13 +153,27 @@ def get_candidate_from_single_line(single_line_address, out_spatial_reference):
     return None
 
 
-def etl_candidate(ugrc_candidate):
+def etl_candidate(ugrc_candidate: dict, spatial_reference: int) -> dict:
     """translates an UGRC Web API candidate to an Esri locator candidate"""
     address = ugrc_candidate["address"] if "address" in ugrc_candidate else ugrc_candidate["matchAddress"]
     try:
         standardized_address = ugrc_candidate["standardizedAddress"]
     except KeyError:
         standardized_address = None
+
+    match_city = address.split(",")[-1].strip()
+    city_or_county = open_sgid.get_city(
+        ugrc_candidate["location"]["x"], ugrc_candidate["location"]["y"], spatial_reference
+    )
+    if not city_or_county:
+        city_or_county = open_sgid.get_county(
+            ugrc_candidate["location"]["x"], ugrc_candidate["location"]["y"], spatial_reference
+        )
+        if city_or_county:
+            city_or_county = f"{city_or_county} COUNTY"
+
+    if city_or_county and match_city.upper() != city_or_county.upper():
+        address = address.replace(match_city, city_or_county.upper())
 
     return {
         "address": address,
@@ -170,3 +188,70 @@ def etl_candidate(ugrc_candidate):
         "location": ugrc_candidate["location"],
         "score": ugrc_candidate["score"],
     }
+
+
+def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, input_y: float) -> dict:
+    """reverse geocodes a point using web api supplemented by open sgid queries"""
+
+    city = open_sgid.get_city(x, y, spatial_reference)
+    city = city.upper() if city else None
+    county = open_sgid.get_county(x, y, spatial_reference)
+    if county:
+        county = f"{county} COUNTY"
+    zip_code = open_sgid.get_zip(x, y, spatial_reference)
+
+    #: example esri result: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=%7B%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%2C%22x%22%3A-12452539.51148021%2C%22y%22%3A4947846.054923615%7D&f=json
+    result = {
+        "Match_addr": "",
+        "LongLabel": "",
+        "ShortLabel": "",
+        "Addr_type": "",
+        "Type": "",  # unused by masquerade
+        "AddNum": "",
+        "Address": "",
+        "Block": "",  # unused by masquerade
+        "Sector": "",  # unused by masquerade
+        "Neighborhood": "",  # unused by masquerade
+        "District": "",  # unused by masquerade
+        "City": city or "",
+        "MetroArea": "",  # unused by masquerade
+        "Subregion": county,
+        "Region": "UTAH",
+        "RegionAbbr": "UT",
+        "Territory": "",  # unused by masquerade
+        "Postal": zip_code or "",
+        "PostalExt": "",  # unused by masquerade
+        "CntryName": "UNITED STATES",
+        "CountryCode": "USA",
+        "X": x,
+        "Y": y,
+        "InputX": input_x,
+        "InputY": input_y,
+    }
+
+    parameters = {
+        "apiKey": os.getenv("WEB_API_KEY"),
+        "spatialReference": spatial_reference,
+    }
+    url = f"{BASE_URL}/geocode/reverse/{x}/{y}"
+    response = session.get(url, params=parameters, headers=HEADERS, timeout=10)
+
+    if response.status_code == 200 and response.ok:
+        try:
+            api_result = response.json()["result"]
+        except Exception:
+            current_app.warning(f"Error parsing web api reverse geocode result: {response.text}")
+            return result
+
+        street = api_result["address"]["street"]
+        address_type = api_result["address"]["addressType"]
+        match_address = f"{street}, {city or county}, UTAH, {zip_code}"
+
+        result["Match_addr"] = match_address
+        result["LongLabel"] = f"{match_address}, USA"
+        result["ShortLabel"] = street
+        result["Addr_type"] = address_type
+        result["AddNum"] = street.split(" ")[0]
+        result["Address"] = street
+
+    return result
