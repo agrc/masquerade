@@ -13,6 +13,7 @@ from flask import Flask, redirect, request
 from flask.logging import create_logger
 from flask_cors import CORS
 from flask_json import FlaskJSON, as_json_p
+from markupsafe import escape
 from pyproj import CRS, Transformer
 from requests.models import HTTPError
 
@@ -310,15 +311,16 @@ def reverse_geocode():
         x, y = location["x"], location["y"]
 
     result = web_api.reverse_geocode(x, y, out_spatial_reference)
+    escaped_result = {key: escape(value) for key, value in result.items()}
 
     return {
-        "address": result,
+        "address": escaped_result,
         "location": {
-            "x": location["x"],
-            "y": location["y"],
+            "x": escape(x),
+            "y": escape(y),
             "spatialReference": {
-                "wkid": request_wkid,
-                "latestWkid": out_spatial_reference,
+                "wkid": escape(request_wkid),
+                "latestWkid": escape(out_spatial_reference),
             },
         },
     }
