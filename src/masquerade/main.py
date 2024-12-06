@@ -294,6 +294,7 @@ def geocode_addresses():
 
 
 @app.route(f"{GEOCODE_SERVER_ROUTE}/reverseGeocode", methods=["GET", "POST"])
+@as_json_p
 def reverse_geocode():
     """reverse geocode a point"""
 
