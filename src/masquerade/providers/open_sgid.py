@@ -392,7 +392,7 @@ class NoTableFoundException(Exception):
         super().__init__(f"No table found: {table_name}")
 
 
-def get_boundary_value(x, y, spatial_reference, table_name, field_name):
+def get_boundary_value(x: float, y: float, spatial_reference: int, table_name: str, field_name: str) -> str | None:
     """return the value of a given field for a point within a specified boundary table"""
     query = f"""
         select {field_name} from {table_name}
@@ -407,16 +407,16 @@ def get_boundary_value(x, y, spatial_reference, table_name, field_name):
     return None
 
 
-def get_zip(x, y, spatial_reference):
+def get_zip(x: float, y: float, spatial_reference: int) -> str | None:
     """return the zip code for a given point"""
     return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.zip_code_areas", "zip5")
 
 
-def get_city(x, y, spatial_reference):
+def get_city(x: float, y: float, spatial_reference: int) -> str | None:
     """return the city for a given point"""
     return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.municipal_boundaries", "name")
 
 
-def get_county(x, y, spatial_reference):
+def get_county(x: float, y: float, spatial_reference: int) -> str | None:
     """return the county for a given point"""
     return get_boundary_value(x, y, spatial_reference, "opensgid.boundaries.county_boundaries", "name")
