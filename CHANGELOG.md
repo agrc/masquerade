@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.5-3](https://github.com/agrc/masquerade/compare/v1.5.5-2...v1.5.5-3) (2024-12-06)
+
+
+### Features
+
+* replace address grid with city/county name for geocoding results ([f7fb731](https://github.com/agrc/masquerade/commit/f7fb7317cd39cd60b8c8389b761056a47e0c2e90)), closes [#182](https://github.com/agrc/masquerade/issues/182)
+
+
+### Bug Fixes
+
+* fix duplicate "COUNTY" in reverse geocode results ([c78ae46](https://github.com/agrc/masquerade/commit/c78ae46b70e2227a306e024c16a9753722f0ce0e))
+
 ## [1.5.5-2](https://github.com/agrc/masquerade/compare/v1.5.5-1...v1.5.5-2) (2024-12-06)
 
 
