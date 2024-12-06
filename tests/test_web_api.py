@@ -15,6 +15,7 @@ from masquerade.providers.web_api import (
     get_candidate_from_parts,
     get_candidate_from_single_line,
     get_candidates_from_single_line,
+    reverse_geocode,
 )
 
 
@@ -284,3 +285,113 @@ def test_get_address_candidates_bad_address(requests_mock):
     candidates = get_candidates_from_single_line("0101300036", 3857, 5)
 
     assert len(candidates) == 0
+
+
+@mock.patch("masquerade.providers.open_sgid.get_city")
+@mock.patch("masquerade.providers.open_sgid.get_county")
+@mock.patch("masquerade.providers.open_sgid.get_zip")
+def test_reverse_geocode(get_zip_mock, get_county_mock, get_city_mock, requests_mock):
+    get_city_mock.return_value = "SALT LAKE CITY"
+    get_county_mock.return_value = "SALT LAKE"
+    get_zip_mock.return_value = "84101"
+
+    mock_response = {
+        "result": {
+            "address": {
+                "street": "123 S MAIN ST",
+                "addressType": "PointAddress",
+            }
+        },
+        "status": 200,
+    }
+
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode/reverse.*"), json=mock_response)
+
+    result = reverse_geocode(-12455627.277556794, 4977968.997941715, 3857, -12455627.277556794, 4977968.997941715)
+
+    assert result["Match_addr"] == "123 S MAIN ST, SALT LAKE CITY, UTAH, 84101"
+    assert result["LongLabel"] == "123 S MAIN ST, SALT LAKE CITY, UTAH, 84101, USA"
+    assert result["ShortLabel"] == "123 S MAIN ST"
+    assert result["Addr_type"] == "PointAddress"
+    assert result["AddNum"] == "123"
+    assert result["Address"] == "123 S MAIN ST"
+    assert result["City"] == "SALT LAKE CITY"
+    assert result["Subregion"] == "SALT LAKE COUNTY"
+    assert result["Region"] == "UTAH"
+    assert result["Postal"] == "84101"
+    assert result["CntryName"] == "UNITED STATES"
+    assert result["CountryCode"] == "USA"
+    assert result["X"] == -12455627.277556794
+    assert result["Y"] == 4977968.997941715
+    assert result["InputX"] == -12455627.277556794
+    assert result["InputY"] == 4977968.997941715
+
+
+@mock.patch("masquerade.providers.open_sgid.get_city")
+@mock.patch("masquerade.providers.open_sgid.get_county")
+@mock.patch("masquerade.providers.open_sgid.get_zip")
+def test_reverse_geocode_no_city(get_zip_mock, get_county_mock, get_city_mock, requests_mock):
+    get_city_mock.return_value = None
+    get_county_mock.return_value = "SALT LAKE"
+    get_zip_mock.return_value = "84101"
+
+    mock_response = {
+        "result": {
+            "address": {
+                "street": "123 S MAIN ST",
+                "addressType": "PointAddress",
+            }
+        },
+        "status": 200,
+    }
+
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode/reverse.*"), json=mock_response)
+
+    result = reverse_geocode(-12455627.277556794, 4977968.997941715, 3857, -12455627.277556794, 4977968.997941715)
+
+    assert result["Match_addr"] == "123 S MAIN ST, SALT LAKE COUNTY, UTAH, 84101"
+    assert result["LongLabel"] == "123 S MAIN ST, SALT LAKE COUNTY, UTAH, 84101, USA"
+    assert result["ShortLabel"] == "123 S MAIN ST"
+    assert result["Addr_type"] == "PointAddress"
+    assert result["AddNum"] == "123"
+    assert result["Address"] == "123 S MAIN ST"
+    assert result["City"] == ""
+    assert result["Subregion"] == "SALT LAKE COUNTY"
+    assert result["Region"] == "UTAH"
+    assert result["Postal"] == "84101"
+    assert result["CntryName"] == "UNITED STATES"
+    assert result["CountryCode"] == "USA"
+    assert result["X"] == -12455627.277556794
+    assert result["Y"] == 4977968.997941715
+    assert result["InputX"] == -12455627.277556794
+    assert result["InputY"] == 4977968.997941715
+
+
+@mock.patch("masquerade.providers.open_sgid.get_city")
+@mock.patch("masquerade.providers.open_sgid.get_county")
+@mock.patch("masquerade.providers.open_sgid.get_zip")
+def test_reverse_geocode_no_response(get_zip_mock, get_county_mock, get_city_mock, requests_mock):
+    get_city_mock.return_value = "SALT LAKE CITY"
+    get_county_mock.return_value = "SALT LAKE"
+    get_zip_mock.return_value = "84101"
+
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode/reverse.*"), status_code=500)
+
+    result = reverse_geocode(-12455627.277556794, 4977968.997941715, 3857, -12455627.277556794, 4977968.997941715)
+
+    assert result["Match_addr"] == ""
+    assert result["LongLabel"] == ""
+    assert result["ShortLabel"] == ""
+    assert result["Addr_type"] == ""
+    assert result["AddNum"] == ""
+    assert result["Address"] == ""
+    assert result["City"] == "SALT LAKE CITY"
+    assert result["Subregion"] == "SALT LAKE COUNTY"
+    assert result["Region"] == "UTAH"
+    assert result["Postal"] == "84101"
+    assert result["CntryName"] == "UNITED STATES"
+    assert result["CountryCode"] == "USA"
+    assert result["X"] == -12455627.277556794
+    assert result["Y"] == 4977968.997941715
+    assert result["InputX"] == -12455627.277556794
+    assert result["InputY"] == 4977968.997941715
