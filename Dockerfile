@@ -5,6 +5,8 @@ FROM base AS dev_container
 
 RUN apt install -y git
 
+EXPOSE 5000
+
 
 FROM base AS prod
 
