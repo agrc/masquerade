@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.5-4](https://github.com/agrc/masquerade/compare/v1.5.5-3...v1.5.5-4) (2024-12-06)
+
+
+### Bug Fixes
+
+* handle bad json parameters ([7bed818](https://github.com/agrc/masquerade/commit/7bed81881dab1db8f1f30990b626abcf648ef526))
+
 ## [1.5.5-3](https://github.com/agrc/masquerade/compare/v1.5.5-2...v1.5.5-3) (2024-12-06)
 
 
