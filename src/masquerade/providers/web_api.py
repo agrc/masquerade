@@ -196,6 +196,8 @@ def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, 
     city = open_sgid.get_city(x, y, spatial_reference)
     city = city.upper() if city else None
     county = open_sgid.get_county(x, y, spatial_reference)
+    if county:
+        county = f"{county} COUNTY"
     zip_code = open_sgid.get_zip(x, y, spatial_reference)
 
     #: example esri result: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=%7B%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%2C%22x%22%3A-12452539.51148021%2C%22y%22%3A4947846.054923615%7D&f=json
@@ -213,7 +215,7 @@ def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, 
         "District": "",  # unused by masquerade
         "City": city or "",
         "MetroArea": "",  # unused by masquerade
-        "Subregion": county or "",
+        "Subregion": county,
         "Region": "UTAH",
         "RegionAbbr": "UT",
         "Territory": "",  # unused by masquerade
@@ -243,7 +245,7 @@ def reverse_geocode(x: float, y: float, spatial_reference: int, input_x: float, 
 
         street = api_result["address"]["street"]
         address_type = api_result["address"]["addressType"]
-        match_address = f"{street}, {city or f'{county} COUNTY'}, UTAH, {zip_code}"
+        match_address = f"{street}, {city or county}, UTAH, {zip_code}"
 
         result["Match_addr"] = match_address
         result["LongLabel"] = f"{match_address}, USA"
