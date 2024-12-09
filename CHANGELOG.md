@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.5.5](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5) (2024-12-09)
+
+
+### Features
+
+* add reverse geocoding endpoint ([b138b80](https://github.com/agrc/masquerade/commit/b138b80da2283a7d463c948d46ab87262cf76d97)), closes [#169](https://github.com/agrc/masquerade/issues/169)
+* replace address grid with city/county name for geocoding results ([84038a9](https://github.com/agrc/masquerade/commit/84038a963d20533e39650beadb1b6249a62479ba)), closes [#182](https://github.com/agrc/masquerade/issues/182)
+
+
+### Bug Fixes
+
+* add types and return consistent type ([f62fc6f](https://github.com/agrc/masquerade/commit/f62fc6f6d460056e1f37bb864b07eea72b806801))
+* escape returned input parameters ([2db0bb0](https://github.com/agrc/masquerade/commit/2db0bb0aeeeeae27585d24588740dbc79e675da8))
+* escape while preserving numbers ([a46430a](https://github.com/agrc/masquerade/commit/a46430a2fa63830130b4b0d354f962a3eeb85f1b))
+* fix duplicate "COUNTY" in reverse geocode results ([a8ac00a](https://github.com/agrc/masquerade/commit/a8ac00a7f412cbc67c7aee4462be54b241a64678))
+* handle bad json parameters ([c8d1a9d](https://github.com/agrc/masquerade/commit/c8d1a9dc07894d8828bc9eb10cbfdf5dda151c1d))
+* use flask logger rather than print statements ([c3e2ca0](https://github.com/agrc/masquerade/commit/c3e2ca08a41128849274874dfbf4a1731e763bd9))
+* use parameterized query for user inputs ([fc06639](https://github.com/agrc/masquerade/commit/fc066398b15626fdba126ff6b66bc7b62c9200b4))
+
+
+### Dependencies
+
+* bump deps ([1ce5264](https://github.com/agrc/masquerade/commit/1ce526411e4f7f2791a813734f1ff621a086cb5b))
+* python 3.10 -&gt; 3.12 and other bumps ([57b44db](https://github.com/agrc/masquerade/commit/57b44dbe9c0344239c51f9c37907e562b59843ab))
+
 ## [1.5.5-4](https://github.com/agrc/masquerade/compare/v1.5.5-3...v1.5.5-4) (2024-12-06)
 
 
