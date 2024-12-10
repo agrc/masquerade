@@ -67,5 +67,6 @@
   "python.testing.pytestArgs": ["--no-cov"],
   "python.testing.pytestEnabled": true,
   "coverage-gutters.showGutterCoverage": false,
-  "coverage-gutters.showLineCoverage": true
+  "coverage-gutters.showLineCoverage": true,
+  "python.defaultInterpreterPath": "/usr/local/bin/python"
 }
