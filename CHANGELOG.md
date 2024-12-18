@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.5.6-0](https://github.com/agrc/masquerade/compare/v1.5.5-4...v1.5.6-0) (2024-12-18)
+
+
+### Bug Fixes
+
+* clean up and add city/county to standardized address ([dee4a30](https://github.com/agrc/masquerade/commit/dee4a303ab17bf3f2c7298d4b02246920742cf1c))
+* fix bug causing some candidates to be ignored ([8af42e3](https://github.com/agrc/masquerade/commit/8af42e384a8de34fcb7fc594781de0317cf8a14b))
+* honor max_locations parameter for geocode requests ([834afd3](https://github.com/agrc/masquerade/commit/834afd3f15de4f0117cfb152c79add84bd0a1a74))
+* support both variations of the single line input param name ([57cb36a](https://github.com/agrc/masquerade/commit/57cb36a0e1e5fde0f6e803b97b767fbbd429360a))
+
 ## [1.5.5](https://github.com/agrc/masquerade/compare/v1.5.4...v1.5.5) (2024-12-09)
 
 
