@@ -214,7 +214,10 @@ def find_candidates():
         single_line_address = cleanse_text(single_line_input)
         max_locations = get_request_param(request, "maxLocations")
         if max_locations is not None:
-            max_locations = int(max_locations)
+            try:
+                max_locations = int(max_locations)
+            except ValueError:
+                return {"error": "maxLocations must be an integer"}, 400
         try:
             candidates = web_api.get_candidates_from_single_line(
                 single_line_address, out_spatial_reference, max_locations
