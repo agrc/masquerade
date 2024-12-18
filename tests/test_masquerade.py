@@ -64,6 +64,48 @@ def test_find_candidates(get_candidate_mock, test_client):
     assert response_json["spatialReference"]["latestWkid"] == 3857
 
 
+@mock.patch("masquerade.main.web_api.get_candidates_from_single_line")
+def test_find_candidates_max_locations(get_candidates_mock, test_client):
+    get_candidates_mock.return_value = ["blah"]
+
+    response = test_client.get(
+        f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?singleLine=address&outSR={{"wkid": 102100}}&maxLocations=1'
+    )
+    response_json = json.loads(response.data)
+
+    assert response_json["candidates"][0] == "blah"
+    assert get_candidates_mock.call_args.args[2] == 1
+
+
+@mock.patch("masquerade.main.web_api.get_candidates_from_single_line")
+def test_find_candidates_max_locations_bad_value(get_candidates_mock, test_client):
+    get_candidates_mock.return_value = ["blah"]
+
+    response = test_client.get(
+        f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?singleLine=address&outSR={{"wkid": 102100}}&maxLocations=nope'
+    )
+
+    assert response.status_code == 400
+    assert b"maxLocations" in response.data
+
+
+@mock.patch("masquerade.main.web_api.get_candidates_from_single_line")
+def test_find_candidates_single_line_variations(get_candidates_mock, test_client):
+    get_candidates_mock.return_value = ["blah"]
+
+    test_client.get(f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?SingleLine=address&outSR={{"wkid": 102100}}')
+
+    assert get_candidates_mock.call_args.args[0] == "address"
+
+    get_candidates_mock.reset_mock()
+
+    test_client.get(
+        f'{GEOCODE_SERVER_ROUTE}/findAddressCandidates?Single%20Line%20Input=address2&outSR={{"wkid": 102100}}'
+    )
+
+    assert get_candidates_mock.call_args.args[0] == "address2"
+
+
 def test_find_candidates_invalid_magic_key(test_client):
     response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?magicKey=invalid")
 
@@ -185,7 +227,7 @@ def test_batch_separate_fields(get_candidate_mock, test_client):
 
 
 def test_can_handle_output_sr_in_numeric_form(test_client):
-    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?outSR=4326&singleline:hello")
+    response = test_client.get(f"{GEOCODE_SERVER_ROUTE}/findAddressCandidates?outSR=4326&singleLine:hello")
 
     assert response.status_code == 200
 
