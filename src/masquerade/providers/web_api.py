@@ -129,11 +129,9 @@ def make_geocode_request(address: str, zone: str, out_spatial_reference: int, ma
         if "candidates" in result:
             candidates += [etl_candidate(candidate, out_spatial_reference) for candidate in result["candidates"]]
 
-        return candidates
-
     response.raise_for_status()
 
-    return candidates
+    return candidates[:max_locations]
 
 
 def get_candidate_from_parts(address, zone, out_spatial_reference):
