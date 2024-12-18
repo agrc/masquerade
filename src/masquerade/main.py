@@ -187,6 +187,10 @@ def suggest():
 def find_candidates():
     """get address candidates from address points (if there is a magic key) or
     ugrc geocoding service
+
+    Esri Docs:
+    https://developers.arcgis.com/rest/geocode/find-address-candidates/
+    https://developers.arcgis.com/rest/services-reference/enterprise/find-address-candidates/
     """
 
     magic_key = get_request_param(request, "magicKey")
@@ -200,7 +204,14 @@ def find_candidates():
         candidate = open_sgid.get_candidate_from_magic_key(magic_key, out_spatial_reference)
         candidates = [candidate]
     else:
-        single_line_address = cleanse_text(get_request_param(request, "Single Line Input"))
+        single_line_input = get_request_param(
+            request, "SingleLine"
+        )  #: this is the input name that shows up in the docs
+        if single_line_input is None:
+            single_line_input = get_request_param(
+                request, "Single Line Input"
+            )  #: this input name seems to be used by some tools
+        single_line_address = cleanse_text(single_line_input)
         max_locations = get_request_param(request, "maxLocations")
         try:
             candidates = web_api.get_candidates_from_single_line(
