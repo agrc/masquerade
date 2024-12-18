@@ -15,6 +15,7 @@ from masquerade.providers.web_api import (
     get_candidate_from_parts,
     get_candidate_from_single_line,
     get_candidates_from_single_line,
+    make_geocode_request,
     reverse_geocode,
 )
 
@@ -395,3 +396,61 @@ def test_reverse_geocode_no_response(get_zip_mock, get_county_mock, get_city_moc
     assert result["Y"] == 4977968.997941715
     assert result["InputX"] == -12455627.277556794
     assert result["InputY"] == 4977968.997941715
+
+
+def test_make_geocode_request_honors_max_locations(requests_mock):
+    mock_response = {
+        "result": {
+            "location": {"x": -12455627.277556794, "y": 4977968.997941715},
+            "score": 90.92,
+            "locator": "AddressPoints.AddressGrid",
+            "matchAddress": "123 S MAIN ST, SALT LAKE CITY",
+            "inputAddress": "123 s main, 84115",
+            "standardizedAddress": "123 south main",
+            "addressGrid": "SALT LAKE CITY",
+            "candidates": [
+                {
+                    "address": "123 S MAIN ST, Salt Lake City",
+                    "location": {"x": -12455641.089194497, "y": 4977985.769253134},
+                    "score": 90.92,
+                    "locator": "Centerlines.StatewideRoads",
+                    "addressGrid": "Salt Lake City",
+                },
+                {
+                    "address": "123 E MAIN ST, SALT LAKE CITY",
+                    "location": {"x": -12455160.88511952, "y": 4952534.59547376},
+                    "score": 83.35,
+                    "locator": "AddressPoints.AddressGrid",
+                    "addressGrid": "SALT LAKE CITY",
+                },
+                {
+                    "address": "123 N MAIN ST, Salt Lake City",
+                    "location": {"x": -12455681.168985613, "y": 4978777.601108425},
+                    "score": 83.35,
+                    "locator": "Centerlines.StatewideRoads",
+                    "addressGrid": "Salt Lake City",
+                },
+                {
+                    "address": "124 S MAIN ST, Salt Lake City",
+                    "location": {"x": -12455680.654925054, "y": 4977979.505714583},
+                    "score": 69.92,
+                    "locator": "Centerlines.StatewideRoads",
+                    "addressGrid": "Salt Lake City",
+                },
+                {
+                    "address": "123 S MAIN ST, HOLDEN",
+                    "location": {"x": -12497885.87723581, "y": 4735613.7251902325},
+                    "score": 66.89,
+                    "locator": "AddressPoints.AddressGrid",
+                    "addressGrid": "HOLDEN",
+                },
+            ],
+        },
+        "status": 200,
+    }
+
+    requests_mock.get(re.compile(f"{BASE_URL}/geocode.*"), json=mock_response)
+
+    candidates = make_geocode_request("123 s main", "84115", 3857, 3)
+
+    assert len(candidates) == 3
