@@ -156,10 +156,6 @@ def get_candidate_from_single_line(single_line_address, out_spatial_reference):
 def etl_candidate(ugrc_candidate: dict, spatial_reference: int) -> dict:
     """translates an UGRC Web API candidate to an Esri locator candidate"""
     address = ugrc_candidate["address"] if "address" in ugrc_candidate else ugrc_candidate["matchAddress"]
-    try:
-        standardized_address = ugrc_candidate["standardizedAddress"]
-    except KeyError:
-        standardized_address = None
 
     match_city = address.split(",")[-1].strip()
     city_or_county = open_sgid.get_city(
@@ -174,6 +170,14 @@ def etl_candidate(ugrc_candidate: dict, spatial_reference: int) -> dict:
 
     if city_or_county and match_city.upper() != city_or_county.upper():
         address = address.replace(match_city, city_or_county.upper())
+
+    try:
+        web_api_standardized_address = ugrc_candidate["standardizedAddress"]
+        standardized_address = (
+            f"{' '.join([part.title() for part in web_api_standardized_address.split(' ')])}, {city_or_county}"
+        )
+    except KeyError:
+        standardized_address = None
 
     return {
         "address": address,
