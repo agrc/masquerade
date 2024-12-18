@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.6-2](https://github.com/agrc/masquerade/compare/v1.5.6-1...v1.5.6-2) (2024-12-18)
+
+
+### Bug Fixes
+
+* handle non-integer maxLocations parameter ([6d69da3](https://github.com/agrc/masquerade/commit/6d69da3b33ab99fe91cd7897681740738fad5e76))
+
 ## [1.5.6-1](https://github.com/agrc/masquerade/compare/v1.5.5...v1.5.6-1) (2024-12-18)
 
 
