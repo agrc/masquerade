@@ -23,7 +23,7 @@ MIN_SCORE_FOR_BATCH = 70
 HEADERS = {"Referer": "https://masquerade.ugrc.utah.gov"}
 
 
-def get_candidates_from_single_line(single_line_address, out_spatial_reference, max_locations):
+def get_candidates_from_single_line(single_line_address: str, out_spatial_reference: int, max_locations: int):
     """parses the single line address and passes it to the UGRC geocoding service
     and then returns the results as an array of candidates
     """
