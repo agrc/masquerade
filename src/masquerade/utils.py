@@ -6,6 +6,7 @@ Utility functions
 
 import json
 
+from flask import Request
 from markupsafe import escape
 
 WGS84 = 4326
@@ -32,7 +33,7 @@ def get_request_param(request, param_name):
     return request.form.get(param_name)
 
 
-def get_out_spatial_reference(incoming_request):
+def get_out_spatial_reference(incoming_request: Request) -> tuple[int, int]:
     """get the desired output spatial reference from the request"""
     out_sr_param_name = "outSR"
 
