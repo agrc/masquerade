@@ -107,28 +107,33 @@ def make_geocode_request(address: str, zone: str, out_spatial_reference: int, ma
 
     response = session.get(url, params=parameters, headers=HEADERS, timeout=10)
 
+    candidates = []
+
     if response.status_code == 404 and "no address candidates found" in response.text.lower():
-        return []
+        return candidates
 
     if response.ok:
         try:
             result = response.json()["result"]
         except Exception:
             current_app.warning(f"Error parsing web api geocoding result: {response.text}")
-            return []
+            return candidates
 
         if "score" in result:
-            if result["score"] == 100 or max_locations == 1 and result["score"] >= MIN_SCORE_FOR_BATCH:
-                return [etl_candidate(result, out_spatial_reference)]
+            if result["score"] >= MIN_SCORE_FOR_BATCH:
+                candidates.append(etl_candidate(result, out_spatial_reference))
+                #: if the score is 100 then we can skip the rest of the candidates
+                if result["score"] == 100:
+                    return candidates
 
         if "candidates" in result:
-            return [etl_candidate(candidate, out_spatial_reference) for candidate in result["candidates"]]
+            candidates += [etl_candidate(candidate, out_spatial_reference) for candidate in result["candidates"]]
 
-        return []
+        return candidates
 
     response.raise_for_status()
 
-    return []
+    return candidates
 
 
 def get_candidate_from_parts(address, zone, out_spatial_reference):
