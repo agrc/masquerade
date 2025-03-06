@@ -20,5 +20,6 @@
       }
     }
   },
-  "postCreateCommand": "pip install -e .[tests]"
+  "postCreateCommand": "pip install -e .[tests]",
+  "runArgs": ["--network=host"]
 }
