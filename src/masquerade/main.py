@@ -32,6 +32,7 @@ RATE_LIMIT_SECONDS = (0.015, 0.03)
 BATCH_SIZE = 25
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 FlaskJSON(app)
 CORS(app)
 log = create_logger(app)
