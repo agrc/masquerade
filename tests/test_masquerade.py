@@ -24,6 +24,12 @@ def test_info(test_client):
     assert b"fullVersion" in response.data
     assert b"authInfo" in response.data
 
+    response_with_slash = test_client.get(f"{BASE_ROUTE}/info/")
+
+    #: assertions that are common for all requests (main.send_response)
+    assert response_with_slash.status_code == 200
+    assert response_with_slash.data == response.data, "Response data should be the same with and without trailing slash"
+
 
 def test_base_geocode_route(test_client):
     response = test_client.get(GEOCODE_SERVER_ROUTE)
