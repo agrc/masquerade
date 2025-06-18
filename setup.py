@@ -12,7 +12,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="masquerade",
-    version="1.5.8-0",
+    version="1.5.8",
     license="MIT",
     description="A proxy service that creates an Esri locator from UGRC data and web services.",
     author="UGRC",
