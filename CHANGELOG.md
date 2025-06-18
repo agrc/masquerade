@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.5.8](https://github.com/agrc/masquerade/compare/v1.5.7...v1.5.8) (2025-06-18)
+
+
+### Bug Fixes
+
+* add missing dependency ([01fa545](https://github.com/agrc/masquerade/commit/01fa5457739b715cd7ac9e0c4e185857f297fa7c))
+
+
+### Dependencies
+
+* bump dependency for security update ([7bdb1da](https://github.com/agrc/masquerade/commit/7bdb1da3103d20635871ef7bcf80fd546636352c))
+
+
+### Documentation
+
+* add note about testing different environments ([889a445](https://github.com/agrc/masquerade/commit/889a4455ae4d6cbea1eb0f88165b9eb19600eb49))
+
 ## [1.5.8-0](https://github.com/agrc/masquerade/compare/v1.5.7...v1.5.8-0) (2025-06-18)
 
 
