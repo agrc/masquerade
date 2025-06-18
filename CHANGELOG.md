@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.7](https://github.com/agrc/masquerade/compare/v1.5.6...v1.5.7) (2025-06-18)
+
+
+### Bug Fixes
+
+* disable strict slashes ([5a6c0e1](https://github.com/agrc/masquerade/commit/5a6c0e132bb70f1b700de19cb2c90fc9ae448624))
+
 ## [1.5.6](https://github.com/agrc/masquerade/compare/v1.5.5...v1.5.6) (2024-12-18)
 
 
