@@ -142,7 +142,7 @@ This project is set up to use the [VSCode Dev Containers extension](https://code
 
 1. VSCode -> "Start Debugging"
 
-[Here is a web app](https://experience.arcgis.com/experience/64558a178c6a4b5692e4e11eb8038957) that is pointed at `https://localhost:5000/` that can be used for testing.
+[Here is a web app](https://experience.arcgis.com/experience/64558a178c6a4b5692e4e11eb8038957) that is pointed at `https://localhost:5000/` that can be used for testing. It also has widgets pointed at the production and staging environments.
 
 ### Deployment to GCP
 
