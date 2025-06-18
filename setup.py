@@ -42,6 +42,7 @@ setup(
         "psycopg[binary]==3.*",
         "pyproj==3.*",
         "python-dotenv==1.*",
+        "requests==2.*",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
         "simplejson==3.*",
