@@ -67,3 +67,13 @@ def test_escape_while_preserving_numbers_with_string():
 
 def test_escape_while_preserving_numbers_with_safe_string():
     assert escape_while_preserving_numbers(Markup("<strong>safe</strong>")) == Markup("<strong>safe</strong>")
+
+
+def test_text_is_empty():
+    from masquerade.utils import text_is_empty
+
+    assert text_is_empty(None) is True
+    assert text_is_empty("") is True
+    assert text_is_empty("   ") is True
+    assert text_is_empty("text") is False
+    assert text_is_empty("  text  ") is False

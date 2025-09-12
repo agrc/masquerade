@@ -60,3 +60,8 @@ def escape_while_preserving_numbers(value: int | float | str) -> int | float | s
         return value
 
     return escape(value)
+
+
+def text_is_empty(text: str | None) -> bool:
+    """Check if a text is empty or None."""
+    return text is None or len(text.strip()) == 0

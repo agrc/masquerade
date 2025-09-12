@@ -9,6 +9,8 @@ import re
 from psycopg_pool import ConnectionPool
 from tenacity import retry, stop_after_attempt, wait_exponential
 
+from masquerade.utils import text_is_empty
+
 DATABASE = "opensgid"
 AGRC = "agrc"
 HOST = "opensgid.agrc.utah.gov"
@@ -45,7 +47,7 @@ for direction in directions:
         permutation = direction[0 : index + 1]
         permutations.append(permutation)
         permutations.append(f"{permutation}.")
-    normalize_direction_infos.append((re.compile(rf'^(\d+) ({"|".join(permutations)})( |$)'), direction[0]))
+    normalize_direction_infos.append((re.compile(rf"^(\d+) ({'|'.join(permutations)})( |$)"), direction[0]))
 has_prefix_direction = re.compile(r"^\d+ (n|s|e|w)")
 
 pool = ConnectionPool(f"dbname={DATABASE} user={AGRC} password={AGRC} host={HOST}", open=True)
@@ -118,7 +120,7 @@ class Table:
 
         def default_get_suggestion_text(matched_text, context_values):
             if context_values and len(context_values) > 0:
-                return f'{matched_text}, {", ".join(context_values)}'
+                return f"{matched_text}, {', '.join(context_values)}"
 
             return matched_text
 
@@ -195,7 +197,7 @@ class Table:
         """
 
         return f"""
-            select {f'{self.get_out_fields()}, {shape}, *'} from {self.table_name}
+            select {f"{self.get_out_fields()}, {shape}, *"} from {self.table_name}
             where {XID} = {xid}
         """
 
@@ -234,7 +236,7 @@ class AddressPointTable(Table):
         address_system, city = context_values
         full_address = matched_text
 
-        if city is not None:
+        if not text_is_empty(city):
             zone = city
         else:
             zone = address_system
@@ -251,9 +253,9 @@ class AddressPointTable(Table):
         #: if there is no prefix direction, add a query to account for that...
         if has_prefix_direction.match(normalized_search_text) is None and len(normalized_search_text.split(" ")) > 1:
             where = f"""
-                {ADDNUM} = '{normalized_search_text.split(' ')[0]}'
+                {ADDNUM} = '{normalized_search_text.split(" ")[0]}'
                 and
-                {STREETNAME} ilike '{normalized_search_text.split(' ')[1]}%'
+                {STREETNAME} ilike '{normalized_search_text.split(" ")[1]}%'
             """
         else:
             where = f"{self.search_field} ilike '{normalized_search_text}%'"
