@@ -177,7 +177,9 @@ def suggest():
 
     search_text = get_request_param(request, "text")
     max_results = get_request_param(request, "maxSuggestions") or DEFAULT_MAX_SUGGESTIONS
-    if isinstance(max_results, str):
+    try:
+        max_results = int(max_results)
+    except (ValueError, TypeError):
         max_results = DEFAULT_MAX_SUGGESTIONS
 
     return {"suggestions": open_sgid.get_suggestions(cleanse_text(search_text), max_results)}
