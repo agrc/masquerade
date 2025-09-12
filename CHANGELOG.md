@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.9-rc.1](https://github.com/agrc/masquerade/compare/v1.5.8...v1.5.9-rc.1) (2025-09-12)
+
+
+### Bug Fixes
+
+* fix bug preventing maxSuggestions from being honored ([c7e3899](https://github.com/agrc/masquerade/commit/c7e389954e778158d19cb0bfd8be3f8089ce0bf0)), closes [#203](https://github.com/agrc/masquerade/issues/203)
+* **suggest:** handle empty string values for city in address points ([4c235d0](https://github.com/agrc/masquerade/commit/4c235d0379c00bc52a777e5fc306a68d3d3fdfca)), closes [#241](https://github.com/agrc/masquerade/issues/241)
+
 ## [1.5.8](https://github.com/agrc/masquerade/compare/v1.5.7...v1.5.8) (2025-06-18)
 
 
