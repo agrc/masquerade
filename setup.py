@@ -51,7 +51,7 @@ setup(
     extras_require={
         "tests": [
             "callee==0.3.*",
-            "pytest-cov==6.*",
+            "pytest-cov>=6,<8",
             "pytest-instafail==0.5.*",
             "pytest-watch==4.*",
             "pytest==8.*",
