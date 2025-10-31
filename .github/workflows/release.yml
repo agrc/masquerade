@@ -49,10 +49,10 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           service: masquerade
           flags: |
-            --concurrency=100
+            --concurrency=80
             --cpu=1
             --max-instances=10
-            --memory=128Mi
+            --memory=256Mi
             --min-instances=1
             --timeout=60
             --allow-unauthenticated
