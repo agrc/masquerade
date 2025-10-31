@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.10](https://github.com/agrc/masquerade/compare/v1.5.9...v1.5.10) (2025-10-31)
+
+
+### Bug Fixes
+
+* turn down concurrency and turn up memory ([b8036bf](https://github.com/agrc/masquerade/commit/b8036bf7efecd2c8524d6bd3861e73126c411240))
+
 ## [1.5.9](https://github.com/agrc/masquerade/compare/v1.5.8...v1.5.9) (2025-09-12)
 
 
