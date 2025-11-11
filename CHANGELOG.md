@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.11](https://github.com/agrc/masquerade/compare/v1.5.10...v1.5.11) (2025-11-11)
+
+
+### Dependencies
+
+* **dev:** update pytest-cov requirement from ==6.* to &gt;=6,&lt;8 ([556eaa4](https://github.com/agrc/masquerade/commit/556eaa4448284b98f1ae96d8677d097fb536dead))
+
 ## [1.5.10](https://github.com/agrc/masquerade/compare/v1.5.9...v1.5.10) (2025-10-31)
 
 
