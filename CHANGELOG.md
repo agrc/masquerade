@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.12](https://github.com/agrc/masquerade/compare/v1.5.11...v1.5.12) (2026-02-13)
+
+
+### Dependencies
+
+* **dev:** update pytest requirement from ==8.* to &gt;=8,&lt;10 ([#252](https://github.com/agrc/masquerade/issues/252)) ([3770147](https://github.com/agrc/masquerade/commit/3770147b43d61234e587112c0817026f550d0202))
+
 ## [1.5.11](https://github.com/agrc/masquerade/compare/v1.5.10...v1.5.11) (2025-11-11)
 
 
