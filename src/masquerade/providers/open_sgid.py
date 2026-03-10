@@ -327,7 +327,7 @@ TABLES = [
         search_key="utah senate district",
     ),
     Table(
-        "opensgid.political.us_congress_districts_2022_to_2032",
+        "opensgid.political.us_congress_districts_2022_to_2026",
         "district",
         POLYGON,
         search_field_type=NUMERIC,
