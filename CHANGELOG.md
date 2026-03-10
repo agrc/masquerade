@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.13](https://github.com/agrc/masquerade/compare/v1.5.12...v1.5.13) (2026-03-10)
+
+
+### Bug Fixes
+
+* correct congressional districts table name ([eb51f4a](https://github.com/agrc/masquerade/commit/eb51f4a65389f611a272bae0b2bdcfcccbec22a5))
+
 ## [1.5.12](https://github.com/agrc/masquerade/compare/v1.5.11...v1.5.12) (2026-02-13)
 
 
