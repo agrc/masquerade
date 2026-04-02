@@ -17,7 +17,7 @@ A proxy service that impersonates an Esri locator using UGRC data and web servic
 | [Utah House Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-house-districts-2022-to-2032)               | `political.house_districts_2022_to_2032`        | `dist`       |
 | [Utah School Board Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-school-board-districts-2022-to-2032) | `political.school_board_districts_2022_to_2032` | `dist`       |
 | [Utah Senate Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-senate-districts-2022-to-2032)             | `political.senate_districts_2022_to_2032`       | `dist`       |
-| [Utah US Congress Districts 2022 to 2032](https://opendata.gis.utah.gov/maps/utah-us-congress-districts-2022-to-2032)   | `political.us_congress_districts_2022_to_2032`  | `district`   |
+| [Utah US Congress Districts 2022 to 2026](https://opendata.gis.utah.gov/maps/utah-us-congress-districts-2022-to-2026)   | `political.us_congress_districts_2022_to_2026`  | `district`   |
 | [Utah Address Points](https://opendata.gis.utah.gov/datasets/utah-address-points)                                       | `location.address_points`                       | `name`       |
 | [Utah County Boundaries](https://opendata.gis.utah.gov/datasets/utah-county-boundaries)                                 | `boundaries.county_boundaries`                  | `name`       |
 | [Utah Municipal Boundaries](https://opendata.gis.utah.gov/maps/utah-municipal-boundaries)                               | `boundaries.municipal_boundaries`               | `name`       |
