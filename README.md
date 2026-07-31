@@ -1,4 +1,4 @@
-# Masquerade
+# 🎭 Masquerade
 
 [![Test and Deploy](https://github.com/agrc/masquerade/actions/workflows/push.yml/badge.svg)](https://github.com/agrc/masquerade/actions/workflows/push.yml)
 [![codecov](https://codecov.io/gh/agrc/masquerade/branch/main/graph/badge.svg?token=R97EAY9FB1)](https://codecov.io/gh/agrc/masquerade)
