@@ -45,7 +45,7 @@ setup(
         "requests==2.*",
         #: flask uses this by default if installed
         #: this handles decimals as returned from open sgid data better than the default json library
-        "simplejson==3.*",
+        "simplejson>=3,<5",
         "tenacity==9.*",
     ],
     extras_require={
